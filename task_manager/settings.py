@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "webserver",
+    "unshock-task-manager.herokuapp.com"
 ]
 
 
