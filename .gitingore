@@ -13,4 +13,5 @@ htmlcov/
 *.mo
 .coverage
 
+.requirements1.txt
 requirements1.txt
