@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import dj_database_url
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -21,11 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = str(os.environ.get('SECRET_KEY_DJANGO'))
+SECRET_KEY = str(os.getenv('SECRET_KEY_DJANGO'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = (os.environ.get('DEBUG', False))
+DEBUG = os.getenv("DEBUG", False)
+#DEBUG = (os.environ.get('DEBUG', False))
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -88,6 +91,12 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+
+# Use the DATABASE_URL environment variable
+# https://pypi.org/project/dj-database-url/
+if os.getenv('DATABASE_URL'):
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 
 # Password validation
