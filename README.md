@@ -3,6 +3,6 @@
 
 ## Task manager study project for Hexlet.io 
 ### Description:
-##### Task manager made with django and deployed on Heroku. 
+##### Task manager made with Django and deployed on Heroku.
 
 [Heroku-domain](https://unshock-task-manager.herokuapp.com/)
