@@ -16,3 +16,6 @@ def index2(request):
     print(r.text)
     return HttpResponse('<pre>' + r.text + '</pre>')
 
+
+def bootdemo(request):
+    return render(request, 'bootdemo.html', context={})
