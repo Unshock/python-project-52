@@ -32,12 +32,43 @@
             <a class="nav-link" href="#">{% translate "Login" %}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/users/sign_up">{% translate "Sign up" %}</a>
+            <a class="nav-link" href="/users/sign_up/">{% translate "Sign up" %}</a>
           </li>
         </ul>
       </div>
     </nav>
-    <h1>Hello, {{ who }}!</h1>
+    <div class="conteiner wrapper flex-grow-1">
+        <h1 class="my_4">Users</h1>
+        <table class="table table-stripped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Имя пользователя</th>
+                    <th>Полное имя</th>
+                    <th>Дата создания</th>
+                    <th></th>
+                </tr>
+            </thead>
+            
+            <tbody method="get">
+                {% for user in users_objects %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.full_name }}</td>
+                    <td>{{ user.timestamp }}</td>
+                    <td>
+                      <a href="/users/{{ user.id }}/update/">Изменить</a>
+                      <br>
+                      <a href="/users/{{ user.id }}/delete/">Удалить</a>
+                    </td>
+                </tr>
+                {% endfor %} 
+            </tbody>
+            
+        </table>
+        
+    </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
 
