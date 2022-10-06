@@ -38,6 +38,20 @@
       </div>
     </nav>
     <div class="conteiner wrapper flex-grow-1">
+        {% if user_updated %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="close">×</button>
+            Пользователь успешно изменён
+        </div>
+        {% endif %}
+    
+        {% if user_created %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="close">×</button>
+            Пользователь успешно создан
+        </div>
+        {% endif %}
+    
         <h1 class="my_4">Users</h1>
         <table class="table table-stripped">
             <thead>
