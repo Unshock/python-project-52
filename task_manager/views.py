@@ -18,4 +18,4 @@ def index2(request):
 
 
 def bootdemo(request):
-    return render(request, 'bootdemo.html', context={})
+    return render(request, '../DRAFT/bootdemo.html', context={})

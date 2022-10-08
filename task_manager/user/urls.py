@@ -3,9 +3,9 @@ from task_manager.user import views
 
 
 urlpatterns = [
-    path("", views.Users.as_view()),
-    path("<int:user_id>/delete/", views.DeleteUser.as_view()),
-    path("<int:user_id>/update/", views.UpdateUser.as_view()),
-    path("sign_up/", views.CreateUser.as_view()),
-    path("postuser/", views.CreateUser.post),
+    path("", views.Users.as_view(), name="users"),
+    path("<int:user_id>/delete/", views.DeleteUser.as_view(), name="delete_user"),
+    path("<int:user_id>/update/", views.UpdateUser.as_view(), name="update_user"),
+    path("create/", views.CreateUser3.as_view(), name="create_user"),
+
 ]

@@ -18,10 +18,12 @@ from django.urls import path, include
 from task_manager import views
 
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", views.index),
+    path("", views.index, name="home"),
     path("index/", views.index2),
     path("boot/", views.bootdemo),
-    path("users/", include("task_manager.user.urls"))
+    path("users/", include("task_manager.user.urls")),
+
 ]

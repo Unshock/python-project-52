@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-03 22:00+0300\n"
+"POT-Creation-Date: 2022-10-06 22:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,18 +19,29 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
-#: task_manager/templates/bootdemo.html:17
+
+#: task_manager/templates/bootdemo.html:19 task_manager/templates/index.html:19
+#: task_manager/templates/users.html:19
 msgid "Task manager"
 msgstr "Менеджер задач"
 
-#: task_manager/templates/bootdemo.html:25
+#: task_manager/templates/bootdemo.html:27 task_manager/templates/index.html:27
+#: task_manager/templates/users.html:27
 msgid "Users"
 msgstr "Пользователи"
 
-#: task_manager/templates/bootdemo.html:30
+#: task_manager/templates/bootdemo.html:32 task_manager/templates/index.html:32
+#: task_manager/templates/users.html:32
 msgid "Login"
 msgstr "Вход"
 
-#: task_manager/templates/bootdemo.html:33
+#: task_manager/templates/bootdemo.html:35 task_manager/templates/index.html:35
+#: task_manager/templates/users.html:35
 msgid "Sign up"
 msgstr "Регистрация"
+
+#: task_manager/templates/users.html:44
+#, fuzzy, python-format
+#| msgid "User was successfully"
+msgid "User was successfully %(user_status)s"
+msgstr "Пользователь был успешно"
