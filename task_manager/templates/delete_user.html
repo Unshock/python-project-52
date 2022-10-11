@@ -5,7 +5,7 @@
         <h1 class="my-4">Удаление пользователя</h1>
         
         <form method="post">{% csrf_token %}
-            <p>Вы уверены, что хотите удалить {{ user.full_name }}?</p>
+            <p>Вы уверены, что хотите удалить пользователя {{ user.full_name }}?</p>
             {{ form }}
             <input class="btn btn-danger" type="submit" value="Да, удалить">
         </form>

@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load user_tags %}
 {% block content %}
-    <div class="conteiner wrapper flex-grow-1">
+    <div class="container wrapper flex-grow-1">
     
         {% if user_status %}
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -12,10 +12,9 @@
             {% endblocktranslate %}
         </div>
         {% endif %}
-        
-        <div class="">
-            <h1 class="my_4">{{ title }}</h1>
-            <table class="table table-stripped">
+    
+            <h1 class="my-4">{{ title }}</h1>
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -33,7 +32,7 @@
                         <td>{{ user.id }}</td>
                         <td>{{ user.username }}</td>
                         <td>{{ user.full_name }}</td>
-                        <td>{{ user.timestamp }}</td>
+                        <td>{{ user.creation_date }}</td>
                         <td>
                           <a href="{{ user.get_update_url }}">Изменить</a>
                           <br>
@@ -44,7 +43,6 @@
                 </tbody>
                 
             </table>
-        </div>
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->

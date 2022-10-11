@@ -4,10 +4,11 @@ import requests
 import os
 
 
-def index(request):
+def index(request, status=None):
     times = int(os.environ.get('TIMES', 3))
     return render(request, 'index.html', context={
         "who": "World"*times,
+        "status": status,
     })
 
 
