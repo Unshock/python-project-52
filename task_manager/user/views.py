@@ -13,7 +13,7 @@ from .models import User
 from task_manager.views import index
 
 #from task_manager.user.models import User1
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from task_manager.user.forms import RegisterUserForm, LoginUserForm
 
 
@@ -51,7 +51,7 @@ class Users(ListView):
     #     #     user_dict['id'] = user.id
     #     #     user_dict['full_name'] = f'{user.first_name} {user.last_name}'
     #     #     user_dict['name'] = user.username
-    #     #     user_dict['timestamp'] = user.timestamp
+    #     #     user_dict['creation_date'] = user.creation_date
     #     #     users_list.append(user_dict)
     #     #return render(request, 'index.html', context={"who": [args, kwargs]})
     #     
@@ -64,7 +64,7 @@ class Users(ListView):
 class CreateUser3(SuccessMessageMixin, CreateView):
     form_class = RegisterUserForm
     template_name = "create_user.html"
-    success_url = reverse_lazy('login')#, user_status="created")
+    success_url = reverse_lazy('login')
     success_message = "%(username)s was created successfully"
     #success_url = redirect('LoginUser', status='U')
 
@@ -136,7 +136,13 @@ class UpdateUser(SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('users')
     success_message = "%(username)s has been successfully updated!"
     pk_url_kwarg = "user_id"
+    print(pk_url_kwarg)
 
+    def get(self, request, *args, **kwargs):
+        if request.user.id != kwargs['user_id']:
+            messages.error(request, 'You do not have permission to update another user')
+            return redirect('users')
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -155,6 +161,7 @@ class UpdateUser(SuccessMessageMixin, UpdateView):
         #form.fields["password1"].widget.attrs["class"] = "form-control"
         #form.fields["password2"].widget.attrs["class"] = "form-control"
         return form
+
 
 # 
 # class UpdateUser_no(View):
@@ -214,6 +221,12 @@ class DeleteUser(SuccessMessageMixin, DeleteView):
     success_url = reverse_lazy('users')
     success_message = "User has been successfully deleted!"
     pk_url_kwarg = "user_id"
+
+    def get(self, request, *args, **kwargs):
+        if request.user.id != kwargs['user_id']:
+            messages.error(request, 'You do not have permission to update another user')
+            return redirect('users')
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

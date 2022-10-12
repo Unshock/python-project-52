@@ -1,38 +1,37 @@
 {% extends 'index.html' %}
-{% load i18n %}
 {% load user_tags %}
+{% load i18n %}
 {% block content %}
     <div class="container wrapper flex-grow-1">
-    
-        <h1 class="my-4">{{ title }}</h1>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Имя пользователя</th>
-                    <th>Полное имя</th>
-                    <th>Дата создания</th>
-                    <th></th>
-                </tr>
-            </thead>
-            
-            <tbody method="get">
-                {% get_users as users %}
-                {% for user in users %}
-                <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.full_name }}</td>
-                    <td>{{ user.creation_date }}</td>
-                    <td>
-                      <a href="{{ user.get_update_url }}">Изменить</a>
-                      <br>
-                      <a href="{{ user.get_delete_url }}">Удалить</a>
-                    </td>
-                </tr>
-                {% endfor %} 
-            </tbody>
-        </table>
+        
+            <h1 class="my-4">{{ title }}</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Имя</th>
+                        <th>Дата создания</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                
+                <tbody method="get">
+                    {% get_statuses as statuses %}
+                    {% for status in statuses %}
+                    <tr>
+                        <td>{{ status.id }}</td>
+                        <td>{{ status.name }}</td>
+                        <td>{{ status.timestamp }}</td>
+                        <td>
+                          <a href="{{ status.get_update_url }}">Изменить</a>
+                          <br>
+                          <a href="{{ status.get_delete_url }}">Удалить</a>
+                        </td>
+                    </tr>
+                    {% endfor %} 
+                </tbody>
+                
+            </table>
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->

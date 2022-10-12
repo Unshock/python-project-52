@@ -21,7 +21,7 @@ class User(AbstractUser):
 
 # class User1(models.Model):
 #     objects = None
-#     timestamp = models.DateTimeField(auto_now_add=True, verbose_name="Время создания")
+#     creation_date = models.DateTimeField(auto_now_add=True, verbose_name="Время создания")
 #     first_name = models.CharField(max_length=100, null=False, verbose_name="Имя")
 #     last_name = models.CharField(max_length=100, verbose_name="Фамилия")
 #     username = models.CharField(max_length=100, verbose_name="Логин")
@@ -47,4 +47,4 @@ class User(AbstractUser):
 #     class Meta:
 #         verbose_name = "Пользователь"
 #         verbose_name_plural = "Пользователи"
-#         ordering = ['timestamp', 'username']
+#         ordering = ['creation_date', 'username']

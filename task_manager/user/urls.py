@@ -9,5 +9,4 @@ urlpatterns = [
     path("create/", views.CreateUser3.as_view(), name="create_user"),
     path("login/", views.LoginUser.as_view(), name="login"),
     path("logout/", views.logout_user, name="logout")
-
 ]

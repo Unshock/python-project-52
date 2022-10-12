@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+
+import django
 import dotenv
 import dj_database_url
 from django.contrib.messages import constants as messages
@@ -56,6 +58,7 @@ INSTALLED_APPS = [
     "task_manager",
     "bootstrap4",
     "task_manager.user",
+    "task_manager.statuses",
 ]
 
 MIDDLEWARE = [
@@ -83,6 +86,11 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
+
+            # "builtins": [
+            #     "task_manager.templatetags.user_tags.py",
+            #     "task_manager.templatetags.status_tags.py",
+            # ],
         },
     },
 ]

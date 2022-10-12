@@ -25,5 +25,6 @@ urlpatterns = [
     path("index/", views.index2),
     path("boot/", views.bootdemo),
     path("users/", include("task_manager.user.urls")),
+    path("statuses/", include("task_manager.statuses.urls")),
 
 ]
