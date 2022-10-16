@@ -27,19 +27,26 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'users' %}">{% translate "Users" %}</a>
             </li>
+            
+            {% if request.user.is_authenticated %}
+            
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'statuses' %}">{% translate "Statuses" %}</a>
-            </li>  
+            </li>
+            
+            {% endif %}
         
         </ul>
         <ul class="navbar-nav">
             
             {% if request.user.is_authenticated %}
                 
-            <span class="navbar-text">
+            <span class="navbar-brand">
                 {{ request.user.username }}
             </span>
-                
+             <li class="navbar-brand">
+                 <span>|</span>
+            </li>   
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}">{% translate "Logout" %}</a>
             </li>

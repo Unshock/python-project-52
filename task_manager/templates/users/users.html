@@ -17,8 +17,8 @@
             </thead>
             
             <tbody method="get">
-                {% get_users as users %}
-                {% for user in users %}
+                
+                {% for user in users_list %}
                 <tr>
                     <td>{{ user.id }}</td>
                     <td>{{ user.username }}</td>

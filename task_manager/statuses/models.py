@@ -5,9 +5,10 @@ from task_manager.user.models import User
 
 
 class Status(models.Model):
-    objects = None
-    timestamp = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    name = models.CharField(max_length=100, verbose_name="Имя статуса")
+    #objects = None
+    creation_date = models.DateTimeField(auto_now_add=True,
+                                         verbose_name="Дата создания")
+    name = models.CharField(max_length=100, verbose_name="Имя статуса", unique=True)
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):

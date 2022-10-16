@@ -5,6 +5,11 @@
     <div class="container wrapper flex-grow-1">
         
             <h1 class="my-4">{{ title }}</h1>
+    
+            <div class="d-flex justify-content-left my-4">
+                <a class="btn btn-primary btn-sm" href="{% url "create_status" %}" role="button">Create status</a>
+            </div>
+            
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -16,12 +21,11 @@
                 </thead>
                 
                 <tbody method="get">
-                    {% get_statuses as statuses %}
-                    {% for status in statuses %}
+                    {% for status in statuses_list %}
                     <tr>
                         <td>{{ status.id }}</td>
                         <td>{{ status.name }}</td>
-                        <td>{{ status.timestamp }}</td>
+                        <td>{{ status.creation_date }}</td>
                         <td>
                           <a href="{{ status.get_update_url }}">Изменить</a>
                           <br>

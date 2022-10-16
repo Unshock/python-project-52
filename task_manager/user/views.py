@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import logout, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
@@ -27,6 +28,7 @@ class Users(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['users_list'] = User.objects.all()
         context['title'] = "Users list"
         return context
 
@@ -72,7 +74,7 @@ class CreateUser3(SuccessMessageMixin, CreateView):
     
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = "Users list"
+        context['title'] = "User creation"
         context["action"] = "Create new user"
         context['button_text'] = "Create"
         #context['user_status'] = "Created"
@@ -129,20 +131,24 @@ def logout_user(request):
 # 
 # 
 
-class UpdateUser(SuccessMessageMixin, UpdateView):
+class UpdateUser(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    login_url = 'login'
     model = User
     fields = ['first_name', 'last_name', 'username']
     template_name = "update_user.html"
     success_url = reverse_lazy('users')
     success_message = "%(username)s has been successfully updated!"
     pk_url_kwarg = "user_id"
-    print(pk_url_kwarg)
+    
 
     def get(self, request, *args, **kwargs):
-        if request.user.id != kwargs['user_id']:
-            messages.error(request, 'You do not have permission to update another user')
-            return redirect('users')
-        return super().get(request, *args, **kwargs)
+        user_is_stuff = User.objects.get(id=request.user.id).is_staff
+        if request.user.id == kwargs['user_id'] or user_is_stuff:
+            return super().get(request, *args, **kwargs)
+
+        messages.error(request,
+                       'You do not have permission to update another user')
+        return redirect('users')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -214,7 +220,8 @@ class UpdateUser(SuccessMessageMixin, UpdateView):
 #         #return render(request, 'create_user.html', context={})
 # 
 # 
-class DeleteUser(SuccessMessageMixin, DeleteView):
+class DeleteUser(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    login_url = 'login'
     model = User
     #username = User.objects.get(id=pk).username надобы написать имя в суксесе
     template_name = "delete_user.html"
@@ -223,10 +230,12 @@ class DeleteUser(SuccessMessageMixin, DeleteView):
     pk_url_kwarg = "user_id"
 
     def get(self, request, *args, **kwargs):
-        if request.user.id != kwargs['user_id']:
-            messages.error(request, 'You do not have permission to update another user')
-            return redirect('users')
-        return super().get(request, *args, **kwargs)
+        user_is_stuff = User.objects.get(id=request.user.id).is_staff
+        if request.user.id == kwargs['user_id'] or user_is_stuff:
+            return super().get(request, *args, **kwargs)
+        messages.error(request,
+                       'You do not have permission to delete another user')
+        return redirect('users')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
