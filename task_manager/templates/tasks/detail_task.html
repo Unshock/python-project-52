@@ -1,0 +1,50 @@
+{% extends 'index.html' %}
+{% load user_tags %}
+{% load i18n %}
+{% block content %}
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            <h2>{{ task.name }}</h2>
+        </div>
+        <div class="card-body bg-light">
+            <p>{{ task.description }}</p>
+            <hr>
+            <div class="container">
+                <div class="row p-1">
+                    <div class="col">Автор</div>
+                        <div class="col">{{ object.creator }}</div>
+                        </div>
+                    <div class="row p-1">
+                        <div class="col">Исполнитель</div>
+                        <div class="col">{{ task.executor }}</div>
+                    </div>
+                <div class="row p-1">
+                    <div class="col">Статус</div>
+                    <div class="col">{{ task.status }}</div>
+                </div>
+                <div class="row p-1">
+                    <div class="col">Дата создания</div>
+                    <div class="col">{{ task.creation_date }}</div>
+                </div>
+                <div class="row p-1">
+                    <div class="col">
+                        <h6>Метки:</h6>
+                        <ul>
+                            <li>bebra</li>
+                            <li>Срочно</li>
+                            <li>Важно</li>
+                    
+                        </ul>
+                    </div>
+                </div>
+                <div class="row p-1">
+                    <div class="col">
+                        <a href="{{ task.get_update_url }}">Изменить</a>
+                        <br>
+                        <a href="{{ task.get_delete_url }}">Удалить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

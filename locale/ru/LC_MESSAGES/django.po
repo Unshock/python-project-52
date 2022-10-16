@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-06 22:07+0300\n"
+"POT-Creation-Date: 2022-10-16 15:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,28 +20,153 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: task_manager/templates/bootdemo.html:19 task_manager/templates/index.html:19
-#: task_manager/templates/users.html:19
+#: DRAFT/bootdemo.html:19 task_manager/templates/index.html:20
 msgid "Task manager"
 msgstr "Менеджер задач"
 
-#: task_manager/templates/bootdemo.html:27 task_manager/templates/index.html:27
-#: task_manager/templates/users.html:27
+#: DRAFT/bootdemo.html:27 task_manager/templates/index.html:28
 msgid "Users"
 msgstr "Пользователи"
 
-#: task_manager/templates/bootdemo.html:32 task_manager/templates/index.html:32
-#: task_manager/templates/users.html:32
+#: DRAFT/bootdemo.html:32 task_manager/templates/index.html:57
+#: task_manager/user/views.py:75 task_manager/user/views.py:76
+#: task_manager/user/views.py:77
 msgid "Login"
 msgstr "Вход"
 
-#: task_manager/templates/bootdemo.html:35 task_manager/templates/index.html:35
-#: task_manager/templates/users.html:35
+#: DRAFT/bootdemo.html:35 task_manager/templates/index.html:61
 msgid "Sign up"
 msgstr "Регистрация"
 
-#: task_manager/templates/users.html:44
-#, fuzzy, python-format
+#: task_manager/statuses/views.py:28
+#, fuzzy
+#| msgid "Statuses"
+msgid "Statuses list"
+msgstr "Статусы"
+
+#: task_manager/statuses/views.py:46
+#, fuzzy
 #| msgid "User was successfully"
-msgid "User was successfully %(user_status)s"
-msgstr "Пользователь был успешно"
+msgid "Status has been successfully created!"
+msgstr "Статус был успешно создан"
+
+#: task_manager/statuses/views.py:51
+#, fuzzy
+#| msgid "User creation"
+msgid "Status creation"
+msgstr "Регистрация"
+
+#: task_manager/statuses/views.py:52
+#, fuzzy
+#| msgid "Create new user"
+msgid "Create new status"
+msgstr "Регистрация нового пользователя"
+
+#: task_manager/statuses/views.py:53 task_manager/user/views.py:53
+msgid "Create"
+msgstr "Создать"
+
+#: task_manager/statuses/views.py:74
+#, fuzzy
+#| msgid "User was successfully"
+msgid "Status has been successfully updated!"
+msgstr "Статус был успешно изменен!"
+
+#: task_manager/statuses/views.py:85
+msgid "You can update only your statuses"
+msgstr "Вы можете обновлять только свои статусы"
+
+#: task_manager/statuses/views.py:90 task_manager/statuses/views.py:91
+#, fuzzy
+#| msgid "Update user"
+msgid "Update status"
+msgstr "Обновить пользователя"
+
+#: task_manager/statuses/views.py:92 task_manager/user/views.py:120
+msgid "Update"
+msgstr "Обновить"
+
+#: task_manager/statuses/views.py:113
+#, fuzzy
+#| msgid "User was successfully"
+msgid "Status has been successfully deleted!"
+msgstr "Пользователь был успешно удален"
+
+#: task_manager/statuses/views.py:124
+msgid "You can delete only your statuses"
+msgstr "Вы можете удалять только свои статусы"
+
+#: task_manager/statuses/views.py:130 task_manager/statuses/views.py:131
+#, fuzzy
+#| msgid "Delete user"
+msgid "Delete status"
+msgstr "Удалить пользователя"
+
+#: task_manager/statuses/views.py:132 task_manager/user/views.py:162
+msgid "Delete"
+msgstr "Удалить"
+
+#: task_manager/templates/index.html:34
+msgid "Statuses"
+msgstr "Статусы"
+
+#: task_manager/templates/index.html:51
+msgid "Logout"
+msgstr "Выход"
+
+#: task_manager/templates/index.html:93
+#, python-format
+msgid "%(message)s"
+msgstr ""
+
+#: task_manager/user/views.py:32
+#, fuzzy
+#| msgid "Users"
+msgid "Users list"
+msgstr "Пользователи"
+
+#: task_manager/user/views.py:51
+msgid "User creation"
+msgstr "Регистрация"
+
+#: task_manager/user/views.py:52
+msgid "Create new user"
+msgstr "Регистрация нового пользователя"
+
+#: task_manager/user/views.py:71
+msgid "You have been successfully logged in!"
+msgstr "Вход выполнен успешно!"
+
+#: task_manager/user/views.py:91
+#, fuzzy
+#| msgid "You have been successfully logged in!"
+msgid "You have been successfully logged out!"
+msgstr "Вы успешно вышли из системы!"
+
+#: task_manager/user/views.py:103
+#, fuzzy
+#| msgid "User was successfully"
+msgid "has been successfully updated!"
+msgstr " был успешно изменен"
+
+#: task_manager/user/views.py:113
+msgid "You do not have permission to update another user"
+msgstr "У вас нет разрешения на изменение другого пользователя"
+
+#: task_manager/user/views.py:118 task_manager/user/views.py:119
+msgid "Update user"
+msgstr "Обновить пользователя"
+
+#: task_manager/user/views.py:146
+#, fuzzy
+#| msgid "User was successfully"
+msgid "User has been successfully deleted!"
+msgstr "Пользователь был успешно удален!"
+
+#: task_manager/user/views.py:155
+msgid "You do not have permission to delete another user"
+msgstr "У вас нет разрешения на удаление другого пользователя!"
+
+#: task_manager/user/views.py:160 task_manager/user/views.py:161
+msgid "Delete user"
+msgstr "Удалить пользователя!"

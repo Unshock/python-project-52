@@ -6,6 +6,7 @@ from .models import User
 #from task_manager.user.models import User1
 
 
+
 class RegisterUserForm(UserCreationForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput(
         attrs={"class": "form-control"}))
@@ -13,11 +14,14 @@ class RegisterUserForm(UserCreationForm):
         attrs={"class": "form-control"}))
     last_name = forms.CharField(label='Фамилия', widget=forms.TextInput(
         attrs={"class": "form-control"}))
-    password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(
-        attrs={"class": "form-control"}))
-    password2 = forms.CharField(label='Повтор пароля',
-                                widget=forms.PasswordInput(
-                                    attrs={"class": "form-control"}))
+    password1 = forms.CharField(
+        label='Пароль',
+        widget=forms.PasswordInput(attrs={"class": "form-control"})
+    )
+    password2 = forms.CharField(
+        label='Повтор пароля',
+        widget=forms.PasswordInput(attrs={"class": "form-control"})
+    )
     class Meta:
         model = User
         #fields = '__all__'

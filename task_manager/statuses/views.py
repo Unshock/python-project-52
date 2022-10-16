@@ -11,10 +11,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from task_manager.statuses.forms import CreateStatusForm
 from task_manager.statuses.models import Status
 from task_manager.user.models import User
-
-
-def stab(request):
-    return redirect('home')
+from django.utils.translation import gettext as _
 
 
 class Statuses(LoginRequiredMixin, ListView):
@@ -24,8 +21,10 @@ class Statuses(LoginRequiredMixin, ListView):
     context_object_name = 'status'
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        title = _("Status list")
+
         context = super().get_context_data(**kwargs)
-        context['title'] = "Statuses list"
+        context['title'] = title
         context['statuses_list'] = Status.objects.all()
         return context
 
@@ -39,14 +38,20 @@ class CreateStatus(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = CreateStatusForm
     template_name = 'create_user.html'
     success_url = reverse_lazy('statuses')
-    success_message = "Status '%(name)s' was created successfully"
+
+    message_text = _("Status has been successfully created!")
+    success_message = message_text
+
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        title = _("Status creation")
+        action = _("Create new status")
+        button_text = _("Create")
+
         context = super().get_context_data(**kwargs)
-        context['title'] = "Status creation"
-        context['action'] = "Create new status"
-        context['button_text'] = "Create"
-        #context['creator'] = User.objects.get(id=self.request.user.id)
+        context['title'] = title
+        context['action'] = action
+        context['button_text'] = button_text
         return context
 
     def form_valid(self, form):
@@ -61,7 +66,10 @@ class UpdateStatus(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     fields = ['name']
     template_name = "update_user.html"
     success_url = reverse_lazy('statuses')
-    success_message = "%(name)s has been successfully updated!"
+
+    message_text = _("Status has been successfully updated!")
+    success_message = message_text
+
     pk_url_kwarg = "status_id"
 
     def get(self, request, *args, **kwargs):
@@ -69,14 +77,20 @@ class UpdateStatus(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         user_is_stuff = User.objects.get(id=request.user.id).is_staff
         if request.user.id == creator_id or user_is_stuff:
             return super().get(request, *args, **kwargs)
-        messages.error(request, 'You can update only your statuses')
+
+        message_text = _('You can update only your statuses')
+        messages.error(request, message_text)
         return redirect('statuses')
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        title = _("Update status")
+        action = _("Update status")
+        button_text = _("Update")
+
         context = super().get_context_data(**kwargs)
-        context['title'] = "Update status"
-        context["action"] = "Update"
-        context['button_text'] = "Update"
+        context['title'] = title
+        context["action"] = action
+        context['button_text'] = button_text
         return context
 
     def get_form(self, *args, **kwargs):
@@ -91,7 +105,9 @@ class DeleteStatus(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     #username = User.objects.get(id=pk).username надобы написать имя в суксесе
     template_name = "delete_user.html"
     success_url = reverse_lazy('statuses')
-    success_message = "Status has been successfully deleted!"
+
+    message_text = _("Status has been successfully deleted!")
+    success_message = message_text
     pk_url_kwarg = "status_id"
 
     def get(self, request, *args, **kwargs):
@@ -100,13 +116,19 @@ class DeleteStatus(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         user_is_stuff = User.objects.get(id=request.user.id).is_staff
         if request.user.id == creator_id or user_is_stuff:
             return super().get(request, *args, **kwargs)
-        messages.error(request, 'You can delete only your statuses')
+
+        message_text = _('You can delete only your statuses')
+        messages.error(request, message_text)
 
         return redirect('statuses')
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        title = _("Delete status")
+        action = _("Delete status")
+        button_text = _("Delete")
+        
         context = super().get_context_data(**kwargs)
-        context['title'] = "Delete status"
-        context["action"] = "Delete status"
-        context['button_text'] = "Delete"
+        context['title'] = title
+        context["action"] = action
+        context['button_text'] = button_text
         return context

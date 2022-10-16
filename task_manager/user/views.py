@@ -12,6 +12,8 @@ from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 #from django.contrib.auth.models import User
 from .models import User
 from task_manager.views import index
+from django.utils.translation import gettext as _
+
 
 #from task_manager.user.models import User1
 from django.http import HttpResponse, HttpResponseRedirect
@@ -27,57 +29,33 @@ class Users(ListView):
     context_object_name = 'user'
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        title = _("Users list")
         context = super().get_context_data(**kwargs)
         context['users_list'] = User.objects.all()
-        context['title'] = "Users list"
+        context['title'] = title
         return context
 
     #сюда довабить фильтр
     def get_queryset(self):
         return User.objects.all()
 
-    # def get(self, request, *args, **kwargs):
-    # 
-    #     user_status = kwargs.get("user_status")
-    # 
-    #     #users = User.objects.all()
-    #     # "users_objects": users,
-    #     context = {"user_status": user_status,
-    #                "title": "Users list",
-    #                }
-    # 
-    #     # users_list = []
-    #     # # print(users_list)
-    #     # for user in users:
-    #     #     user_dict = {}
-    #     #     user_dict['id'] = user.id
-    #     #     user_dict['full_name'] = f'{user.first_name} {user.last_name}'
-    #     #     user_dict['name'] = user.username
-    #     #     user_dict['creation_date'] = user.creation_date
-    #     #     users_list.append(user_dict)
-    #     #return render(request, 'index.html', context={"who": [args, kwargs]})
-    #     
-    #     return render(request, 'users/users.html', context=context)
-    
-    #def aaa(self):
-    #    return self.get(request, )
 
-
-class CreateUser3(SuccessMessageMixin, CreateView):
+class CreateUser(SuccessMessageMixin, CreateView):
     form_class = RegisterUserForm
     template_name = "create_user.html"
     success_url = reverse_lazy('login')
     success_message = "%(username)s was created successfully"
     #success_url = redirect('LoginUser', status='U')
 
-
-    
     def get_context_data(self, *, object_list=None, **kwargs):
+        title = _("User creation")
+        action = _("Create new user")
+        button_text = _("Create")
+
         context = super().get_context_data(**kwargs)
-        context['title'] = "User creation"
-        context["action"] = "Create new user"
-        context['button_text'] = "Create"
-        #context['user_status'] = "Created"
+        context['title'] = title
+        context["action"] = action
+        context['button_text'] = button_text
         return context
     
     # def form_valid(self, form):
@@ -89,47 +67,31 @@ class CreateUser3(SuccessMessageMixin, CreateView):
 class LoginUser(SuccessMessageMixin, LoginView):
     form_class = LoginUserForm
     template_name = 'create_user.html'
-    success_message = "You have been successfully logged in!"
-    
+
+    message_text = _("You have been successfully logged in!")
+    success_message = message_text
+
     def get_context_data(self, *, object_list=None, **kwargs):
+        title = _("Login")
+        action = _("Login")
+        button_text = _("Login")
+
         context = super().get_context_data(**kwargs)
-        context['title'] = "Login"
-        context["action"] = "Login"
-        context['button_text'] = "Login"
-        #context['user_status'] = "Created"
+        context['title'] = title
+        context["action"] = action
+        context['button_text'] = button_text
         return context
-    
+
     def get_success_url(self):
-        
         return reverse_lazy('home')
 
 
 def logout_user(request):
     logout(request)
-    messages.info(request, 'You have successfully logged out!')
+    message_text = _('You have been successfully logged out!')
+    messages.info(request, message_text)
     return redirect('home')
-# 
-#     # def get(self, request, *args, **kwargs):
-#     #     form_class = AddUserForm()
-#     #     context = {"form": form_class,
-#     #                "action": "Create new user",
-#     #                "button_text": "Create"}
-#     # 
-#     #     return render(request, 'create_user.html', context=context)
-#     # 
-#     # def post(self, request, *args, **kwargs):
-#     #     # получаем из данных запроса POST отправленные через форму данные
-#     #     form = AddUserForm(request.POST)
-#     # 
-#     #     if form.is_valid():
-#     #         form.save()
-#     #         return Users.get(Users, request, user_status="created")
-#             #return redirect('users')
-# 
-#         #return Users.get(Users, request, user_status="created")
-#         #return render(request, 'create_user.html', context={})
-# 
-# 
+
 
 class UpdateUser(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     login_url = 'login'
@@ -137,26 +99,31 @@ class UpdateUser(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     fields = ['first_name', 'last_name', 'username']
     template_name = "update_user.html"
     success_url = reverse_lazy('users')
-    success_message = "%(username)s has been successfully updated!"
+
+    message_text = _("has been successfully updated!")
+    success_message = "%(username)s " + message_text
     pk_url_kwarg = "user_id"
-    
+
 
     def get(self, request, *args, **kwargs):
         user_is_stuff = User.objects.get(id=request.user.id).is_staff
         if request.user.id == kwargs['user_id'] or user_is_stuff:
             return super().get(request, *args, **kwargs)
 
-        messages.error(request,
-                       'You do not have permission to update another user')
+        message_text = _('You do not have permission to update another user')
+        messages.error(request, message_text)
         return redirect('users')
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = "Update user"
-        context["action"] = "Update"
-        context['button_text'] = "Update"
+        title = _("Update user")
+        action = _("Update user")
+        button_text = _("Update")
 
-        #context['user_status'] = "Created"
+        context = super().get_context_data(**kwargs)
+        context['title'] = title
+        context["action"] = action
+        context['button_text'] = button_text
+
         return context
 
     def get_form(self, *args, **kwargs):
@@ -169,130 +136,39 @@ class UpdateUser(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return form
 
 
-# 
-# class UpdateUser_no(View):
-#     def get(self, request, *args, **kwargs):
-#         form = RegisterUserForm()
-#         context = {"form": form,
-#                    "action": "Update user",
-#                    "button_text": "Update"}
-# 
-#         return render(request, 'create_user.html', context=context)
-# 
-# 
-#     def post(self, request, *args, **kwargs):
-#         form = AddUserForm(request.POST)
-# 
-#         if form.is_valid():
-#             form.save()
-#             return Users.get(Users, request, user_status="updated")
-# 
-# class CreateUser(View):
-# 
-#     def get(self, request, *args, **kwargs):
-# 
-#         text_params = [
-#             {'name': 'first_name', 'text': "First name"},
-#             {'name': 'last_name', 'text': "Last name"},
-#             {'name': 'username', 'text': "Nickname"},
-#         ]
-# 
-#         context = {"text_params": text_params,
-#                    "form_action": '/users/create/',
-#                    "action": "Create"}
-# 
-#         return render(request, '../../DRAFT/base_user_CU.html', context=context)
-# 
-#     def post(self, request, *args, **kwargs):
-#         # получаем из данных запроса POST отправленные через форму данные
-#         first_name = request.POST.get("first_name", "Undefined")
-#         last_name = request.POST.get("last_name", "Undefined")
-#         name = request.POST.get("username", "Undefined")
-# 
-#         new_user = User1()
-#         new_user.first_name = first_name
-#         new_user.last_name = last_name
-#         new_user.username = name
-# 
-#         new_user.save()
-# 
-#         return Users.get(Users, request, user_status="created")
-#         #return render(request, 'create_user.html', context={})
-# 
-# 
 class DeleteUser(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     login_url = 'login'
     model = User
     #username = User.objects.get(id=pk).username надобы написать имя в суксесе
     template_name = "delete_user.html"
     success_url = reverse_lazy('users')
-    success_message = "User has been successfully deleted!"
+
+    message_text = _("User has been successfully deleted!")
+    success_message = message_text
     pk_url_kwarg = "user_id"
 
     def get(self, request, *args, **kwargs):
         user_is_stuff = User.objects.get(id=request.user.id).is_staff
-        if request.user.id == kwargs['user_id'] or user_is_stuff:
-            return super().get(request, *args, **kwargs)
-        messages.error(request,
-                       'You do not have permission to delete another user')
-        return redirect('users')
+        if request.user.id != kwargs['user_id'] and not user_is_stuff:
+            message = _('You do not have permission to delete another user')
+            messages.error(request, message)
+            return redirect('users')
+
+        if len(User.objects.get(id=kwargs['user_id']).executor.all()) > 0:
+            message = _('User that has tasks can not be deleted')
+            messages.error(request, message)
+            return redirect('users')
+
+        return super().get(request, *args, **kwargs)
+
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        title = _("Delete user")
+        action = _("Delete user")
+        button_text = _("Delete")
+
         context = super().get_context_data(**kwargs)
-        context['title'] = "Delete user"
-        context["action"] = "Delete user"
-        context['button_text'] = "Delete"
-        #context['user_status'] = "Deleted"
+        context['title'] = title
+        context["action"] = action
+        context['button_text'] = button_text
         return context
-# 
-# class DeleteUser2(View):
-#     def get(self, request, *args, **kwargs):
-#         user_id = kwargs.get('user_id')
-#         user = User1.objects.get(id=user_id)
-# 
-#         context = {"user_full_name": user.full_name}
-# 
-#         return render(request, 'delete_user.html', context=context)
-# 
-#     def post(self, request, *args, **kwargs):
-#         # получаем из данных запроса POST отправленные через форму данные
-# 
-#         user_id = kwargs.get('user_id')
-#         User1.objects.filter(id=user_id).delete()
-#         return Users.get(Users, request, user_status="deleted")
-# 
-# 
-# class UpdateUser2(View):
-#     def get(self, request, *args, **kwargs):
-#         user_id = kwargs.get('user_id')
-# 
-#         text_params = [
-#             {'name': 'first_name', 'text': "First name"},
-#             {'name': 'last_name', 'text': "Last name"},
-#             {'name': 'username', 'text': "Nickname"},
-#         ]
-# 
-#         context = {"form_action": f'/users/{user_id}/update/',
-#                    "action": "Update",
-#                    "text_params": text_params}
-# 
-#         return render(request, '../../DRAFT/base_user_CU.html', context=context)
-# 
-#     def post(self, request, *args, **kwargs):
-# 
-#         user_id = kwargs.get('user_id')
-#         # получаем из данных запроса POST отправленные через форму данные
-#         first_name = request.POST.get("first_name", "Undefined")
-#         last_name = request.POST.get("last_name", "Undefined")
-#         name = request.POST.get("username", "Undefined")
-# 
-#         updating_user = User1.objects.get(id=user_id)
-#         updating_user.first_name = first_name
-#         updating_user.last_name = last_name
-#         updating_user.username = name
-# 
-#         updating_user.save()
-#         return Users.get(Users, request, user_status="updated")
-#         #return render(request, "users.html", context={"user_updated": True})
-
-

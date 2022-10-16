@@ -6,13 +6,18 @@ from task_manager.user.models import User
 
 class Status(models.Model):
     #objects = None
-    creation_date = models.DateTimeField(auto_now_add=True,
-                                         verbose_name="Дата создания")
-    name = models.CharField(max_length=100, verbose_name="Имя статуса", unique=True)
-    creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    creation_date = models.DateTimeField(
+        auto_now_add=True, verbose_name="Дата создания")
+    name = models.CharField(
+        max_length=100, verbose_name="Имя статуса", unique=True)
+    creator = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
+
+    def get_defalut_status():
+        return Status.objects.get(name="Новый").id
 
     def get_absolute_url(self):
         return reverse('create_status')
