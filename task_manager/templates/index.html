@@ -35,8 +35,12 @@
             </li>
                 
             <li class="nav-item">
+                <a class="nav-link" href="{% url 'labels' %}">{% translate "Labels" %}</a>
+            </li>   
+                
+            <li class="nav-item">
                 <a class="nav-link" href="{% url 'tasks' %}">{% translate "Tasks" %}</a>
-            </li>    
+            </li>                  
             
             {% endif %}
         

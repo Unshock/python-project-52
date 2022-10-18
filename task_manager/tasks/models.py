@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
+
 from task_manager.statuses.models import Status
 from task_manager.user.models import User
 
@@ -14,15 +15,17 @@ class Task(models.Model):
         max_length=300, verbose_name="Описание задачи")
     creator = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True,
-        verbose_name="Создатель", related_name='creator')
+        verbose_name="Создатель", related_name='task_creator')
     executor = models.ForeignKey(
         User, on_delete=models.PROTECT,
         verbose_name="Исполнитель", related_name='executor', null=True)
     status = models.ForeignKey(
         Status, on_delete=models.SET_DEFAULT,
         default='1',
+##################################ПРОВЕРИТЬ^
         verbose_name="Назначенный статус"
     )
+
 
     def __str__(self):
         return self.name
