@@ -146,7 +146,7 @@ class StatusesViewTest(SettingsUsers):
         self.assertEqual(delete_response.status_code, 302)
         self.assertEqual(Status.objects.count(), 2)
 
-    def test_delete_user_post(self):
+    def test_delete_user_post2(self):
 
         user_count_before = User.objects.count()
         self.assertEqual(user_count_before, 2)
@@ -171,7 +171,7 @@ class StatusesViewTest(SettingsUsers):
 
         created_object = User.objects.last()
         user_count_after = User.objects.count()
-        
+
         self.assertEqual(user_count_after, 3)
         self.assertEqual(created_object.pk, 3)
 

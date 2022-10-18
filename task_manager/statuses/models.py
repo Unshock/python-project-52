@@ -16,7 +16,7 @@ class Status(models.Model):
     def __str__(self):
         return self.name
 
-    def get_defalut_status():
+    def get_defalut_status(self):
         return Status.objects.get(name="Новый").id
 
     def get_absolute_url(self):

@@ -20,7 +20,7 @@ class Task(models.Model):
         verbose_name="Исполнитель", related_name='executor', null=True)
     status = models.ForeignKey(
         Status, on_delete=models.SET_DEFAULT,
-        default=Status.get_defalut_status,
+        default='1',
         verbose_name="Назначенный статус"
     )
 

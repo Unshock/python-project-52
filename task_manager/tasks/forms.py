@@ -60,7 +60,8 @@ class UpdateTaskForm(ModelForm):
         widget=forms.Select(
             attrs={"class": "form-control"}
         ),
-        required=False
+        required=False,
+        empty_label='No executor'
     )
     status = forms.ModelChoiceField(
         label='Статус',

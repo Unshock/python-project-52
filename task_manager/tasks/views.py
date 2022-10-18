@@ -50,6 +50,7 @@ class CreateTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         context['title'] = title
         context['action'] = action
         context['button_text'] = button_text
+        #print(context)
         return context
 
     def form_valid(self, form):
