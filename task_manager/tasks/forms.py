@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from django import forms
 
+from task_manager.labels.models import Label
 from task_manager.tasks.models import Task
 from task_manager.statuses.models import Status
 from task_manager.user.models import User
@@ -25,7 +26,16 @@ class CreateTaskForm(ModelForm):
         widget=forms.Select(
             attrs={"class": "form-control"}
         ),
-        required=False
+        required=False,
+        empty_label='No executor'
+    )
+    labels = forms.ModelMultipleChoiceField(
+        label='Метки',
+        queryset=Label.objects.all(),
+        widget=forms.SelectMultiple(
+            attrs={"class": "form-control"}
+        ),
+
     )
     status = forms.ModelChoiceField(
         label='Статус',
@@ -33,12 +43,12 @@ class CreateTaskForm(ModelForm):
         widget=forms.Select(
             attrs={"class": "form-control"}
             ),
-        empty_label='Required form'
+        empty_label='Required field'
     )
 
     class Meta:
         model = Task
-        fields = ['name', 'description', 'executor', 'status']
+        fields = ['name', 'description', 'executor', 'labels', 'status']
 
 
 class UpdateTaskForm(ModelForm):
@@ -63,6 +73,16 @@ class UpdateTaskForm(ModelForm):
         required=False,
         empty_label='No executor'
     )
+
+    labels = forms.ModelMultipleChoiceField(
+        label='Метки',
+        queryset=Label.objects.all(),
+        widget=forms.SelectMultiple(
+            attrs={"class": "form-control"}
+        ),
+        initial=[]
+    )
+
     status = forms.ModelChoiceField(
         label='Статус',
         queryset=Status.objects.all(),
@@ -74,4 +94,4 @@ class UpdateTaskForm(ModelForm):
 
     class Meta:
         model = Task
-        fields = ['name', 'description', 'executor', 'status']
+        fields = ['name', 'description', 'executor', 'status', 'labels']

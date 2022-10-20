@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
-
+from task_manager.labels.models import Label
 from task_manager.statuses.models import Status
 from task_manager.user.models import User
 
@@ -21,11 +21,10 @@ class Task(models.Model):
         verbose_name="Исполнитель", related_name='executor', null=True)
     status = models.ForeignKey(
         Status, on_delete=models.SET_DEFAULT,
-        default='1',
-##################################ПРОВЕРИТЬ^
-        verbose_name="Назначенный статус"
-    )
-
+        default="1",
+        verbose_name="Назначенный статус")
+    labels = models.ManyToManyField(
+        Label, blank=True, related_name='tasks', )
 
     def __str__(self):
         return self.name

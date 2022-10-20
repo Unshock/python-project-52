@@ -114,7 +114,7 @@ class DeleteLabel(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
             return redirect('labels')
 
         if len(label.tasks.all()) > 0:
-            message = _('Label that that is given to the task can not be deleted')
+            message = _('Label that is given to the task can not be deleted')
             messages.error(request, message)
             return redirect('labels')
 

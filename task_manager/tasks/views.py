@@ -70,8 +70,6 @@ class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     message_text = _("Task has been successfully updated!")
     success_message = message_text
 
-
-
     def get(self, request, *args, **kwargs):
         creator_id = Task.objects.get(id=kwargs['pk']).creator_id
         user_is_stuff = User.objects.get(id=request.user.id).is_staff
@@ -80,7 +78,11 @@ class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
             message_text = _('You can update only your tasks')
             messages.error(request, message_text)
             return redirect('tasks')
-
+        
+        preselected = Task.objects.get(id=kwargs['pk']).labels
+        #print(Task.objects.get(id=kwargs['pk']).labels.all())
+        #print('1111111111111111111', preselected, kwargs['pk'])
+        print(super().get(request, *args, **kwargs))
         return super().get(request, *args, **kwargs)
 
 
@@ -88,12 +90,19 @@ class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         title = _("Update task")
         action = _("Update task")
         button_text = _("Update")
-
         context = super().get_context_data(**kwargs)
+        #context['initial'] = Task.objects.get(id=kwargs['pk']).all()
         context['title'] = title
         context["action"] = action
         context['button_text'] = button_text
         return context
+
+    def get_initial(self):
+        initial = super().get_initial()
+        task = Task.objects.get(id=self.kwargs['pk'])
+
+        initial['labels'] = task.labels.all()
+        return initial
 
 
 class DeleteTask(LoginRequiredMixin, SuccessMessageMixin, DeleteView):

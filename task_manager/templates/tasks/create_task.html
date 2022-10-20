@@ -12,9 +12,10 @@
               
                 <form method="post">
                     {% csrf_token %}
-                
+
                     <div class="row-form-errors">{{ form.non_field_errors }}</div>
                     {% bootstrap_form form %}
+
                     {% buttons %}
                         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                             <button type="submit" class="btn btn-primary btn-lg">

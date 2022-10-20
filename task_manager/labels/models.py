@@ -3,7 +3,7 @@ from django.urls import reverse
 
 from task_manager.statuses.models import Status
 from task_manager.user.models import User
-from task_manager.tasks.models import Task
+
 
 
 class Label(models.Model):
@@ -13,8 +13,8 @@ class Label(models.Model):
         max_length=100, verbose_name="Имя метки", unique=True)
     creator = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True,
-        verbose_name="Создатель", related_name='label_creator')
-    tasks = models.ManyToManyField(Task)
+        verbose_name="Создатель", related_name='labels')
+
 
 
     def __str__(self):

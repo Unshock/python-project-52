@@ -26,17 +26,20 @@
                     <div class="col">Дата создания</div>
                     <div class="col">{{ task.creation_date }}</div>
                 </div>
+                {% if task.labels %}
                 <div class="row p-1">
                     <div class="col">
                         <h6>Метки:</h6>
                         <ul>
-                            <li>bebra</li>
-                            <li>Срочно</li>
-                            <li>Важно</li>
-                    
+                            {% for label in task.labels.all %}
+                            <li>{{ label.name }}</li>
+                            {% empty %}
+                            <li>no no no no</li>    
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
+                {% endif %}
                 <div class="row p-1">
                     <div class="col">
                         <a href="{{ task.get_update_url }}">Изменить</a>
