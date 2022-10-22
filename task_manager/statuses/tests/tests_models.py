@@ -1,16 +1,16 @@
 from django.core.exceptions import ValidationError
 from task_manager.statuses.models import Status
-from .tests_settings import SettingsStatuses
+from .settings_for_tests import SettingsStatuses
 
 
 class StatusesModelsTest(SettingsStatuses):
 
     def test_models_params(self):
-        self.assertEqual(self.status_id1.name, "Test status 1")
-        self.assertEqual(self.status_id2.creator.username, "testuser")
+        self.assertEqual(self.status_id_1.name, "Test_status_1")
+        self.assertEqual(self.status_id_2.creator.username, "user_authenticated")
         self.assertEqual(Status.objects.count(), 2)
-        self.assertEqual(self.status_id2.creator.last_name, "")
-        self.assertEqual(self.status_id1._meta.get_field('name').verbose_name,
+        self.assertEqual(self.status_id_1.creator.last_name, "UserNotAdmin")
+        self.assertEqual(self.status_id_1._meta.get_field('name').verbose_name,
                          "Имя статуса")
 
     def test_name_validation_fail(self):
@@ -22,7 +22,7 @@ class StatusesModelsTest(SettingsStatuses):
 
 
     def test_unique_name_validation_fail(self):
-        name_ununique = "Test status 1"
+        name_ununique = "Test_status_1"
         status_invalid = Status(name=name_ununique, creator_id=1)
         with self.assertRaises(ValidationError):
             status_invalid.full_clean()

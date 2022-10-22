@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from django.test import TestCase
 from django.urls import reverse
 from task_manager.statuses.models import Status
-from .tests_settings import SettingsUsers
+from .settings_for_tests import SettingsUsers
 from django.test import Client
 
 from ..models import User
@@ -16,7 +16,7 @@ class UsersUrlsTest(SettingsUsers):
     def test_statuses_url(self):
         response = self.client_auth.get(reverse('users'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertIn('users/users.html', response.template_name)
+        self.assertIn('users/user_list.html', response.template_name)
 
     def test_statuses_create_url(self):
         response = self.client_auth.get(reverse('create_user'))
@@ -107,9 +107,8 @@ class StatusesViewTest(SettingsUsers):
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(response.context.get('title'), 'Update user')
-        self.assertEqual(response.context.get('action'), 'Update')
+        self.assertEqual(response.context.get('action'), 'Update user')
         self.assertEqual(response.context.get('button_text'), 'Update')
-
 
     def test_delete_user_get(self):
         test_pk = 1
@@ -137,7 +136,7 @@ class StatusesViewTest(SettingsUsers):
             follow=True
         )
         created_object = Status.objects.last()
-        self.assertEqual(Status.objects.count(), 3)
+        self.assertEqual(Status.objects.count(), 1)
 
         delete_response = self.client_auth.post(
             reverse('delete_status',

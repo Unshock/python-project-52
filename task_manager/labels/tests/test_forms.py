@@ -1,26 +1,26 @@
-from task_manager.statuses.tests.settings_for_tests import SettingsStatuses
-from task_manager.statuses.forms import StatusForm
+from task_manager.labels.tests.settings_for_tests import SettingsLabels
+from task_manager.labels.forms import LabelForm
 
 
-class StatusFormTest(SettingsStatuses):
+class LabelFormTest(SettingsLabels):
 
     def test_valid_creation_form(self):
-        form = StatusForm(data={
-            'name': 'Test_status_form_name',
+        form = LabelForm(data={
+            'name': 'Test_label_form_name',
         })
 
         self.assertTrue(form.is_valid())
 
     def test_invalid_creation_form(self):
-        form = StatusForm(data={
-            'name': 'Test_status_form_name' * 100,
+        form = LabelForm(data={
+            'name': 'Test_label_form_name' * 100,
         })
 
         self.assertFalse(form.is_valid())
         self.assertEqual(len(form.errors), 1)
 
     def test_empty_creation_form(self):
-        form = StatusForm(data={
+        form = LabelForm(data={
             'name': '',
         })
 

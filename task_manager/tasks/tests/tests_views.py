@@ -1,146 +1,163 @@
 from http import HTTPStatus
-
-from django.core.exceptions import ValidationError
-from django.template.loader import render_to_string
-from django.test import TestCase
 from django.urls import reverse
 from task_manager.statuses.models import Status
-from .tests_settings import SettingsTasks
+from .settings_for_tests import SettingsTasks
 from ..models import Task
 
 
-class TasksUrlsTest(SettingsTasks):
+class TestTasksViews(SettingsTasks):
 
-    def test_tasks_url(self):
-        response = self.client_auth.get(reverse('tasks'))
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertIn('tasks/task_list.html', response.template_name)
+    def setUp(self):
+        self.list_url = reverse('tasks')
+        self.create_url = reverse('create_task')
+        self.update_url = reverse('update_task', kwargs={'pk': 1})
+        self.delete_url = reverse('delete_task', kwargs={'pk': 1})
+        self.detail_url = reverse('detail_task', kwargs={'pk': 1})
 
-    def test_tasks_create_url(self):
-        response = self.client_auth.get(reverse('create_task'))
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        #self.assertTemplateUsed('create_user.html')
+    def test_task_list_GET(self):
 
-    def test_tasks_update_url(self):
-        response = self.client_auth.get(reverse('update_task',
-                                           kwargs={'pk': 1}))
+        response = self.client_authenticated.get(self.list_url)
+        task_list = response.context.get('task_list')
 
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        #with self.assertTemplateUsed('update_user.html'):
-        #    render_to_string('update_user.html')
-        #self.assertTemplateUsed(template_name='update_user.html')
-
-
-    def test_tasks_update_url_unauth_user(self):
-        response = self.client.get(reverse('update_task',
-                                           kwargs={'pk': 1}))
-
-        self.assertEqual(response.status_code, 302)
-        #with self.assertTemplateUsed('update_user.html'):
-        #    render_to_string('update_user.html')
-        #self.assertTemplateUsed('statuses/status_1list.html')
-
-    def test_tasks_update_url_invalid_user(self):
-        response = self.client_another.get(
-            reverse('update_task',
-            kwargs={'pk': 1})
-        )
-        self.assertEqual(response.status_code, 302)
-
-    def test_tasks_delete_url(self):
-        response = self.client_auth.get(reverse('delete_task',
-                                        kwargs={'pk': 1}))
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        #self.assertIn('delete_user.html', response.template_name)
-
-
-
-    def test_tasks_delete_url_unauth_user(self):
-        response = self.client.get(reverse('delete_task',
-                                           kwargs={'pk': 1}))
-        self.assertEqual(response.status_code, 302)
-        #self.assertIn('delete_user.html', response.template_name)
-        
-    def test_tasks_delete_url_invalid_user(self):
-        response = self.client_another.get(
-            reverse('delete_task',
-            kwargs={'pk': 1})
-        )
-        self.assertEqual(response.status_code, 302)
-        #self.assertIn('delete_user.html', response.template_name)
-
-
-
-class StatusesViewTest(SettingsTasks):
-
-    def test_tasks_list(self):
-        response = self.client_auth.get(reverse('tasks'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(response.context.get('title'), 'Task list')
-        tasks_list = response.context.get('task_list')
-        self.assertEqual(len(tasks_list), 1)
-        self.assertEqual(tasks_list[0].name, 'Test_task_1')
+        self.assertEqual(len(task_list), 1)
+        self.assertEqual(task_list[0].name, 'Test_task_1')
+        self.assertEqual(task_list[0].creator.username, 'user_authenticated')
+        self.assertTemplateUsed(response, 'tasks/task_list.html')
 
-    def test_tasks_list_user_is_not_authenticated(self):
-        response = self.client.get(reverse('tasks'))
-        self.assertEqual(response.status_code, 302)
+    def test_task_list_GET_unauthenticated_client(self):
+        response = self.client_unauthenticated.get(self.list_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
-    def test_create_tasks(self):
-
-        response = self.client_auth.get(reverse('create_task'))
+    def test_create_task_GET(self):
+        response = self.client_authenticated.get(self.create_url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        #self.assertIn('create_user.html', response.template_name)
         self.assertEqual(response.context.get('title'), 'Task creation')
         self.assertEqual(response.context.get('action'), 'Create new task')
         self.assertEqual(response.context.get('button_text'), 'Create')
-        #self.assertEqual(response.context.get('form'), CreateStatusForm)
+        self.assertTemplateUsed(response, 'tasks/create_task.html')
 
-    def test_update_tasks_get(self):
-        test_pk = 1
+    def test_create_task_GET_unauthenticated_client(self):
+        response = self.client_unauthenticated.get(self.create_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
-        response = self.client_auth.get(
-            reverse('update_task',
-            kwargs={'pk': test_pk})
-        )
+    def test_create_task_POST(self):
+        self.assertEqual(Task.objects.all().count(), 1)
+
+        task_data = {
+            'name': 'Test_task_3',
+            'description': 'Test_task_3_description',
+            'status': self.status_id_2.id,
+            'labels': self.test_label_id_1.id
+        }
+
+        response = self.client_authenticated.post(
+            self.create_url, task_data)
+
+        created_task = Task.objects.last()
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(Task.objects.all().count(), 2)
+        self.assertEqual(created_task.name, 'Test_task_3')
+        self.assertEqual(created_task.id, 2)
+        self.assertEqual(created_task.creator.username, 'user_authenticated')
+        self.assertRedirects(response, self.list_url)
+
+    def test_create_task_POST_unauthenticated_client(self):
+        response = self.client_unauthenticated.post(self.create_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+    def test_update_task_GET(self):
+        response = self.client_authenticated.get(self.update_url)
+
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        #self.assertIn('create_user.html', response.context.template_name)
         self.assertEqual(response.context.get('title'), 'Update task')
         self.assertEqual(response.context.get('action'), 'Update task')
         self.assertEqual(response.context.get('button_text'), 'Update')
+        #self.assertEqual(response.initial.get('labels'), self.status_id_1)
+        self.assertTemplateUsed(response, 'tasks/create_task.html')
 
+    def test_update_task_GET_unauthenticated_client(self):
+        response = self.client_unauthenticated.get(self.update_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
-    def test_delete_tasks_get(self):
-        test_pk = 1
-        response = self.client_auth.get(reverse('delete_task',
-                                           kwargs={'pk': test_pk}))
+    def test_update_task_GET_client_not_creator(self):
+        response = self.client_authenticated_not_creator.get(self.update_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+    def test_update_task_POST(self):
+        self.assertEqual(Task.objects.all().count(), 1)
+
+        task_data = {
+            'name': 'Test_task_1_updated',
+            'description': 'Test_task_1_description_updated',
+            'status': self.status_id_2.id,
+            'labels': self.test_label_id_1.id
+        }
+
+        response = self.client_authenticated.post(
+            self.update_url, task_data)
+
+        updated_task = Task.objects.last()
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(Task.objects.all().count(), 1)
+        self.assertEqual(updated_task.name, 'Test_task_1_updated')
+        self.assertEqual(updated_task.id, 1)
+        self.assertEqual(updated_task.creator.username, 'user_authenticated')
+        self.assertRedirects(response, self.list_url)
+
+    def test_update_task_POST_unauthenticated_client(self):
+        response = self.client_unauthenticated.post(self.update_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+    def test_update_task_POST_client_not_creator(self):
+
+        task_data = {
+            'name': 'Test_task_1_updated',
+            'description': 'Test_task_1_description_updated',
+            'status': self.status_id_2.id,
+            'labels': self.test_label_id_1.id
+        }
+
+        response = self.client_authenticated_not_creator.post(
+            self.update_url, task_data)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(Status.objects.get(id=1).name, 'Test_status_1')
+
+    def test_delete_task_GET(self):
+        response = self.client_authenticated.get(self.delete_url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        # with self.assertTemplateUsed('update_user.html'):
-        #     render_to_string('update_user.html')
         self.assertEqual(response.context.get('title'), 'Delete task')
         self.assertEqual(response.context.get('action'), 'Delete task')
         self.assertEqual(response.context.get('button_text'), 'Delete')
+        self.assertTemplateUsed(response, 'delete_user.html')
 
-    def test_delete_tasks_post(self):
+    def test_delete_task_GET_unauthenticated_client(self):
+        response = self.client_unauthenticated.get(self.delete_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
-        form_data = {
-            'name': 'task_to_del',
-            'description': 'desc_task',
-            'status': self.status_id1.id,
-        }
+    def test_delete_task_GET_client_not_creator(self):
+        response = self.client_authenticated_not_creator.get(self.delete_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
-        response = self.client_auth.post(
-            reverse('create_task'),
-            data=form_data,
-            follow=True
-        )
+    def test_delete_task_POST(self):
+        self.assertEqual(Task.objects.all().count(), 1)
 
-        created_object = Task.objects.last()
-        self.assertEqual(Task.objects.count(), 2)
+        response = self.client_authenticated.post(
+            self.delete_url)
 
-        delete_response = self.client_auth.post(
-            reverse('delete_task',
-            kwargs={'pk': created_object.pk})
-        )
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(Task.objects.all().count(), 0)
+        self.assertRedirects(response, self.list_url)
 
-        self.assertEqual(delete_response.status_code, 302)
-        self.assertEqual(Status.objects.count(), 2)
+    def test_delete_task_POST_unauthenticated_client(self):
+        response = self.client_unauthenticated.post(self.delete_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+    def test_delete_task_POST_client_not_creator(self):
+        response = self.client_authenticated_not_creator.post(
+            self.delete_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(Task.objects.get(id=1).name, 'Test_task_1')

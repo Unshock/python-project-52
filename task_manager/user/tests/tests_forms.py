@@ -1,162 +1,79 @@
 from http import HTTPStatus
+
+
 from django.urls import reverse
 from task_manager.statuses.models import Status
-from .tests_settings import SettingsUsers
+from .settings_for_tests import SettingsUsers
+from ..forms import RegisterUserForm, UpdateUserForm, LoginUserForm
 from ..models import User
 from django.test import Client
 
 
 class UserFormTest(SettingsUsers):
-    def test_valid_creation_form(self):
 
-        user_count_before = User.objects.count()
-
-        form_data = {
+    def test_valid_register_form(self):
+        form = RegisterUserForm(data={
             'username': 'New_user',
-            'first_name': 'John',
-            'last_name': 'Novichek',
-            'password1': 'qweR19Tyui',
-            'password2': 'qweR19Tyui'
-        }
+            'first_name': 'New_user_first_name',
+            'last_name': 'New_user_last_name',
+            'password1': 'QWE321rty',
+            'password2': 'QWE321rty'
+        })
 
-        response = self.client.post(
-            reverse('create_user'),
-            data=form_data,
-            follow=True
-        )
+        self.assertTrue(form.is_valid())
 
-        user_count_after = User.objects.count()
-        created_object = User.objects.last()
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(user_count_before + 1, user_count_after)
-        self.assertEqual(user_count_after, 3)
-        self.assertEqual(created_object.id, 3)
-        self.assertEqual(created_object.username, "New_user")
-        self.assertEqual(created_object.first_name, "John")
-        self.assertEqual(created_object.last_name, "Novichek")
-        self.assertTrue(created_object.password)
+    def test_invalid_register_form(self):
 
-
-
-    def test_invalid_creation_form(self):
-
-        user_count_before = User.objects.count()
-
-        invalid_form_data = {
-            'username': 'New_user',
-            'first_name': 'John',
-            'last_name': 'Novichek',
+        form = RegisterUserForm(data={
+            'username': 'New_user'*100,
+            'first_name': 'New_user_first_name'*100,
+            'last_name': 'New_user_last_name'*100,
             'password1': '1',
             'password2': '1'
-        }
+        })
 
-        response = self.client.post(
-            reverse('create_user'),
-            data=invalid_form_data,
-            follow=True
-        )
-
-        user_count_after = User.objects.count()
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(user_count_before, user_count_after)
-        self.assertEqual(user_count_after, 2)
-
+        self.assertFalse(form.is_valid())
+        self.assertEqual(len(form.errors), 4)
 
     def test_valid_update_form(self):
+        form = UpdateUserForm(data={
+            'username': 'New_user_updated',
+            'first_name': 'New_user_first_name_updated',
+            'last_name': 'New_user_last_name_updated',
+        })
 
-        user_count_before = User.objects.count()
-
-        create_form_data = {
-            'username': 'New_user',
-            'first_name': 'John',
-            'last_name': 'Novichek',
-            'password1': 'qweR19Tyui',
-            'password2': 'qweR19Tyui'
-        }
-
-        client_new = Client()
-        create_response = self.client.post(
-            reverse('create_user'),
-            data=create_form_data,
-            follow=True
-        )
-
-        user_new = User.objects.last()
-        client_new.force_login(user_new)
-
-        created_object = User.objects.last()
-
-        update_form_data = {
-            'username': 'New_user-update',
-            'first_name': 'John-update',
-            'last_name': 'Novichek-update',
-            'password1': 'qweR19Tyui',
-            'password2': 'qweR19Tyui'
-        }
-
-        response = client_new.post(
-            reverse('update_user', kwargs={'user_id': created_object.pk}),
-            data=update_form_data,
-            follow=True
-        )
-
-        user_count_after = User.objects.count()
-        updated_object = User.objects.last()
-
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(user_count_before + 1, user_count_after)
-        self.assertEqual(user_count_after, 3)
-        self.assertEqual(updated_object.id, 3)
-        self.assertEqual(updated_object.username, "New_user-update")
-        self.assertEqual(updated_object.first_name, "John-update")
-        self.assertEqual(updated_object.last_name, "Novichek-update")
-        self.assertTrue(updated_object.password)
-
+        self.assertTrue(form.is_valid())
 
     def test_invalid_update_form(self):
 
-        user_count_before = User.objects.count()
+        form = UpdateUserForm(data={
+            'username': 'New_user'*100,
+            'first_name': 'New_user_first_name'*100,
+            'last_name': 'New_user_last_name'*100,
+        })
 
-        create_form_data = {
-            'username': 'New_user',
-            'first_name': 'John',
-            'last_name': 'Novichek',
-            'password1': 'qweR19Tyui',
-            'password2': 'qweR19Tyui'
-        }
+        self.assertFalse(form.is_valid())
+        self.assertEqual(len(form.errors), 3)
 
-        client_new = Client()
-        create_response = self.client.post(
-            reverse('create_user'),
-            data=create_form_data,
-            follow=True
-        )
+    def test_valid_login_form(self):
+        
+        print(User.objects.all()[2].is_authenticated)
+        print(User.objects.all()[2].username)
+        form = LoginUserForm(data={
+            'username': 'user_authenticated',
+            'password': 'QWE321rty',
+        })
+        print(form.errors)
+        self.assertTrue(form.is_valid())
 
-        user_new = User.objects.last()
-        client_new.force_login(user_new)
+    def test_invalid_login_form(self):
 
-        created_object = User.objects.last()
+        form = LoginUserForm(data={
+            'username': 'New_user'*100,
+            'password': '1'
+        })
 
-        update_form_data = {
-            'username': 'New_user-update'*100,
-            'first_name': 'John-update',
-            'last_name': 'Novichek-update',
-        }
+        print(form.errors)
 
-        response = client_new.post(
-            reverse('update_user', kwargs={'user_id': created_object.pk}),
-            data=update_form_data,
-            follow=True
-        )
-
-        user_count_after = User.objects.count()
-        updated_object = User.objects.last()
-
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(user_count_before + 1, user_count_after)
-        self.assertEqual(user_count_after, 3)
-        self.assertEqual(updated_object.id, 3)
-        self.assertEqual(updated_object.username, "New_user")
-        self.assertEqual(updated_object.first_name, "John")
-        self.assertEqual(updated_object.last_name, "Novichek")
-        self.assertTrue(updated_object.password)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(len(form.errors), 2)

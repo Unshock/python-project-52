@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+from django.db.models import ProtectedError
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -25,7 +26,7 @@ from task_manager.user.forms import RegisterUserForm, LoginUserForm
 
 class Users(ListView):
     model = User
-    template_name = 'users/users.html'
+    template_name = 'users/user_list.html'
     context_object_name = 'user'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -102,12 +103,12 @@ class UpdateUser(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     message_text = _("has been successfully updated!")
     success_message = "%(username)s " + message_text
-    pk_url_kwarg = "user_id"
+
 
 
     def get(self, request, *args, **kwargs):
         user_is_stuff = User.objects.get(id=request.user.id).is_staff
-        if request.user.id == kwargs['user_id'] or user_is_stuff:
+        if request.user.id == kwargs['pk'] or user_is_stuff:
             return super().get(request, *args, **kwargs)
 
         message_text = _('You do not have permission to update another user')
@@ -145,21 +146,30 @@ class DeleteUser(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
     message_text = _("User has been successfully deleted!")
     success_message = message_text
-    pk_url_kwarg = "user_id"
+
 
     def get(self, request, *args, **kwargs):
         user_is_stuff = User.objects.get(id=request.user.id).is_staff
-        if request.user.id != kwargs['user_id'] and not user_is_stuff:
+        if request.user.id != kwargs['pk'] and not user_is_stuff:
             message = _('You do not have permission to delete another user')
             messages.error(request, message)
             return redirect('users')
 
-        if len(User.objects.get(id=kwargs['user_id']).executor.all()) > 0:
+        # old version of protect
+        #if len(User.objects.get(id=kwargs['user_id']).executor.all()) > 0:
+        #    message = _('User that has tasks can not be deleted')
+        #    messages.error(request, message)
+        #    return redirect('users')
+
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return super().post(request, *args, **kwargs)
+        except ProtectedError:
             message = _('User that has tasks can not be deleted')
             messages.error(request, message)
             return redirect('users')
-
-        return super().get(request, *args, **kwargs)
 
 
     def get_context_data(self, *, object_list=None, **kwargs):

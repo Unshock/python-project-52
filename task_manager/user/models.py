@@ -14,10 +14,10 @@ class User(AbstractUser):
         return self.first_name + ' ' + self.last_name
 
     def get_update_url(self):
-        return reverse('update_user', kwargs={'user_id': self.pk})
+        return reverse('update_user', kwargs={'pk': self.pk})
 
     def get_delete_url(self):
-        return reverse('delete_user', kwargs={'user_id': self.pk})
+        return reverse('delete_user', kwargs={'pk': self.pk})
 
 # class User1(models.Model):
 #     objects = None

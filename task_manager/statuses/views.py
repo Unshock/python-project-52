@@ -1,16 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render, redirect
-
-
-# Create your views here.
-from django.urls import reverse_lazy, reverse
+from django.db.models import ProtectedError
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from task_manager.statuses.forms import CreateStatusForm
+from task_manager.statuses.forms import StatusForm
 from task_manager.statuses.models import Status
-from task_manager.user.models import User
 from django.utils.translation import gettext as _
 
 
@@ -25,7 +22,7 @@ class Statuses(LoginRequiredMixin, ListView):
 
         context = super().get_context_data(**kwargs)
         context['title'] = title
-        context['statuses_list'] = Status.objects.all()
+        context['status_list'] = Status.objects.all()
         return context
 
     #сюда довабить фильтр
@@ -35,13 +32,12 @@ class Statuses(LoginRequiredMixin, ListView):
 
 class CreateStatus(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     login_url = 'login'
-    form_class = CreateStatusForm
+    form_class = StatusForm
     template_name = 'create_user.html'
     success_url = reverse_lazy('statuses')
 
     message_text = _("Status has been successfully created!")
     success_message = message_text
-
 
     def get_context_data(self, *, object_list=None, **kwargs):
         title = _("Status creation")
@@ -70,17 +66,23 @@ class UpdateStatus(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     message_text = _("Status has been successfully updated!")
     success_message = message_text
 
-    pk_url_kwarg = "status_id"
-
-    def get(self, request, *args, **kwargs):
-        creator_id = Status.objects.get(id=kwargs['status_id']).creator_id
-        user_is_stuff = User.objects.get(id=request.user.id).is_staff
-        if request.user.id == creator_id or user_is_stuff:
-            return super().get(request, *args, **kwargs)
-
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().creator.id == request.user.id \
+                or request.user.is_staff:
+            return super().dispatch(request, *args, **kwargs)
         message_text = _('You can update only your statuses')
         messages.error(request, message_text)
         return redirect('statuses')
+
+    # def get(self, request, *args, **kwargs):
+    #     creator_id = Status.objects.get(id=kwargs['pk']).creator_id
+    #     user_is_stuff = User.objects.get(id=request.user.id).is_staff
+    #     if request.user.id == creator_id or user_is_stuff:
+    #         return super().get(request, *args, **kwargs)
+    # 
+    #     message_text = _('You can update only your statuses')
+    #     messages.error(request, message_text)
+    #     return redirect('statuses')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         title = _("Update status")
@@ -108,25 +110,40 @@ class DeleteStatus(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
     message_text = _("Status has been successfully deleted!")
     success_message = message_text
-    pk_url_kwarg = "status_id"
 
-    def get(self, request, *args, **kwargs):
-
-        creator_id = Status.objects.get(id=kwargs['status_id']).creator_id
-        user_is_stuff = User.objects.get(id=request.user.id).is_staff
-        if request.user.id == creator_id or user_is_stuff:
-            return super().get(request, *args, **kwargs)
-
-        message_text = _('You can delete only your statuses')
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().creator.id == request.user.id \
+                or request.user.is_staff:
+            return super().dispatch(request, *args, **kwargs)
+        message_text = _('You can update only your labels')
         messages.error(request, message_text)
+        return redirect('labels')
+    # 
+    # def get(self, request, *args, **kwargs):
+    # 
+    #     creator_id = Status.objects.get(id=kwargs['pk']).creator_id
+    #     user_is_stuff = User.objects.get(id=request.user.id).is_staff
+    #     if request.user.id == creator_id or user_is_stuff:
+    #         return super().get(request, *args, **kwargs)
+    # 
+    #     message_text = _('You can delete only your statuses')
+    #     messages.error(request, message_text)
+    # 
+    #     return redirect('statuses')
 
-        return redirect('statuses')
+    def post(self, request, *args, **kwargs):
+        try:
+            return super().post(request, *args, **kwargs)
+        except ProtectedError:
+            message = _('Status that is used for tasks can not be deleted')
+            messages.error(request, message)
+            return redirect('statuses')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         title = _("Delete status")
         action = _("Delete status")
         button_text = _("Delete")
-        
+
         context = super().get_context_data(**kwargs)
         context['title'] = title
         context["action"] = action

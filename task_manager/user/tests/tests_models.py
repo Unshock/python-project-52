@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.urls import reverse
 
 from task_manager.statuses.models import Status
-from .tests_settings import SettingsUsers
+from .settings_for_tests import SettingsUsers
 from ..models import User
 
 

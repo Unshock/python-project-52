@@ -11,21 +11,11 @@ from .models import Status
 
 
 
-class CreateStatusForm(ModelForm):
+class StatusForm(ModelForm):
     name = forms.CharField(label='Имя', widget=forms.TextInput(
         attrs={"class": "form-control"}))
-    
+
     class Meta:
         model = Status
         #fields = '__all__'
-        fields = ['name']
-
-
-
-class UpdateStatusForm(ModelForm):
-    name = forms.CharField(label='Имя', widget=forms.TextInput(
-        attrs={"class": "form-control"}))
-
-    class Meta:
-        model = Status
         fields = ['name']

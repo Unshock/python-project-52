@@ -23,10 +23,10 @@ class Status(models.Model):
         return reverse('create_status')
 
     def get_update_url(self):
-        return reverse('update_status', kwargs={'status_id': self.pk})
+        return reverse('update_status', kwargs={'pk': self.pk})
 
     def get_delete_url(self):
-        return reverse('delete_status', kwargs={'status_id': self.pk})
+        return reverse('delete_status', kwargs={'pk': self.pk})
 
     class Meta:
         verbose_name = "Статус"

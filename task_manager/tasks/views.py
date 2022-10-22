@@ -3,9 +3,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic import ListView, CreateView, UpdateView,\
+    DeleteView, DetailView
+
 from task_manager.statuses.models import Status
-from task_manager.tasks.forms import CreateTaskForm, UpdateTaskForm
+from task_manager.tasks.forms import TaskForm
 from task_manager.tasks.models import Task
 from django.utils.translation import gettext as _
 
@@ -33,7 +35,7 @@ class Tasks(LoginRequiredMixin, ListView):
 
 class CreateTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     login_url = 'login'
-    form_class = CreateTaskForm
+    form_class = TaskForm
     template_name = 'tasks/create_task.html'
     success_url = reverse_lazy('tasks')
 
@@ -60,7 +62,7 @@ class CreateTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
 class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     login_url = 'login'
-    form_class = UpdateTaskForm
+    form_class = TaskForm
     redirect_field_name = 'redirect_to'
     model = Task
     #fields = ['name', 'description', 'status', 'executor']
@@ -70,20 +72,13 @@ class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     message_text = _("Task has been successfully updated!")
     success_message = message_text
 
-    def get(self, request, *args, **kwargs):
-        creator_id = Task.objects.get(id=kwargs['pk']).creator_id
-        user_is_stuff = User.objects.get(id=request.user.id).is_staff
-
-        if request.user.id != creator_id and not user_is_stuff:
-            message_text = _('You can update only your tasks')
-            messages.error(request, message_text)
-            return redirect('tasks')
-        
-        preselected = Task.objects.get(id=kwargs['pk']).labels
-        #print(Task.objects.get(id=kwargs['pk']).labels.all())
-        #print('1111111111111111111', preselected, kwargs['pk'])
-        print(super().get(request, *args, **kwargs))
-        return super().get(request, *args, **kwargs)
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().creator.id == request.user.id \
+                or request.user.is_staff:
+            return super().dispatch(request, *args, **kwargs)
+        message_text = _('You can update only your tasks')
+        messages.error(request, message_text)
+        return redirect('tasks')
 
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -91,7 +86,6 @@ class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         action = _("Update task")
         button_text = _("Update")
         context = super().get_context_data(**kwargs)
-        #context['initial'] = Task.objects.get(id=kwargs['pk']).all()
         context['title'] = title
         context["action"] = action
         context['button_text'] = button_text
@@ -115,17 +109,13 @@ class DeleteTask(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     message_text = _("Task has been successfully deleted!")
     success_message = message_text
 
-
-    def get(self, request, *args, **kwargs):
-        creator_id = Task.objects.get(id=kwargs['pk']).creator_id
-        user_is_stuff = User.objects.get(id=request.user.id).is_staff
-
-        if request.user.id != creator_id and not user_is_stuff:
-            message_text = _('You can delete only your tasks')
-            messages.error(request, message_text)
-            return redirect('tasks')
-
-        return super().get(request, *args, **kwargs)
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().creator.id == request.user.id \
+                or request.user.is_staff:
+            return super().dispatch(request, *args, **kwargs)
+        message_text = _('You can delete only your tasks')
+        messages.error(request, message_text)
+        return redirect('tasks')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         title = _("Delete task")

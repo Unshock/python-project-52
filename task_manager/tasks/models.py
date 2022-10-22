@@ -20,19 +20,20 @@ class Task(models.Model):
         User, on_delete=models.PROTECT,
         verbose_name="Исполнитель", related_name='executor', null=True)
     status = models.ForeignKey(
-        Status, on_delete=models.SET_DEFAULT,
-        default="1",
+        Status, on_delete=models.PROTECT,
         verbose_name="Назначенный статус")
     labels = models.ManyToManyField(
-        Label, blank=True, related_name='tasks', )
+        Label,
+        through='TasksLabels',
+        through_fields=('task', 'label'),
+        blank=True,
+        related_name='tasks',
+    )
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('create_task')
-
-    def get_detail_url(self):
         return reverse('detail_task', kwargs={'pk': self.pk})
 
     def get_update_url(self):
@@ -45,3 +46,20 @@ class Task(models.Model):
         verbose_name = "Задача"
         verbose_name_plural = "Задачи"
         ordering = ['creation_date', 'name']
+
+
+class TasksLabels(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE,
+                             null=True,
+                             )
+    label = models.ForeignKey(Label, on_delete=models.PROTECT,
+                              null=True,
+                              )
+
+    class Meta:
+        verbose_name = "Метка задачи"
+        verbose_name_plural = "Метки задач"
+        ordering = ['task']
+
+
+
