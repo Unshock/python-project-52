@@ -49,3 +49,7 @@ class TaskForm(ModelForm):
     class Meta:
         model = Task
         fields = ['name', 'description', 'executor', 'labels', 'status']
+
+
+class MyForm(forms.Form):
+    self_tasks = forms.BooleanField(required=False, initial=False)

@@ -1,6 +1,8 @@
 {% extends 'index.html' %}
 {% load user_tags %}
 {% load i18n %}
+{% load bootstrap4 %}
+{% load crispy_forms_filters %}
 {% block content %}
     <div class="container wrapper flex-grow-1">
         
@@ -9,6 +11,26 @@
             <div class="d-flex justify-content-left my-4">
                 <a class="btn btn-primary btn-sm" href="{% url "create_task" %}" role="button">Create task</a>
             </div>
+            
+            
+    
+            <div class="card text-black d-flex justify-content-left my-4" style="border-radius: 5px">
+                <div class="card-body bg-light p-md-2">    
+                    <form method="get">
+                        
+                        {{ form }}
+
+                        {% buttons %}
+                            <div class="d-flex justify-content-left my-3">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    Показать
+                                </button>
+                            </div>
+                        {% endbuttons %}
+                     </form>
+                </div>
+            </div>
+        
             
             <table class="table table-striped">
                 <thead>
@@ -24,7 +46,7 @@
                 </thead>
                 
                 <tbody method="get">
-                    {% for task in task_list %}
+                    {% for task in tasks %}
                     <tr>
                         <td>{{ task.id }}</td>
                         <td><a href="{{ task.get_absolute_url }}">{{ task.name }}</a></td>

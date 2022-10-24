@@ -10,7 +10,7 @@ class TaskModelsTest(SettingsTasks):
         self.assertEqual(self.test_task_id_1.name, "Test_task_1")
         self.assertEqual(self.test_task_id_1.creator.username, "user_authenticated")
         self.assertEqual(self.test_task_id_1.executor.last_name, "UserNotAdmin")
-        self.assertEqual(Task.objects.count(), 1)
+        self.assertEqual(Task.objects.count(), 3)
         self.assertEqual(self.test_task_id_1.status.name, "Test_status_1")
         self.assertEqual(self.test_task_id_1._meta.get_field('name').verbose_name,
                          "Имя задачи")

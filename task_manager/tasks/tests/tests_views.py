@@ -17,13 +17,13 @@ class TestTasksViews(SettingsTasks):
     def test_task_list_GET(self):
 
         response = self.client_authenticated.get(self.list_url)
-        task_list = response.context.get('task_list')
+        tasks = response.context.get('tasks')
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(response.context.get('title'), 'Task list')
-        self.assertEqual(len(task_list), 1)
-        self.assertEqual(task_list[0].name, 'Test_task_1')
-        self.assertEqual(task_list[0].creator.username, 'user_authenticated')
+        self.assertEqual(len(tasks), 3)
+        self.assertEqual(tasks[0].name, 'Test_task_1')
+        self.assertEqual(tasks[0].creator.username, 'user_authenticated')
         self.assertTemplateUsed(response, 'tasks/task_list.html')
 
     def test_task_list_GET_unauthenticated_client(self):
@@ -43,11 +43,11 @@ class TestTasksViews(SettingsTasks):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_create_task_POST(self):
-        self.assertEqual(Task.objects.all().count(), 1)
+        self.assertEqual(Task.objects.all().count(), 3)
 
         task_data = {
-            'name': 'Test_task_3',
-            'description': 'Test_task_3_description',
+            'name': 'Test_task_4',
+            'description': 'Test_task_4_description',
             'status': self.status_id_2.id,
             'labels': self.test_label_id_1.id
         }
@@ -58,9 +58,9 @@ class TestTasksViews(SettingsTasks):
         created_task = Task.objects.last()
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(Task.objects.all().count(), 2)
-        self.assertEqual(created_task.name, 'Test_task_3')
-        self.assertEqual(created_task.id, 2)
+        self.assertEqual(Task.objects.all().count(), 4)
+        self.assertEqual(created_task.name, 'Test_task_4')
+        self.assertEqual(created_task.id, 4)
         self.assertEqual(created_task.creator.username, 'user_authenticated')
         self.assertRedirects(response, self.list_url)
 
@@ -87,7 +87,7 @@ class TestTasksViews(SettingsTasks):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_update_task_POST(self):
-        self.assertEqual(Task.objects.all().count(), 1)
+        self.assertEqual(Task.objects.all().count(), 3)
 
         task_data = {
             'name': 'Test_task_1_updated',
@@ -99,10 +99,10 @@ class TestTasksViews(SettingsTasks):
         response = self.client_authenticated.post(
             self.update_url, task_data)
 
-        updated_task = Task.objects.last()
+        updated_task = Task.objects.get(id=1)
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(Task.objects.all().count(), 1)
+        self.assertEqual(Task.objects.all().count(), 3)
         self.assertEqual(updated_task.name, 'Test_task_1_updated')
         self.assertEqual(updated_task.id, 1)
         self.assertEqual(updated_task.creator.username, 'user_authenticated')
@@ -143,13 +143,13 @@ class TestTasksViews(SettingsTasks):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_delete_task_POST(self):
-        self.assertEqual(Task.objects.all().count(), 1)
+        self.assertEqual(Task.objects.all().count(), 3)
 
         response = self.client_authenticated.post(
             self.delete_url)
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(Task.objects.all().count(), 0)
+        self.assertEqual(Task.objects.all().count(), 2)
         self.assertRedirects(response, self.list_url)
 
     def test_delete_task_POST_unauthenticated_client(self):

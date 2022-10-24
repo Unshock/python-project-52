@@ -11,26 +11,41 @@ from task_manager.tasks.forms import TaskForm
 from task_manager.tasks.models import Task
 from django.utils.translation import gettext as _
 
+from task_manager.tasks import filters
+
 from task_manager.user.models import User
 
 
 class Tasks(LoginRequiredMixin, ListView):
+    queryset = Task.objects.all()
     login_url = 'login'
     model = Task
     template_name = 'tasks/task_list.html'
-    context_object_name = 'task'
-
+    context_object_name = 'tasks'
+    
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = filters.TaskFilter(
+            self.request.GET,
+            queryset=queryset,
+            user=self.request.user.id
+        )
+        return self.filterset.qs
+    
     def get_context_data(self, *, object_list=None, **kwargs):
         title = _("Task list")
+        #task_filter = filters.TaskFilter(
+       #     self.request.GET,
+        #    queryset=self.get_queryset()
+        #)
 
         context = super().get_context_data(**kwargs)
+        context['form'] = self.filterset.form
         context['title'] = title
-        context['task_list'] = Task.objects.all()
+        #context['task_list'] = Task.objects.all()
+        #context['filter'] = task_filter
         return context
-
-    #сюда довабить фильтр
-    def get_queryset(self):
-        return Status.objects.all()
 
 
 class CreateTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):

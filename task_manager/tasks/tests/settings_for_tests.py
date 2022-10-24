@@ -50,6 +50,16 @@ class SettingsTasks(TestCase):
             creator=cls.user_authenticated,
         )
 
+        cls.test_label_id_1 = Label.objects.create(
+            name="Test_label_1",
+            creator=cls.user_authenticated,
+        )
+
+        cls.test_label_id_2 = Label.objects.create(
+            name="Test_label_2",
+            creator=cls.user_authenticated,
+        )
+
         cls.test_task_id_1 = Task.objects.create(
             name="Test_task_1",
             description="Test_task_1_description",
@@ -58,9 +68,26 @@ class SettingsTasks(TestCase):
             status=cls.status_id_1,
         )
 
-        cls.test_label_id_1 = Label.objects.create(
-            name="Test_task_1",
+        cls.test_task_id_2 = Task.objects.create(
+            name="Test_task_2",
+            description="Test_task_2_description",
             creator=cls.user_authenticated,
+            executor=cls.user_authenticated,
+            status=cls.status_id_2,
+
         )
 
+        cls.test_task_id_2.labels.add(cls.test_label_id_1)
+        cls.test_task_id_2.save()
 
+
+        cls.test_task_id_3 = Task.objects.create(
+            name="Test_task_3",
+            description="Test_task_3_description",
+            creator=cls.user_authenticated_not_creator,
+            executor=cls.user_authenticated_not_creator,
+            status=cls.status_id_2,
+        )
+
+        cls.test_task_id_3.labels.add(cls.test_label_id_2)
+        cls.test_task_id_3.save()

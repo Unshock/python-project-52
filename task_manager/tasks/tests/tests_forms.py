@@ -6,8 +6,8 @@ class TaskFormTest(SettingsTasks):
 
     def test_valid_form(self):
         form = TaskForm(data={
-            'name': 'Test_task_3',
-            'description': 'Test_task_3_description',
+            'name': 'Test_task_4',
+            'description': 'Test_task_4_description',
             'executor': self.user_authenticated_not_creator.id,
             'status': self.status_id_1.id,
         })

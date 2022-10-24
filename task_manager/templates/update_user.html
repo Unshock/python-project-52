@@ -1,5 +1,5 @@
 {% extends 'index.html' %}
-
+{% load bootstrap4 %}
 {% block content %}
 <section class="vh-100 bg-light" >
   <div class="container h-100">
@@ -16,20 +16,15 @@
                 
                     <div class="row-form-errors">{{ form.non_field_errors }}</div>
 
-                    {% for f in form %}
-                    <div class="d-flex flex-row align-items-center mb-4">
-                        <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                        <div class="form-outline flex-fill mb-0">{{ f }}
-                            <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>
-                        </div>
-                        <div class="row-form-errors">{{ f.errors }}</div>
-                    </div>
-                    {% endfor %}
-                    
-                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button type="submit" value="Send" class="btn btn-primary btn-lg">
-                        {{ button_text }}</button>
-                    </div>
+                   {% bootstrap_form form %}
+
+                    {% buttons %}
+                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                {{ button_text }}
+                            </button>
+                        </div> 
+                    {% endbuttons %}
                 </form> 
               
               </div>

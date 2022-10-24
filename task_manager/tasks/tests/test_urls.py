@@ -75,14 +75,12 @@ class TestUrls(SettingsTasks):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, 'delete_user.html')
 
-
     def test_task_delete_unauthenticated_user(self):
         url = reverse('delete_task', kwargs={'pk': 1})
         response = self.client_unauthenticated.get(url)
 
         self.assertEqual(resolve(url).func.view_class, views.DeleteTask)
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-
 
     def test_task_delete_not_creator_user(self):
         url = reverse('delete_task', kwargs={'pk': 1})

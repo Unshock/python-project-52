@@ -11,182 +11,212 @@ from django.test import Client
 from ..models import User
 
 
-class UsersUrlsTest(SettingsUsers):
+class TestUsersViews(SettingsUsers):
 
-    def test_statuses_url(self):
-        response = self.client_auth.get(reverse('users'))
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertIn('users/user_list.html', response.template_name)
+    def setUp(self):
+        self.list_url = reverse('users')
+        self.create_url = reverse('create_user')
+        self.update_url = reverse('update_user', kwargs={'pk': 1})
+        self.delete_url = reverse('delete_user', kwargs={'pk': 1})
+        self.login_url = reverse('login')
 
-    def test_statuses_create_url(self):
-        response = self.client_auth.get(reverse('create_user'))
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        #self.assertTemplateUsed('create_user.html')
+    def test_user_list_GET(self):
 
-    def test_statuses_update_url(self):
-        response = self.client_auth.get(
-            reverse('update_user',
-            kwargs={'user_id': 1})
-        )
+        response = self.client_authenticated.get(self.list_url)
+        user_list = response.context.get('user_list')
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        #with self.assertTemplateUsed('update_user.html'):
-        #    render_to_string('update_user.html')
-        #self.assertTemplateUsed(template_name='update_user.html')
+        self.assertEqual(response.context.get('title'), 'User list')
+        self.assertEqual(len(user_list), 3)
+        self.assertEqual(user_list[0].username, 'user_authenticated')
+        self.assertEqual(user_list[2].username, 'user_unauthenticated')
+        self.assertEqual(user_list[1].first_name, 'AuthenticatedNotCreator')
+        self.assertEqual(user_list[1].last_name, 'UserNotAdmin')
+        self.assertTemplateUsed(response, 'users/user_list.html')
 
+    def test_user_list_GET_unauthenticated_client(self):
+        response = self.client_unauthenticated.get(self.list_url)
+        user_list = response.context.get('user_list')
 
-    def test_statuses_update_url_unauth_user(self):
-        response = self.client.get(
-            reverse('update_user',
-            kwargs={'user_id': 2})
-        )
-
-        self.assertEqual(response.status_code, 302)
-        #with self.assertTemplateUsed('update_user.html'):
-        #    render_to_string('update_user.html')
-        #self.assertTemplateUsed('statuses/status_1list.html')
-
-    def test_statuses_update_url_invalid_user(self):
-        response = self.client_another.get(
-            reverse('update_user',
-            kwargs={'user_id': 1})
-        )
-        self.assertEqual(response.status_code, 302)
-
-
-    def test_statuses_delete_url(self):
-        response = self.client_auth.get(reverse('delete_user',
-                                        kwargs={'user_id': 1}))
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        #self.assertIn('delete_user.html', response.template_name)
+        self.assertEqual(response.context.get('title'), 'User list')
+        self.assertEqual(len(user_list), 3)
+        self.assertEqual(user_list[0].username, 'user_authenticated')
+        self.assertEqual(user_list[2].username, 'user_unauthenticated')
+        self.assertEqual(user_list[1].first_name, 'AuthenticatedNotCreator')
+        self.assertEqual(user_list[1].last_name, 'UserNotAdmin')
+        self.assertTemplateUsed(response, 'users/user_list.html')
 
-
-
-    def test_statuses_delete_url_unauth_user(self):
-        response = self.client.get(reverse('delete_user',
-                                           kwargs={'user_id': 2}))
-        self.assertEqual(response.status_code, 302)
-        #self.assertIn('delete_user.html', response.template_name)
-        
-    def test_statuses_delete_url_invalid_user(self):
-        response = self.client_another.get(
-            reverse('delete_user',
-            kwargs={'user_id': 1})
-        )
-        self.assertEqual(response.status_code, 302)
-        #self.assertIn('delete_user.html', response.template_name)
-
-
-
-class StatusesViewTest(SettingsUsers):
-
-    def test_users_list(self):
-        response = self.client.get(reverse('users'))
+    def test_create_user_GET(self):
+        response = self.client_authenticated.get(self.create_url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('title'), 'Users list')
-        users_list = response.context.get('users_list')
-        self.assertEqual(len(users_list), 2)
-        self.assertEqual(users_list[0].username, 'testuser')
-        self.assertEqual(users_list[1].username, 'testuser_another')
-        self.assertEqual(users_list[1].last_name, 'Smith')
-
-    def test_create_user(self):
-        response = self.client.get(reverse('create_user'))
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        #self.assertIn('create_user.html', response.template_name)
         self.assertEqual(response.context.get('title'), 'User creation')
         self.assertEqual(response.context.get('action'), 'Create new user')
         self.assertEqual(response.context.get('button_text'), 'Create')
+        self.assertTemplateUsed(response, 'create_user.html')
 
-    def test_update_user_get(self):
-        test_pk = 1
-        response = self.client_auth.get(
-            reverse('update_user',
-                    kwargs={'user_id': test_pk}
-                    )
-        )
+    def test_create_user_GET_unauthenticated_client(self):
+        response = self.client_unauthenticated.get(self.create_url)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(response.context.get('title'), 'User creation')
+        self.assertEqual(response.context.get('action'), 'Create new user')
+        self.assertEqual(response.context.get('button_text'), 'Create')
+        self.assertTemplateUsed(response, 'create_user.html')
+
+    def test_create_task_POST(self):
+        self.assertEqual(User.objects.all().count(), 3)
+
+        user_data = {
+            'username': 'Test_user',
+            'first_name': 'Test_user_first_name',
+            'last_name': 'Test_user_last_name',
+            'password1': 'TestPassword987654',
+            'password2': 'TestPassword987654'
+        }
+
+        response = self.client_unauthenticated.post(
+            self.create_url, user_data)
+
+        created_user = User.objects.last()
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(User.objects.all().count(), 4)
+        self.assertEqual(created_user.username, 'Test_user')
+        self.assertEqual(created_user.first_name, 'Test_user_first_name')
+        self.assertEqual(created_user.last_name, 'Test_user_last_name')
+        self.assertTrue(created_user.password)
+        self.assertEqual(created_user.id, 4)
+        self.assertRedirects(response, self.login_url)
+
+    def test_update_user_GET(self):
+        response = self.client_authenticated.get(self.update_url)
+
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(response.context.get('title'), 'Update user')
         self.assertEqual(response.context.get('action'), 'Update user')
         self.assertEqual(response.context.get('button_text'), 'Update')
+        self.assertTemplateUsed(response, 'update_user.html')
 
-    def test_delete_user_get(self):
-        test_pk = 1
-        response = self.client_auth.get(
-            reverse('delete_user',
-            kwargs={'user_id': test_pk}
-                    )
-        )
+    def test_update_user_GET_unauthenticated_client(self):
+        response = self.client_unauthenticated.get(self.update_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+    def test_update_user_GET_client_not_creator(self):
+        response = self.client_authenticated_not_creator.get(self.update_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+    def test_update_user_POST(self):
+        self.assertEqual(User.objects.all().count(), 3)
+
+        user_data = {
+            'username': 'Updated_user',
+            'first_name': 'Updated_user_first_name_',
+            'last_name': 'Updated_user_last_name',
+        }
+
+        response = self.client_authenticated.post(
+            self.update_url, user_data)
+
+        updated_user = User.objects.get(id=1)
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(User.objects.all().count(), 3)
+        self.assertEqual(updated_user.username, 'Updated_user')
+        self.assertEqual(updated_user.first_name, 'Updated_user_first_name_')
+        self.assertEqual(updated_user.last_name, 'Updated_user_last_name')
+        self.assertEqual(updated_user.id, 1)
+        self.assertRedirects(response, self.list_url)
+
+    def test_update_user_POST_unauthenticated_client(self):
+        self.assertEqual(User.objects.all().count(), 3)
+
+        user_data = {
+            'username': 'Updated_user',
+            'first_name': 'Updated_user_first_name_',
+            'last_name': 'Updated_user_last_name',
+        }
+
+        response = self.client_unauthenticated.post(
+            self.update_url, user_data)
+
+        updated_user = User.objects.get(id=1)
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(User.objects.all().count(), 3)
+        self.assertEqual(updated_user.username, 'user_authenticated')
+        self.assertEqual(updated_user.first_name, 'Authenticated')
+        self.assertEqual(updated_user.last_name, 'UserNotAdmin')
+        self.assertEqual(updated_user.id, 1)
+
+    def test_update_user_POST_client_not_creator(self):
+        self.assertEqual(User.objects.all().count(), 3)
+
+        user_data = {
+            'username': 'Updated_user',
+            'first_name': 'Updated_user_first_name_',
+            'last_name': 'Updated_user_last_name',
+        }
+
+        response = self.client_unauthenticated.post(
+            self.update_url, user_data)
+
+        updated_user = User.objects.get(id=1)
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(User.objects.all().count(), 3)
+        self.assertEqual(updated_user.username, 'user_authenticated')
+        self.assertEqual(updated_user.first_name, 'Authenticated')
+        self.assertEqual(updated_user.last_name, 'UserNotAdmin')
+        self.assertEqual(updated_user.id, 1)
+
+    def test_delete_user_GET(self):
+        response = self.client_authenticated.get(self.delete_url)
+
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        # with self.assertTemplateUsed('update_user.html'):
-        #     render_to_string('update_user.html')
         self.assertEqual(response.context.get('title'), 'Delete user')
         self.assertEqual(response.context.get('action'), 'Delete user')
         self.assertEqual(response.context.get('button_text'), 'Delete')
+        self.assertTemplateUsed(response, 'delete_user.html')
 
-    def test_delete_user_post(self):
+    def test_delete_user_GET_unauthenticated_client(self):
+        response = self.client_unauthenticated.get(self.delete_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
-        form_data = {
-            'name': 'teststatus5'
-        }
+    def test_delete_user_GET_client_not_creator(self):
+        response = self.client_authenticated_not_creator.get(self.delete_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
-        create_response = self.client_auth.post(
-            reverse('create_status'),
-            data=form_data,
-            follow=True
-        )
-        created_object = Status.objects.last()
-        self.assertEqual(Status.objects.count(), 1)
+    def test_delete_user_POST(self):
+        self.assertEqual(User.objects.all().count(), 3)
 
-        delete_response = self.client_auth.post(
-            reverse('delete_status',
-            kwargs={'status_id': created_object.pk})
-        )
-        self.assertEqual(delete_response.status_code, 302)
-        self.assertEqual(Status.objects.count(), 2)
+        response = self.client_authenticated.post(
+            self.delete_url)
 
-    def test_delete_user_post2(self):
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(User.objects.all().count(), 2)
+        self.assertEqual(User.objects.first().username,
+                         'user_authenticated_not_creator')
+        self.assertRedirects(response, self.list_url)
 
-        user_count_before = User.objects.count()
-        self.assertEqual(user_count_before, 2)
+    def test_delete_user_POST_user_is_task_executor(self):
+        self.assertEqual(User.objects.all().count(), 3)
 
-        create_form_data = {
-            'username': 'New_user',
-            'first_name': 'John',
-            'last_name': 'Novichek',
-            'password1': 'qweR19Tyui',
-            'password2': 'qweR19Tyui'
-        }
+        response = self.client_authenticated.post(
+            reverse('delete_user', kwargs={'pk': 2}))
 
-        client_new = Client()
-        create_response = self.client.post(
-            reverse('create_user'),
-            data=create_form_data,
-            follow=True
-        )
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(User.objects.all().count(), 3)
+        self.assertRedirects(response, self.list_url)
 
-        user_new = User.objects.last()
-        client_new.force_login(user_new)
+    def test_delete_user_POST_unauthenticated_client(self):
+        response = self.client_unauthenticated.post(self.delete_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(User.objects.count(), 3)
+        self.assertEqual(User.objects.first().username, 'user_authenticated')
 
-        created_object = User.objects.last()
-        user_count_after = User.objects.count()
-
-        self.assertEqual(user_count_after, 3)
-        self.assertEqual(created_object.pk, 3)
-
-        response = client_new.post(
-            reverse('delete_user', kwargs={'user_id': created_object.pk}),
-            follow=True
-        )
-
-        user_count_after = User.objects.count()
-        last_object = User.objects.last()
-
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(user_count_before, user_count_after)
-        self.assertEqual(user_count_after, 2)
-        self.assertEqual(last_object.id, 2)
-        self.assertEqual(last_object.username, "testuser_another")
-        self.assertEqual(last_object.first_name, "Another")
-        self.assertEqual(last_object.last_name, "Smith")
-        self.assertTrue(last_object.password)
+    def test_delete_user_POST_client_not_creator(self):
+        response = self.client_authenticated_not_creator.post(
+            self.delete_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(User.objects.count(), 3)
+        self.assertEqual(User.objects.first().username, 'user_authenticated')
