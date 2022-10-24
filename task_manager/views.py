@@ -5,6 +5,9 @@ import os
 
 
 def index(request, status=None):
+    # a = None
+    # a.hello() # Creating an error with an invalid line of code
+    # return HttpResponse("Hello, world. You're at the pollapp index.")
     times = int(os.environ.get('TIMES', 3))
     return render(request, 'index.html', context={
         "who": "World"*times,

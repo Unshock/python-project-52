@@ -21,7 +21,9 @@ class Task(models.Model):
         verbose_name="Исполнитель", related_name='executor', null=True)
     status = models.ForeignKey(
         Status, on_delete=models.PROTECT,
-        verbose_name="Назначенный статус")
+        verbose_name="Назначенный статус",
+        related_name="tasks"
+    )
     labels = models.ManyToManyField(
         Label,
         through='TasksLabels',

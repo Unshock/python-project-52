@@ -31,6 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = str(os.getenv('SECRET_KEY_DJANGO'))
+ROLLBAR = str(os.getenv('ROLLBAR'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -76,6 +77,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "rollbar.contrib.django.middleware.RollbarNotifierMiddleware",
 ]
 
 ROOT_URLCONF = "task_manager.urls"
@@ -189,3 +191,10 @@ MESSAGE_TAGS = {
  }
 
 #LOGIN_REDIRECT_URL = '/'
+
+ROLLBAR = {
+    'access_token': ROLLBAR,
+    'environment': 'development' if DEBUG else 'production',
+    'code_version': '1.0',
+    'root': BASE_DIR,
+}

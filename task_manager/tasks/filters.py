@@ -16,9 +16,10 @@ class TaskFilter(django_filters.FilterSet):
         super(TaskFilter, self).__init__(*args, **kwargs)
 
     statuses = Status.objects.all()
-    status = django_filters.ChoiceFilter(
+    status = django_filters.ModelChoiceFilter(
         label='Status',
-        choices=[(status.id, status.name) for status in statuses],
+        queryset=statuses,
+        #choices=[(status.id, status.name) for status in statuses],
         method='filter_by_status',
         widget=forms.Select(
             attrs={"class": "form-control"}
@@ -26,9 +27,10 @@ class TaskFilter(django_filters.FilterSet):
     )
 
     labels = Label.objects.all()
-    label = django_filters.ChoiceFilter(
+    label = django_filters.ModelChoiceFilter(
         label='Label',
-        choices=[(label.id, label.name) for label in labels],
+        queryset=labels,
+        #choices=[(label.id, label.name) for label in labels],
         method='filter_by_label',
         widget=forms.Select(
             attrs={"class": "form-control"}
@@ -36,9 +38,10 @@ class TaskFilter(django_filters.FilterSet):
     )
 
     executors = User.objects.all()
-    executor = django_filters.ChoiceFilter(
+    executor = django_filters.ModelChoiceFilter(
         label='Executor',
-        choices=[(executor.id, executor.username) for executor in executors],
+        queryset=executors,
+        #choices=[(executor.id, executor.username) for executor in executors],
         method='filter_by_executor',
         widget=forms.Select(
             attrs={"class": "form-control"}

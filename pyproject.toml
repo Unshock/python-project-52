@@ -18,6 +18,7 @@ django-bootstrap4 = "^22.2"
 python-gettext = "^4.1"
 django-filter = "^22.1"
 django-crispy-forms = "^1.14.0"
+rollbar = "^0.16.3"
 
 
 [build-system]
