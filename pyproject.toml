@@ -18,7 +18,7 @@ python-gettext = "^4.1"
 django-filter = "^22.1"
 django-crispy-forms = "^1.14.0"
 rollbar = "^0.16.3"
-dj-database-url = "^1.0.0"
+dj-database-url = "0.5.0"
 
 
 [build-system]
