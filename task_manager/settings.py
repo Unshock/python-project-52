@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = str(os.getenv('SECRET_KEY_DJANGO'))
-ROLLBAR = str(os.getenv('ROLLBAR'))
+ROLLBAR_TOKEN = str(os.getenv('ROLLBAR'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -194,7 +194,7 @@ MESSAGE_TAGS = {
 #LOGIN_REDIRECT_URL = '/'
 
 ROLLBAR = {
-    'access_token': ROLLBAR,
+    'access_token': ROLLBAR_TOKEN,
     'environment': 'development' if DEBUG else 'production',
     'code_version': '1.0',
     'root': BASE_DIR,
