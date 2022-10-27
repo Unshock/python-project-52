@@ -7,15 +7,15 @@
             <h1 class="my-4">{{ title }}</h1>
     
             <div class="d-flex justify-content-left my-4">
-                <a class="btn btn-primary btn-sm" href="{% url "create_status" %}" role="button">Create status</a>
+                <a class="btn btn-primary btn-sm" href="{% url "create_status" %}" role="button">{% translate "Create status" %}</a>
             </div>
             
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Имя</th>
-                        <th>Дата создания</th>
+                        <th>{% translate "Name" %}</th>
+                        <th>{% translate "Creation date" %}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -27,9 +27,9 @@
                         <td>{{ status.name }}</td>
                         <td>{{ status.creation_date }}</td>
                         <td>
-                          <a href="{{ status.get_update_url }}">Изменить</a>
+                          <a href="{{ status.get_update_url }}">{% translate "Update" %}</a>
                           <br>
-                          <a href="{{ status.get_delete_url }}">Удалить</a>
+                          <a href="{{ status.get_delete_url }}">{% translate "Delete" %}</a>
                         </td>
                     </tr>
                     {% endfor %} 

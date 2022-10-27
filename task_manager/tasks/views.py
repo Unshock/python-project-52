@@ -10,6 +10,7 @@ from task_manager.statuses.models import Status
 from task_manager.tasks.forms import TaskForm
 from task_manager.tasks.models import Task
 from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as __
 
 from task_manager.tasks import filters
 
@@ -54,14 +55,14 @@ class CreateTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'tasks/create_task.html'
     success_url = reverse_lazy('tasks')
 
-    message_text = _("Task has been successfully created!")
+    message_text = __("Task has been successfully created!")
     success_message = message_text
 
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        title = _("Task creation")
-        action = _("Create new task")
-        button_text = _("Create")
+        title = __("Task creation")
+        action = __("Create new task")
+        button_text = __("Create")
 
         context = super().get_context_data(**kwargs)
         context['title'] = title
@@ -84,22 +85,22 @@ class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = "tasks/create_task.html"
     success_url = reverse_lazy('tasks')
 
-    message_text = _("Task has been successfully updated!")
+    message_text = __("Task has been successfully updated!")
     success_message = message_text
 
     def dispatch(self, request, *args, **kwargs):
         if self.get_object().creator.id == request.user.id \
                 or request.user.is_staff:
             return super().dispatch(request, *args, **kwargs)
-        message_text = _('You can update only your tasks')
+        message_text = __('You can update only your tasks')
         messages.error(request, message_text)
         return redirect('tasks')
 
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        title = _("Update task")
-        action = _("Update task")
-        button_text = _("Update")
+        title = __("Update task")
+        action = __("Update task")
+        button_text = __("Update")
         context = super().get_context_data(**kwargs)
         context['title'] = title
         context["action"] = action
@@ -121,14 +122,14 @@ class DeleteTask(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     template_name = "delete_user.html"
     success_url = reverse_lazy('tasks')
 
-    message_text = _("Task has been successfully deleted!")
+    message_text = __("Task has been successfully deleted!")
     success_message = message_text
 
     def dispatch(self, request, *args, **kwargs):
         if self.get_object().creator.id == request.user.id \
                 or request.user.is_staff:
             return super().dispatch(request, *args, **kwargs)
-        message_text = _('You can delete only your tasks')
+        message_text = __('You can delete only your tasks')
         messages.error(request, message_text)
         return redirect('tasks')
 

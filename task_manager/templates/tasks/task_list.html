@@ -9,7 +9,7 @@
             <h1 class="my-4">{{ title }}</h1>
     
             <div class="d-flex justify-content-left my-4">
-                <a class="btn btn-primary btn-sm" href="{% url "create_task" %}" role="button">Create task</a>
+                <a class="btn btn-primary btn-sm" href="{% url "create_task" %}" role="button">{% translate "Create task" %}</a>
             </div>
             
             
@@ -36,11 +36,11 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Имя</th>
-                        <th>Статус</th>
-                        <th>Автор</th>
-                        <th>Исполнитель</th>
-                        <th>Дата создания</th>
+                        <th>{% translate "Name" %}</th>
+                        <th>{% translate "Status" %}</th>
+                        <th>{% translate "Creator" %}</th>
+                        <th>{% translate "Executor" %}</th>
+                        <th>{% translate "Creation date" %}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -55,9 +55,9 @@
                         <td>{{ task.executor }}</td>
                         <td>{{ task.creation_date }}</td>
                         <td>
-                          <a href="{{ task.get_update_url }}">Изменить</a>
+                          <a href="{{ task.get_update_url }}">{% translate "Update" %}</a>
                           <br>
-                          <a href="{{ task.get_delete_url }}">Удалить</a>
+                          <a href="{{ task.get_delete_url }}">{% translate "Delete" %}</a>
                         </td>
                     </tr>
                     {% endfor %} 

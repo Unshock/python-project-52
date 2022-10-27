@@ -9,7 +9,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from task_manager.statuses.forms import StatusForm
 from task_manager.statuses.models import Status
 from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext_lazy as __
 
 
 class Statuses(LoginRequiredMixin, ListView):
@@ -37,13 +37,13 @@ class CreateStatus(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'create_user.html'
     success_url = reverse_lazy('statuses')
 
-    message_text = gettext_lazy("Status has been successfully created!")
+    message_text = __("Status has been successfully created!")
     success_message = message_text
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        title = _("Status creation")
-        action = _("Create new status")
-        button_text = _("Create")
+        title = __("Status creation")
+        action = __("Create new status")
+        button_text = __("Create")
 
         context = super().get_context_data(**kwargs)
         context['title'] = title
