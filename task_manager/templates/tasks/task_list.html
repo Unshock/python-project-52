@@ -17,9 +17,8 @@
             <div class="card text-black d-flex justify-content-left my-4" style="border-radius: 5px">
                 <div class="card-body bg-light p-md-2">    
                     <form method="get">
-                        
-                        {{ form }}
-
+                        {% bootstrap_form_errors form %}
+                        {% bootstrap_form form %}
                         {% buttons %}
                             <div class="d-flex justify-content-left my-3">
                                 <button type="submit" class="btn btn-primary btn-sm">

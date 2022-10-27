@@ -7,6 +7,8 @@ from task_manager.statuses.models import Status
 from task_manager.tasks.forms import MyForm
 from task_manager.tasks.models import Task
 from task_manager.user.models import User
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 
 
 class TaskFilter(django_filters.FilterSet):
@@ -17,39 +19,28 @@ class TaskFilter(django_filters.FilterSet):
 
     statuses = Status.objects.all()
     status = django_filters.ModelChoiceFilter(
-        label='Status',
+        label=_("Status"),
         queryset=statuses,
-        #choices=[(status.id, status.name) for status in statuses],
         method='filter_by_status',
-        widget=forms.Select(
-            attrs={"class": "form-control"}
-        )
     )
 
     labels = Label.objects.all()
     label = django_filters.ModelChoiceFilter(
-        label='Label',
+        label=gettext_lazy("Label"),
         queryset=labels,
-        #choices=[(label.id, label.name) for label in labels],
         method='filter_by_label',
-        widget=forms.Select(
-            attrs={"class": "form-control"}
-        ),
+
     )
 
     executors = User.objects.all()
     executor = django_filters.ModelChoiceFilter(
-        label='Executor',
+        label=gettext_lazy("Executor"),
         queryset=executors,
-        #choices=[(executor.id, executor.username) for executor in executors],
         method='filter_by_executor',
-        widget=forms.Select(
-            attrs={"class": "form-control"}
-        )
     )
 
     self_tasks = django_filters.BooleanFilter(
-        label="Only my tasks",
+        label=_("Only my tasks"),
         widget=forms.CheckboxInput(
             attrs={"class": "form-inline"}
         ),
