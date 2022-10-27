@@ -4,33 +4,33 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, \
 from django.forms import ModelForm
 
 from .models import User
-
+from django.utils.translation import gettext_lazy
 #from task_manager.user.models import User1
 
 
 
 class RegisterUserForm(UserCreationForm):
     username = forms.CharField(
-        label='Имя пользователя', widget=forms.TextInput(
+        label=gettext_lazy('Username'), widget=forms.TextInput(
             attrs={"class": "form-control"}
         )
     )
     first_name = forms.CharField(
-        label='Имя', widget=forms.TextInput(
+        label=gettext_lazy('First name'), widget=forms.TextInput(
             attrs={"class": "form-control"}
         )
     )
     last_name = forms.CharField(
-        label='Фамилия', widget=forms.TextInput(
+        label=gettext_lazy('Last name'), widget=forms.TextInput(
         attrs={"class": "form-control"}
         )
     )
     password1 = forms.CharField(
-        label='Пароль',
+        label=gettext_lazy('Password'),
         widget=forms.PasswordInput(attrs={"class": "form-control"})
     )
     password2 = forms.CharField(
-        label='Подтверждение пароля',
+        label=gettext_lazy('Password confirmation'),
         widget=forms.PasswordInput(attrs={"class": "form-control"})
     )
     class Meta:
@@ -40,23 +40,23 @@ class RegisterUserForm(UserCreationForm):
 
 
 class LoginUserForm(AuthenticationForm):
-    username = forms.CharField(label='Имя пользователя', widget=forms.TextInput(
+    username = forms.CharField(label=gettext_lazy("Username"), widget=forms.TextInput(
         attrs={"class": "form-control"}))
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(
+    password = forms.CharField(label=gettext_lazy('Password'), widget=forms.PasswordInput(
         attrs={"class": "form-control"}))
 
 
 class UpdateUserForm(UserChangeForm):
     username = forms.CharField(
-        label='Имя пользователя',
+        label=gettext_lazy('Username'),
         widget=forms.TextInput(attrs={"class": "form-control"})
     )
     first_name = forms.CharField(
-        label='Имя',
+        label=gettext_lazy('First name'),
         widget=forms.TextInput(attrs={"class": "form-control"})
     )
     last_name = forms.CharField(
-        label='Фамилия',
+        label=gettext_lazy('Last name'),
         widget=forms.TextInput(attrs={"class": "form-control"})
     )
     # password1 = forms.CharField(
@@ -82,13 +82,13 @@ class UpdateUserForm(UserChangeForm):
 class PasswordChangeForm(PasswordChangeForm):
 
     password1 = forms.CharField(
-        label='Пароль',
+        label=gettext_lazy('Password'),
         widget=forms.PasswordInput(
             attrs={"class": "form-control"}
         )
     )
     password2 = forms.CharField(
-        label='Подтверждение пароля',
+        label=gettext_lazy('Password confirmation'),
         widget=forms.PasswordInput(
             attrs={"class": "form-control"}
         )

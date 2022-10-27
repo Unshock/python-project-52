@@ -56,7 +56,7 @@ class CreateUser(SuccessMessageMixin, CreateView):
     def get_context_data(self, *, object_list=None, **kwargs):
         title = _("User creation")
         action = _("Create new user")
-        button_text = _("Create")
+        button_text = _("Register user")
 
         context = super().get_context_data(**kwargs)
         context['title'] = title
