@@ -51,7 +51,7 @@ msgstr "Регистрация"
 
 #: task_manager/labels/views.py:46
 msgid "Create new label"
-msgstr "Регистрация нового пользователя"
+msgstr "Создать метку"
 
 #: task_manager/labels/views.py:47 task_manager/statuses/views.py:46
 #: task_manager/tasks/views.py:64 task_manager/user/views.py:59
@@ -110,7 +110,7 @@ msgstr "Регистрация"
 
 #: task_manager/statuses/views.py:45
 msgid "Create new status"
-msgstr "Регистрация нового пользователя"
+msgstr "Создать статус"
 
 #: task_manager/statuses/views.py:67
 msgid "Status has been successfully updated!"
