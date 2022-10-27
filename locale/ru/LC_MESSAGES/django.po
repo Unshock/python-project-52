@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-27 21:46+0300\n"
+"POT-Creation-Date: 2022-10-27 21:51+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,10 +87,6 @@ msgstr "Удалить метку"
 msgid "Delete"
 msgstr "Удалить"
 
-#: task_manager/labels/views.py:129
-msgid "Label"
-msgstr "Меткa"
-
 #: task_manager/statuses/views.py:22
 msgid "Status list"
 msgstr "Статусы"
@@ -127,12 +123,6 @@ msgstr "Задачи"
 msgid "Delete task"
 msgstr "Удалить задачу"
 
-#: task_manager/tasks/views.py:146
-#: task_manager/templates/tasks/detail_task.html:22
-#: task_manager/templates/tasks/task_list.html:40
-msgid "Status"
-msgstr "Статус"
-
 #: task_manager/tasks/views.py:157
 msgid "Detailed task"
 msgstr "Информация о задаче"
@@ -164,10 +154,10 @@ msgstr "Задачи"
 
 #: task_manager/templates/index.html:57
 msgid "Logout"
-msgstr "Выход"
+msgstr "Вход"
 
 #: task_manager/templates/index.html:63 task_manager/user/views.py:83
-#: task_manager/user/views.py:84 task_manager/user/views.py:85
+#: task_manager/user/views.py:84
 msgid "Login"
 msgstr "Вход"
 
@@ -205,6 +195,11 @@ msgstr "Автор"
 msgid "Executor"
 msgstr "Исполнитель"
 
+#: task_manager/templates/tasks/detail_task.html:22
+#: task_manager/templates/tasks/task_list.html:40
+msgid "Status"
+msgstr "Статус"
+
 #: task_manager/templates/tasks/task_list.html:12
 msgid "Create task"
 msgstr "Создать задачу"
@@ -240,6 +235,10 @@ msgstr "Регистрация нового пользователя"
 #: task_manager/user/views.py:79
 msgid "You have been successfully logged in!"
 msgstr "Вы залогинены"
+
+#: task_manager/user/views.py:85
+msgid "Enter"
+msgstr "Войти"
 
 #: task_manager/user/views.py:99
 msgid "You have been successfully logged out!"
@@ -284,3 +283,6 @@ msgstr "Пользоваетель не может быть удален"
 #: task_manager/user/views.py:184 task_manager/user/views.py:185
 msgid "Delete user"
 msgstr "Удалить пользователя!"
+
+#~ msgid "Label"
+#~ msgstr "Меткa"

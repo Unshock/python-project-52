@@ -82,7 +82,7 @@ class LoginUser(SuccessMessageMixin, LoginView):
     def get_context_data(self, *, object_list=None, **kwargs):
         title = _("Login")
         action = _("Login")
-        button_text = _("Login")
+        button_text = _("Enter")
 
         context = super().get_context_data(**kwargs)
         context['title'] = title
