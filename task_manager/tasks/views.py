@@ -137,11 +137,13 @@ class DeleteTask(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         title = _("Delete task")
         action = _("Delete task")
         button_text = _("Delete")
+        
 
         context = super().get_context_data(**kwargs)
         context['title'] = title
         context["action"] = action
         context['button_text'] = button_text
+        context['delete_object'] = str(Task.objects.get(id=self.get_object().id))
         return context
 
 

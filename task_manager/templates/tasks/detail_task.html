@@ -11,25 +11,25 @@
             <hr>
             <div class="container">
                 <div class="row p-1">
-                    <div class="col">Автор</div>
+                    <div class="col">{% translate "Creator" %}</div>
                         <div class="col">{{ object.creator }}</div>
                         </div>
                     <div class="row p-1">
-                        <div class="col">Исполнитель</div>
+                        <div class="col">{% translate "Executor" %}</div>
                         <div class="col">{{ task.executor }}</div>
                     </div>
                 <div class="row p-1">
-                    <div class="col">Статус</div>
+                    <div class="col">{% translate "Status" %}</div>
                     <div class="col">{{ task.status }}</div>
                 </div>
                 <div class="row p-1">
-                    <div class="col">Дата создания</div>
+                    <div class="col">{% translate "Creation date" %}</div>
                     <div class="col">{{ task.creation_date }}</div>
                 </div>
                 {% if task.labels %}
                 <div class="row p-1">
                     <div class="col">
-                        <h6>Метки:</h6>
+                        <h6>{% translate "Labels" %}:</h6>
                         <ul>
                             {% for label in task.labels.all %}
                             <li>{{ label.name }}</li>
@@ -41,9 +41,9 @@
                 {% endif %}
                 <div class="row p-1">
                     <div class="col">
-                        <a href="{{ task.get_update_url }}">Изменить</a>
+                        <a href="{{ task.get_update_url }}">{% translate "Update" %}</a>
                         <br>
-                        <a href="{{ task.get_delete_url }}">Удалить</a>
+                        <a href="{{ task.get_delete_url }}">{% translate "Delete" %}</a>
                     </div>
                 </div>
             </div>

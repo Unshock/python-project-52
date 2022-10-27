@@ -189,4 +189,5 @@ class DeleteUser(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         context['title'] = title
         context["action"] = action
         context['button_text'] = button_text
+        context['delete_object'] = self.request.user.get_full_name()
         return context

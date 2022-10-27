@@ -126,4 +126,5 @@ class DeleteLabel(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         context['title'] = title
         context["action"] = action
         context['button_text'] = button_text
+        context['delete_object'] = str(Label.objects.get(id=self.get_object().id))
         return context
