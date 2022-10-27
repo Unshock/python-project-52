@@ -11,7 +11,7 @@ from .models import User
 
 class RegisterUserForm(UserCreationForm):
     username = forms.CharField(
-        label='Логин', widget=forms.TextInput(
+        label='Имя пользователя', widget=forms.TextInput(
             attrs={"class": "form-control"}
         )
     )
@@ -48,7 +48,7 @@ class LoginUserForm(AuthenticationForm):
 
 class UpdateUserForm(UserChangeForm):
     username = forms.CharField(
-        label='Логин',
+        label='Имя пользователя',
         widget=forms.TextInput(attrs={"class": "form-control"})
     )
     first_name = forms.CharField(
