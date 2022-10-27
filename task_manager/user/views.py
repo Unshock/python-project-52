@@ -158,7 +158,7 @@ class ChangePassword(LoginRequiredMixin,
 class DeleteUser(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     login_url = 'login'
     model = User
-    template_name = "delete_user.html"
+    template_name = "delete_object_template.html"
     success_url = reverse_lazy('users')
 
     message_text = _("User has been successfully deleted!")

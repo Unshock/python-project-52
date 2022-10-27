@@ -9,7 +9,7 @@ def index(request, status=None):
     # a.hello() # Creating an error with an invalid line of code
     # return HttpResponse("Hello, world. You're at the pollapp index.")
     times = int(os.environ.get('TIMES', 3))
-    return render(request, 'index.html', context={
+    return render(request, 'base.html', context={
         "who": "World"*times,
         "status": status,
     })

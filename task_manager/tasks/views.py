@@ -119,7 +119,7 @@ class DeleteTask(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     login_url = 'login'
     model = Task
     # username = User.objects.get(id=pk).username надобы написать имя в суксесе
-    template_name = "delete_user.html"
+    template_name = "delete_object_template.html"
     success_url = reverse_lazy('tasks')
 
     message_text = __("Task has been successfully deleted!")

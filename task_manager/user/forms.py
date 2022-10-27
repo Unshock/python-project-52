@@ -30,7 +30,7 @@ class RegisterUserForm(UserCreationForm):
         widget=forms.PasswordInput(attrs={"class": "form-control"})
     )
     password2 = forms.CharField(
-        label='Повтор пароля',
+        label='Подтверждение пароля',
         widget=forms.PasswordInput(attrs={"class": "form-control"})
     )
     class Meta:
@@ -80,8 +80,7 @@ class UpdateUserForm(UserChangeForm):
 
 
 class PasswordChangeForm(PasswordChangeForm):
-    
-    
+
     password1 = forms.CharField(
         label='Пароль',
         widget=forms.PasswordInput(
@@ -89,7 +88,7 @@ class PasswordChangeForm(PasswordChangeForm):
         )
     )
     password2 = forms.CharField(
-        label='Повтор пароля',
+        label='Подтверждение пароля',
         widget=forms.PasswordInput(
             attrs={"class": "form-control"}
         )

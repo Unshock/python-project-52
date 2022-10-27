@@ -120,7 +120,7 @@ class TestStatusesViews(SettingsStatuses):
         self.assertEqual(response.context.get('title'), 'Delete status')
         self.assertEqual(response.context.get('action'), 'Delete status')
         self.assertEqual(response.context.get('button_text'), 'Delete')
-        self.assertTemplateUsed(response, 'delete_user.html')
+        self.assertTemplateUsed(response, 'delete_object_template.html')
 
     def test_delete_status_GET_unauthenticated_client(self):
         response = self.client_unauthenticated.get(self.delete_url)

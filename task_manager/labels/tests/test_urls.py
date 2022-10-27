@@ -73,7 +73,7 @@ class TestUrls(SettingsLabels):
 
         self.assertEqual(resolve(url).func.view_class, views.DeleteLabel)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'delete_user.html')
+        self.assertTemplateUsed(response, 'delete_object_template.html')
 
 
     def test_label_delete_unauthenticated_user(self):

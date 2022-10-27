@@ -73,7 +73,7 @@ class TestUrls(SettingsStatuses):
 
         self.assertEqual(resolve(url).func.view_class, views.DeleteStatus)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'delete_user.html')
+        self.assertTemplateUsed(response, 'delete_object_template.html')
 
 
     def test_status_delete_unauthenticated_user(self):

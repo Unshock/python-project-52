@@ -106,7 +106,7 @@ class DeleteStatus(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     login_url = 'login'
     model = Status
     #username = User.objects.get(id=pk).username надобы написать имя в суксесе
-    template_name = "delete_user.html"
+    template_name = "delete_object_template.html"
     success_url = reverse_lazy('statuses')
 
     message_text = _("Status has been successfully deleted!")
@@ -149,4 +149,6 @@ class DeleteStatus(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         context['title'] = title
         context["action"] = action
         context['button_text'] = button_text
+        context['delete_object'] = str(
+            Status.objects.get(id=self.get_object().id))
         return context

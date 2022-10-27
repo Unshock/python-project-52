@@ -94,7 +94,7 @@ class DeleteLabel(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     login_url = 'login'
     model = Label
     # username = User.objects.get(id=pk).username надобы написать имя в суксесе
-    template_name = "delete_user.html"
+    template_name = "delete_object_template.html"
     success_url = reverse_lazy('labels')
 
     message_text = _("Label has been successfully deleted!")
@@ -126,5 +126,6 @@ class DeleteLabel(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         context['title'] = title
         context["action"] = action
         context['button_text'] = button_text
-        context['delete_object'] = str(Label.objects.get(id=self.get_object().id))
+        context['delete_object'] = str(
+            Label.objects.get(id=self.get_object().id))
         return context
