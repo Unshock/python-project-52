@@ -150,7 +150,7 @@ msgstr "Регистрация"
 
 #: task_manager/tasks/views.py:63
 msgid "Create new task"
-msgstr "Регистрация нового пользователя"
+msgstr "Создать задачу"
 
 #: task_manager/tasks/views.py:87
 msgid "Task has been successfully updated!"

@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
 {% load bootstrap4 %}
 {% block content %}
+{% load i18n %}
 
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-lg-12 col-xl-11">
@@ -13,9 +14,9 @@
                 <form method="post">
                     {% csrf_token %}
 
-                    <div class="row-form-errors">{{ form.non_field_errors }}</div>
+                    
+                    {% bootstrap_form_errors form %}
                     {% bootstrap_form form %}
-
                     {% buttons %}
                         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                             <button type="submit" class="btn btn-primary btn-lg">

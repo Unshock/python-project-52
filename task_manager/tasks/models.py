@@ -10,9 +10,9 @@ class Task(models.Model):
     creation_date = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата создания")
     name = models.CharField(
-        max_length=100, verbose_name="Имя задачи", unique=True)
+        max_length=100, verbose_name="Имя", unique=True)
     description = models.CharField(
-        max_length=300, verbose_name="Описание задачи")
+        max_length=300, verbose_name="Описание")
     creator = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True,
         verbose_name="Создатель", related_name='task_creator')
@@ -21,7 +21,7 @@ class Task(models.Model):
         verbose_name="Исполнитель", related_name='executor', null=True)
     status = models.ForeignKey(
         Status, on_delete=models.PROTECT,
-        verbose_name="Назначенный статус",
+        verbose_name="Cтатус",
         related_name="tasks"
     )
     labels = models.ManyToManyField(
