@@ -315,7 +315,7 @@ msgstr "У вас нет прав для изменения другого по�
 
 #: task_manager/user/views.py:179
 msgid "User that has tasks can not be deleted"
-msgstr "Пользоваетель не может быть удален"
+msgstr "Невозможно удалить пользователя, потому что он используется "
 
 #: task_manager/user/views.py:184 task_manager/user/views.py:185
 msgid "Delete user"
