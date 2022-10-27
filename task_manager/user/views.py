@@ -108,8 +108,7 @@ class UpdateUser(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = "update_user.html"
     success_url = reverse_lazy('users')
 
-    message_text = _("has been successfully updated!")
-    success_message = "%(username)s " + message_text
+    success_message = _("User has been successfully updated!")
 
     def dispatch(self, request, *args, **kwargs):
         if self.get_object().id == request.user.id \

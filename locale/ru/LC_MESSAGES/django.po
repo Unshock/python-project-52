@@ -243,7 +243,7 @@ msgstr "Вы разлогинены"
 
 #: task_manager/user/views.py:111
 msgid "has been successfully updated!"
-msgstr " был успешно изменен"
+msgstr "Пользователь успешно изменён"
 
 #: task_manager/user/views.py:118
 msgid "You can't update other users"
@@ -280,9 +280,3 @@ msgstr ""
 #: task_manager/user/views.py:185 task_manager/user/views.py:186
 msgid "Delete user"
 msgstr "Удалить пользователя!"
-
-#~ msgid "You do not have permission to update another user"
-#~ msgstr "У вас нет разрешения на изменение другого пользователя"
-
-#~ msgid "You do not have permission to delete another user"
-#~ msgstr "У вас нет разрешения на удаление другого пользователя!"
