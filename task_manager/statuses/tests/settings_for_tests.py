@@ -12,7 +12,7 @@ class SettingsStatuses(TestCase):
         super().setUpClass()
 
         user = get_user_model()
-
+        
         cls.client_authenticated = Client()
         cls.user_authenticated = user.objects.create(
             username="user_authenticated",

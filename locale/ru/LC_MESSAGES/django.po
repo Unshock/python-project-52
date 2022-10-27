@@ -72,7 +72,7 @@ msgstr "Вы можете удалять только свои метки"
 
 #: task_manager/labels/views.py:116
 msgid "Label that is given to the task can not be deleted"
-msgstr "Метка не может быть удалена"
+msgstr "Невозможно удалить метку, потому что она используется"
 
 #: task_manager/labels/views.py:121 task_manager/labels/views.py:122
 msgid "Delete label"
@@ -111,7 +111,7 @@ msgstr "Статус успешно удален"
 
 #: task_manager/statuses/views.py:139
 msgid "Status that is used for tasks can not be deleted"
-msgstr "Статус не может быть удален"
+msgstr "Невозможно удалить статус, потому что он используется"
 
 #: task_manager/statuses/views.py:144 task_manager/statuses/views.py:145
 msgid "Delete status"
@@ -255,7 +255,7 @@ msgstr "Пользователи"
 
 #: task_manager/user/views.py:53
 msgid "User has been successfully registered"
-msgstr "Пользователь успешно создан"
+msgstr "Пользователь успешно зарегистрирован"
 
 #: task_manager/user/views.py:57
 msgid "User creation"
