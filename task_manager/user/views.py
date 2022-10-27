@@ -15,6 +15,7 @@ from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 from .models import User
 from task_manager.views import index
 from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 
 
 #from task_manager.user.models import User1
@@ -49,7 +50,7 @@ class CreateUser(SuccessMessageMixin, CreateView):
     form_class = RegisterUserForm
     template_name = "create_user.html"
     success_url = reverse_lazy('login')
-    success_message = "%(username)s was created successfully"
+    success_message = gettext_lazy("User has been successfully registered")
     #success_url = redirect('LoginUser', status='U')
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -75,7 +76,7 @@ class LoginUser(SuccessMessageMixin, LoginView):
     form_class = LoginUserForm
     template_name = 'create_user.html'
 
-    message_text = _("You have been successfully logged in!")
+    message_text = gettext_lazy("You have been successfully logged in!")
     success_message = message_text
 
     def get_context_data(self, *, object_list=None, **kwargs):
