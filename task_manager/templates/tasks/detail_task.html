@@ -15,11 +15,11 @@
             <div class="container">
                 <div class="row p-1">
                     <div class="col">{% translate "Creator" %}</div>
-                        <div class="col">{{ object.creator }}</div>
+                        <div class="col">{{ object.creator.full_name }}</div>
                         </div>
                     <div class="row p-1">
                         <div class="col">{% translate "Executor" %}</div>
-                        <div class="col">{{ task.executor }}</div>
+                        <div class="col">{{ task.executor.full_name }}</div>
                     </div>
                 <div class="row p-1">
                     <div class="col">{% translate "Status" %}</div>
