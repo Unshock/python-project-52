@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-
+from django.utils.translation import gettext_lazy as _
 from task_manager.labels.models import Label
 from task_manager.statuses.models import Status
 from task_manager.user.models import User
@@ -8,20 +8,20 @@ from task_manager.user.models import User
 
 class Task(models.Model):
     creation_date = models.DateTimeField(
-        auto_now_add=True, verbose_name="Дата создания")
+        auto_now_add=True, verbose_name=_("Creation date"))
     name = models.CharField(
-        max_length=100, verbose_name="Имя", unique=True)
+        max_length=100, verbose_name=_("Name"), unique=True)
     description = models.CharField(
-        max_length=300, verbose_name="Описание")
+        max_length=300, verbose_name=_("Description"))
     creator = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True,
-        verbose_name="Создатель", related_name='task_creator')
+        verbose_name=_("Creator"), related_name='task_creator')
     executor = models.ForeignKey(
         User, on_delete=models.PROTECT,
-        verbose_name="Исполнитель", related_name='executor', null=True)
+        verbose_name=_("Executor"), related_name='executor', null=True)
     status = models.ForeignKey(
         Status, on_delete=models.PROTECT,
-        verbose_name="Cтатус",
+        verbose_name=_("Status"),
         related_name="tasks"
     )
     labels = models.ManyToManyField(
