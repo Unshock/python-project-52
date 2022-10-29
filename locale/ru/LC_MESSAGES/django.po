@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-29 16:10+0300\n"
+"POT-Creation-Date: 2022-10-29 16:50+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,6 +86,26 @@ msgstr "Удалить метку"
 #: task_manager/user/views.py:150
 msgid "Delete"
 msgstr "Удалить"
+
+#: task_manager/statuses/forms.py:16 task_manager/statuses/models.py:12
+#: task_manager/templates/labels/label_list.html:17
+#: task_manager/templates/statuses/status_list.html:17
+#: task_manager/templates/tasks/task_list.html:38
+msgid "Name"
+msgstr "Имя"
+
+#: task_manager/statuses/models.py:10
+#: task_manager/templates/labels/label_list.html:19
+#: task_manager/templates/statuses/status_list.html:18
+#: task_manager/templates/tasks/detail_task.html:29
+#: task_manager/templates/tasks/task_list.html:42
+#: task_manager/templates/users/user_list.html:14
+msgid "Creation date"
+msgstr "Дата создания"
+
+#: task_manager/statuses/models.py:20
+msgid "New"
+msgstr ""
 
 #: task_manager/statuses/views.py:22
 msgid "Status list"
@@ -232,25 +252,11 @@ msgstr "Да, удалить"
 msgid "Create label"
 msgstr "Создать метку"
 
-#: task_manager/templates/labels/label_list.html:17
-#: task_manager/templates/statuses/status_list.html:17
-#: task_manager/templates/tasks/task_list.html:38
-msgid "Name"
-msgstr "Имя"
-
 #: task_manager/templates/labels/label_list.html:18
 #: task_manager/templates/tasks/detail_task.html:17
 #: task_manager/templates/tasks/task_list.html:40
 msgid "Creator"
 msgstr "Автор"
-
-#: task_manager/templates/labels/label_list.html:19
-#: task_manager/templates/statuses/status_list.html:18
-#: task_manager/templates/tasks/detail_task.html:29
-#: task_manager/templates/tasks/task_list.html:42
-#: task_manager/templates/users/user_list.html:14
-msgid "Creation date"
-msgstr "Дата создания"
 
 #: task_manager/templates/statuses/status_list.html:10
 msgid "Create status"

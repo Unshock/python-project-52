@@ -26,7 +26,6 @@ class TestUsersViews(SettingsUsers):
         user_list = response.context.get('user_list')
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('title'), 'User list')
         self.assertEqual(len(user_list), 3)
         self.assertEqual(user_list[0].username, 'user_authenticated')
         self.assertEqual(user_list[2].username, 'user_unauthenticated')
@@ -39,7 +38,6 @@ class TestUsersViews(SettingsUsers):
         user_list = response.context.get('user_list')
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('title'), 'User list')
         self.assertEqual(len(user_list), 3)
         self.assertEqual(user_list[0].username, 'user_authenticated')
         self.assertEqual(user_list[2].username, 'user_unauthenticated')
@@ -50,16 +48,14 @@ class TestUsersViews(SettingsUsers):
     def test_create_user_GET(self):
         response = self.client_authenticated.get(self.create_url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('title'), 'User creation')
-        self.assertEqual(response.context.get('action'), 'Create new user')
+        self.assertEqual(response.context.get('page_title'), 'Create new user')
         self.assertEqual(response.context.get('button_text'), 'Create')
         self.assertTemplateUsed(response, 'create_user.html')
 
     def test_create_user_GET_unauthenticated_client(self):
         response = self.client_unauthenticated.get(self.create_url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('title'), 'User creation')
-        self.assertEqual(response.context.get('action'), 'Create new user')
+        self.assertEqual(response.context.get('page_title'), 'Create new user')
         self.assertEqual(response.context.get('button_text'), 'Create')
         self.assertTemplateUsed(response, 'create_user.html')
 
@@ -92,8 +88,7 @@ class TestUsersViews(SettingsUsers):
         response = self.client_authenticated.get(self.update_url)
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('title'), 'Update user')
-        self.assertEqual(response.context.get('action'), 'Update user')
+        self.assertEqual(response.context.get('page_title'), 'Update user')
         self.assertEqual(response.context.get('button_text'), 'Update')
         self.assertTemplateUsed(response, 'update_user.html')
 
@@ -112,6 +107,8 @@ class TestUsersViews(SettingsUsers):
             'username': 'Updated_user',
             'first_name': 'Updated_user_first_name_',
             'last_name': 'Updated_user_last_name',
+            'password1': '111',
+            'password2': '111'
         }
 
         response = self.client_authenticated.post(
@@ -173,8 +170,7 @@ class TestUsersViews(SettingsUsers):
         response = self.client_authenticated.get(self.delete_url)
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('title'), 'Delete user')
-        self.assertEqual(response.context.get('action'), 'Delete user')
+        self.assertEqual(response.context.get('page_title'), 'Delete user')
         self.assertEqual(response.context.get('button_text'), 'Delete')
         self.assertTemplateUsed(response, 'delete_object_template.html')
 
