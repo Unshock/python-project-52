@@ -14,8 +14,7 @@ from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 #from django.contrib.auth.models import User
 from .models import User
 from task_manager.views import index
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext_lazy as _
 
 
 #from task_manager.user.models import User1
@@ -35,10 +34,8 @@ class Users(ListView):
     context_object_name = 'user'
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        title = _("User list")
         context = super().get_context_data(**kwargs)
         context['user_list'] = User.objects.all()
-        context['title'] = title
         return context
 
     #сюда довабить фильтр
@@ -50,44 +47,32 @@ class CreateUser(SuccessMessageMixin, CreateView):
     form_class = RegisterUserForm
     template_name = "create_user.html"
     success_url = reverse_lazy('login')
-    success_message = gettext_lazy("User has been successfully registered")
+    success_message = _("User has been successfully registered")
     #success_url = redirect('LoginUser', status='U')
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        title = _("User creation")
-        action = _("Create new user")
-        button_text = _("Register user")
-
         context = super().get_context_data(**kwargs)
-        context['title'] = title
-        context["action"] = action
-        context['button_text'] = button_text
+        context["page_title"] = _("Create new user")
+        context['button_text'] = _("Register user")
         return context
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
-    #     user = form.save()
-    #     login(self.request, user)
-    #     return redirect('home')
 
 
 class LoginUser(SuccessMessageMixin, LoginView):
     form_class = LoginUserForm
     template_name = 'create_user.html'
 
-    message_text = gettext_lazy("You have been successfully logged in!")
+    message_text = _("You have been successfully logged in!")
     success_message = message_text
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        title = _("Login")
-        action = _("Login")
-        button_text = _("Enter")
-
         context = super().get_context_data(**kwargs)
-        context['title'] = title
-        context["action"] = action
-        context['button_text'] = button_text
+
+        context["page_title"] = _("Login")
+        context['button_text'] = _("Enter")
         return context
 
     def get_success_url(self):
@@ -96,8 +81,7 @@ class LoginUser(SuccessMessageMixin, LoginView):
 
 def logout_user(request):
     logout(request)
-    message_text = _('You have been successfully logged out!')
-    messages.info(request, message_text)
+    messages.info(request, _('You have been successfully logged out!'))
     return redirect('home')
 
 
@@ -132,77 +116,37 @@ class UpdateUser(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     # 
     #     return redirect('users')
 
-
     def get_context_data(self, *, object_list=None, **kwargs):
-        title = _("Update user")
-        action = _("Update user")
-        button_text = _("Update")
-
         context = super().get_context_data(**kwargs)
-        context['title'] = title
-        context["action"] = action
-        context['button_text'] = button_text
-
+        context['page_title'] = _("Update user")
+        context['button_text'] = _("Update")
         return context
-
-
-class ChangePassword(LoginRequiredMixin,
-                     SuccessMessageMixin,
-                     PasswordChangeView):
-    login_url = 'login'
-    model = User
-    template_name = "update_user.html"
-    success_url = reverse_lazy('users')
-
-    success_message = _("Password has been successfully changed!")
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-
-        title = _("Change password")
-        action = _("Change password")
-        button_text = _("Change")
-
-        context = super().get_context_data(**kwargs)
-        context['title'] = title
-        context["action"] = action
-        context['button_text'] = button_text
-
-        return context
-
 
 class DeleteUser(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     login_url = 'login'
     model = User
     template_name = "delete_object_template.html"
     success_url = reverse_lazy('users')
-
-    message_text = gettext_lazy("User has been successfully deleted!")
-    success_message = message_text
+    success_message = _("User has been successfully deleted!")
 
     def dispatch(self, request, *args, **kwargs):
         if self.get_object().id == request.user.id \
                 or request.user.is_staff:
             return super().dispatch(request, *args, **kwargs)
-        message_text = gettext_lazy('You can\'t delete other users')
-        messages.error(request, message_text)
+        messages.error(request, _('You can\'t delete other users'))
         return redirect('users')
 
     def post(self, request, *args, **kwargs):
         try:
             return super().post(request, *args, **kwargs)
         except ProtectedError:
-            message = gettext_lazy('User that has tasks can not be deleted')
-            messages.error(request, message)
+            messages.error(
+                request, _('User that has tasks can not be deleted'))
             return redirect('users')
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        title = _("Delete user")
-        action = _("Delete user")
-        button_text = _("Delete")
-
         context = super().get_context_data(**kwargs)
-        context['title'] = title
-        context["action"] = action
-        context['button_text'] = button_text
+        context['page_title'] = _("Delete user")
+        context['button_text'] = _("Delete")
         context['delete_object'] = self.request.user.get_full_name()
         return context

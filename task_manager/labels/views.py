@@ -9,7 +9,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from task_manager.labels.forms import LabelForm
 from task_manager.labels.models import Label
 
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 
 class Labels(LoginRequiredMixin, ListView):
@@ -19,10 +19,8 @@ class Labels(LoginRequiredMixin, ListView):
     context_object_name = 'label'
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        title = _("Label list")
-
         context = super().get_context_data(**kwargs)
-        context['title'] = title
+        context['page_title'] = _("Label list")
         context['label_list'] = Label.objects.all()
         return context
 
@@ -36,20 +34,13 @@ class CreateLabel(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = LabelForm
     template_name = 'create_user.html'
     success_url = reverse_lazy('labels')
-
-    message_text = _("Label has been successfully created!")
-    success_message = message_text
+    success_message = _("Label has been successfully created!")
 
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        title = _("Label creation")
-        action = _("Create new label")
-        button_text = _("Create")
-
         context = super().get_context_data(**kwargs)
-        context['title'] = title
-        context['action'] = action
-        context['button_text'] = button_text
+        context['page_title'] = _("Create new label")
+        context['button_text'] = _("Create")
         return context
 
     def form_valid(self, form):
@@ -64,27 +55,19 @@ class UpdateLabel(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Label
     template_name = "create_user.html"
     success_url = reverse_lazy('labels')
-
-    message_text = _("Label has been successfully updated!")
-    success_message = message_text
+    success_message = _("Label has been successfully updated!")
 
     def dispatch(self, request, *args, **kwargs):
         if self.get_object().creator.id == request.user.id \
                 or request.user.is_staff:
             return super().dispatch(request, *args, **kwargs)
-        message_text = _('You can update only your labels')
-        messages.error(request, message_text)
+        messages.error(request, _('You can update only your labels'))
         return redirect('labels')
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        title = _("Update label")
-        action = _("Update label")
-        button_text = _("Update")
-
         context = super().get_context_data(**kwargs)
-        context['title'] = title
-        context["action"] = action
-        context['button_text'] = button_text
+        context['page_title'] = _("Update label")
+        context['button_text'] = _("Update")
 
         return context
 
@@ -93,19 +76,15 @@ class UpdateLabel(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 class DeleteLabel(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     login_url = 'login'
     model = Label
-    # username = User.objects.get(id=pk).username надобы написать имя в суксесе
     template_name = "delete_object_template.html"
     success_url = reverse_lazy('labels')
-
-    message_text = _("Label has been successfully deleted!")
-    success_message = message_text
+    success_message = _("Label has been successfully deleted!")
 
     def dispatch(self, request, *args, **kwargs):
         if self.get_object().creator.id == request.user.id \
                 or request.user.is_staff:
             return super().dispatch(request, *args, **kwargs)
-        message_text = _('You can delete only your labels')
-        messages.error(request, message_text)
+        messages.error(request, _('You can delete only your labels'))
         return redirect('labels')
 
     def post(self, request, *args, **kwargs):
@@ -113,19 +92,14 @@ class DeleteLabel(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         try:
             return super().post(request, *args, **kwargs)
         except ProtectedError:
-            message = _('Label that is given to the task can not be deleted')
-            messages.error(request, message)
+            messages.error(request, _(
+                'Label that is given to the task can not be deleted'))
             return redirect('labels')
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        title = _("Delete label")
-        action = _("Delete label")
-        button_text = _("Delete")
-
         context = super().get_context_data(**kwargs)
-        context['title'] = title
-        context["action"] = action
-        context['button_text'] = button_text
+        context['page_title'] = _("Delete label")
+        context['button_text'] = _("Delete")
         context['delete_object'] = str(
             Label.objects.get(id=self.get_object().id))
         return context
