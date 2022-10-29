@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-27 22:36+0300\n"
+"POT-Creation-Date: 2022-10-29 14:13+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,7 +58,7 @@ msgstr "Обновить пользователя"
 #: task_manager/templates/tasks/detail_task.html:44
 #: task_manager/templates/tasks/task_list.html:57
 #: task_manager/templates/users/user_list.html:28
-#: task_manager/user/views.py:124
+#: task_manager/user/views.py:133
 msgid "Update"
 msgstr "Изменить"
 
@@ -85,7 +85,7 @@ msgstr "Удалить метку"
 #: task_manager/templates/tasks/detail_task.html:46
 #: task_manager/templates/tasks/task_list.html:59
 #: task_manager/templates/users/user_list.html:30
-#: task_manager/user/views.py:186
+#: task_manager/user/views.py:195
 msgid "Delete"
 msgstr "Удалить"
 
@@ -224,7 +224,7 @@ msgid "Show"
 msgstr "Показать"
 
 #: task_manager/templates/users/user_list.html:12 task_manager/user/forms.py:14
-#: task_manager/user/forms.py:43 task_manager/user/forms.py:51
+#: task_manager/user/forms.py:43 task_manager/user/forms.py:53
 msgid "Username"
 msgstr "Имя пользователя"
 
@@ -232,22 +232,26 @@ msgstr "Имя пользователя"
 msgid "Full name"
 msgstr "Полное имя"
 
-#: task_manager/user/forms.py:19 task_manager/user/forms.py:55
+#: task_manager/user/forms.py:19 task_manager/user/forms.py:57
 msgid "First name"
 msgstr "Имя"
 
-#: task_manager/user/forms.py:24 task_manager/user/forms.py:59
+#: task_manager/user/forms.py:24 task_manager/user/forms.py:61
 msgid "Last name"
 msgstr "Фамилия"
 
 #: task_manager/user/forms.py:29 task_manager/user/forms.py:45
-#: task_manager/user/forms.py:85
+#: task_manager/user/forms.py:65
 msgid "Password"
 msgstr "Пароль"
 
-#: task_manager/user/forms.py:33 task_manager/user/forms.py:91
+#: task_manager/user/forms.py:33 task_manager/user/forms.py:71
 msgid "Password confirmation"
 msgstr "Подтверждение пароля"
+
+#: task_manager/user/forms.py:87
+msgid "Passwords don't match"
+msgstr "Введенные пароли не совпадают."
 
 #: task_manager/user/views.py:38
 msgid "User list"
@@ -289,34 +293,39 @@ msgstr "Пользователь успешно изменён"
 msgid "You can't update other users"
 msgstr "У вас нет прав для изменения другого пользователя."
 
-#: task_manager/user/views.py:122 task_manager/user/views.py:123
+#: task_manager/user/views.py:131 task_manager/user/views.py:132
 msgid "Update user"
-msgstr "Обновить пользователя"
+msgstr "Изменение пользователя"
 
-#: task_manager/user/views.py:142
+#: task_manager/user/views.py:151
 msgid "Password has been successfully changed!"
 msgstr "Пароль был успешно создан"
 
-#: task_manager/user/views.py:146 task_manager/user/views.py:147
+#: task_manager/user/views.py:155 task_manager/user/views.py:156
 msgid "Change password"
 msgstr "Изменить пароль"
 
-#: task_manager/user/views.py:148
+#: task_manager/user/views.py:157
 msgid "Change"
 msgstr "Изменить"
 
-#: task_manager/user/views.py:164
+#: task_manager/user/views.py:173
 msgid "User has been successfully deleted!"
 msgstr "Пользователь успешно удален"
 
-#: task_manager/user/views.py:171
+#: task_manager/user/views.py:180
 msgid "You can't delete other users"
 msgstr "У вас нет прав для изменения другого пользователя."
 
-#: task_manager/user/views.py:179
+#: task_manager/user/views.py:188
 msgid "User that has tasks can not be deleted"
 msgstr "Невозможно удалить пользователя, потому что он используется "
 
-#: task_manager/user/views.py:184 task_manager/user/views.py:185
+#: task_manager/user/views.py:193 task_manager/user/views.py:194
 msgid "Delete user"
 msgstr "Удалить пользователя!"
+
+#, fuzzy
+#~| msgid "Password"
+#~ msgid "Password1"
+#~ msgstr "Пароль1"

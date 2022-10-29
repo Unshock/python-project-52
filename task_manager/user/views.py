@@ -118,6 +118,21 @@ class UpdateUser(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         messages.error(request, message_text)
         return redirect('users')
 
+    def post(self, request, **kwargs):
+        self.object = self.get_object()
+        self.object.set_password(request.POST.get('password2'))
+        self.object.save()
+        return super().post(request, **kwargs)
+
+    # def post(self, request, *args, **kwargs):
+    #     form_class = UpdateUserForm(request.POST)
+    #     print('formvalid???????????????', form_class.is_valid())
+    #     #print(form_class)
+    #     print('forminvalid errs', form_class.errors)
+    # 
+    #     return redirect('users')
+
+
     def get_context_data(self, *, object_list=None, **kwargs):
         title = _("Update user")
         action = _("Update user")
