@@ -9,9 +9,19 @@ from task_manager.tasks.models import Task
 from task_manager.user.models import User
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
+from task_manager.tasks.forms import FullNameChoiceField
+
+
+class FullNameChoiceFilter(django_filters.ModelChoiceFilter):
+    field_class = FullNameChoiceField
 
 
 class TaskFilter(django_filters.FilterSet):
+    field_class = FullNameChoiceField
+
+    class Meta:
+        model = Task
+        fields = ['status', 'executor', 'labels']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
@@ -25,17 +35,15 @@ class TaskFilter(django_filters.FilterSet):
     )
 
     labels = Label.objects.all()
-    label = django_filters.ModelChoiceFilter(
+    labels = django_filters.ModelChoiceFilter(
         label=gettext_lazy("Label"),
         queryset=labels,
         method='filter_by_label',
-
     )
 
-    executors = User.objects.all()
-    executor = django_filters.ModelChoiceFilter(
+    executor = FullNameChoiceFilter(
         label=gettext_lazy("Executor"),
-        queryset=executors,
+        queryset=User.objects.all(),
         method='filter_by_executor',
     )
 
