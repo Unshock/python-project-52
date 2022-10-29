@@ -11,7 +11,7 @@ class StatusesModelsTest(SettingsStatuses):
         self.assertEqual(Status.objects.count(), 2)
         self.assertEqual(self.status_id_1.creator.last_name, "UserNotAdmin")
         self.assertEqual(self.status_id_1._meta.get_field('name').verbose_name,
-                         "Имя статуса")
+                         "Имя")
 
     def test_name_validation_fail(self):
         name_invalid = 'x' * 101

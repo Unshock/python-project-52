@@ -19,7 +19,6 @@ class TestStatusesViews(SettingsStatuses):
         status_list = response.context.get('status_list')
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('title'), 'Status list')
         self.assertEqual(len(status_list), 2)
         self.assertEqual(status_list[0].name, 'Test_status_1')
         self.assertEqual(status_list[1].id, 2)
@@ -32,8 +31,7 @@ class TestStatusesViews(SettingsStatuses):
     def test_create_status_GET(self):
         response = self.client_authenticated.get(self.create_url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('title'), 'Status creation')
-        self.assertEqual(response.context.get('action'), 'Create new status')
+        self.assertEqual(response.context.get('page_title'), 'Create new status')
         self.assertEqual(response.context.get('button_text'), 'Create')
         self.assertTemplateUsed(response, 'create_user.html')
 
@@ -67,8 +65,7 @@ class TestStatusesViews(SettingsStatuses):
     def test_update_status_GET(self):
         response = self.client_authenticated.get(self.update_url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('title'), 'Update status')
-        self.assertEqual(response.context.get('action'), 'Update status')
+        self.assertEqual(response.context.get('page_title'), 'Update status')
         self.assertEqual(response.context.get('button_text'), 'Update')
         self.assertTemplateUsed(response, 'update_user.html')
 
@@ -117,8 +114,7 @@ class TestStatusesViews(SettingsStatuses):
     def test_delete_status_GET(self):
         response = self.client_authenticated.get(self.delete_url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('title'), 'Delete status')
-        self.assertEqual(response.context.get('action'), 'Delete status')
+        self.assertEqual(response.context.get('page_title'), 'Delete status')
         self.assertEqual(response.context.get('button_text'), 'Delete')
         self.assertTemplateUsed(response, 'delete_object_template.html')
 

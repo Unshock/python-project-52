@@ -38,6 +38,8 @@ class UserFormTest(SettingsUsers):
             'username': 'New_user_updated',
             'first_name': 'New_user_first_name_updated',
             'last_name': 'New_user_last_name_updated',
+            'password1': '123',
+            'password2': '123'
         })
 
         self.assertTrue(form.is_valid())
@@ -48,10 +50,12 @@ class UserFormTest(SettingsUsers):
             'username': 'New_user'*100,
             'first_name': 'New_user_first_name'*100,
             'last_name': 'New_user_last_name'*100,
+            'password1': '123',
+            'password2': '321'
         })
 
         self.assertFalse(form.is_valid())
-        self.assertEqual(len(form.errors), 3)
+        self.assertEqual(len(form.errors), 4)
 
     # def test_valid_login_form(self):
     # 

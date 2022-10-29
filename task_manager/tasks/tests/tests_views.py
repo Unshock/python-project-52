@@ -20,7 +20,6 @@ class TestTasksViews(SettingsTasks):
         tasks = response.context.get('tasks')
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('title'), 'Task list')
         self.assertEqual(len(tasks), 3)
         self.assertEqual(tasks[0].name, 'Test_task_1')
         self.assertEqual(tasks[0].creator.username, 'user_authenticated')
@@ -33,8 +32,7 @@ class TestTasksViews(SettingsTasks):
     def test_create_task_GET(self):
         response = self.client_authenticated.get(self.create_url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('title'), 'Task creation')
-        self.assertEqual(response.context.get('action'), 'Create new task')
+        self.assertEqual(response.context.get('page_title'), 'Create new task')
         self.assertEqual(response.context.get('button_text'), 'Create')
         self.assertTemplateUsed(response, 'tasks/create_task.html')
 
@@ -72,8 +70,7 @@ class TestTasksViews(SettingsTasks):
         response = self.client_authenticated.get(self.update_url)
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('title'), 'Update task')
-        self.assertEqual(response.context.get('action'), 'Update task')
+        self.assertEqual(response.context.get('page_title'), 'Update task')
         self.assertEqual(response.context.get('button_text'), 'Update')
         #self.assertEqual(response.initial.get('labels'), self.status_id_1)
         self.assertTemplateUsed(response, 'tasks/create_task.html')
@@ -129,8 +126,7 @@ class TestTasksViews(SettingsTasks):
     def test_delete_task_GET(self):
         response = self.client_authenticated.get(self.delete_url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('title'), 'Delete task')
-        self.assertEqual(response.context.get('action'), 'Delete task')
+        self.assertEqual(response.context.get('page_title'), 'Delete task')
         self.assertEqual(response.context.get('button_text'), 'Delete')
         self.assertTemplateUsed(response, 'delete_object_template.html')
 

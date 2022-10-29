@@ -13,7 +13,7 @@ class TaskModelsTest(SettingsTasks):
         self.assertEqual(Task.objects.count(), 3)
         self.assertEqual(self.test_task_id_1.status.name, "Test_status_1")
         self.assertEqual(self.test_task_id_1._meta.get_field('name').verbose_name,
-                         "Имя задачи")
+                         "Имя")
 
     def test_name_validation_fail(self):
         desciption_invalid = 'x' * 301
