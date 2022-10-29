@@ -311,7 +311,7 @@ msgstr "Изменить"
 
 #: task_manager/user/views.py:173
 msgid "User has been successfully deleted!"
-msgstr "Пользователь успешно удален"
+msgstr "Пользователь успешно удалён"
 
 #: task_manager/user/views.py:180
 msgid "You can't delete other users"
@@ -324,8 +324,3 @@ msgstr "Невозможно удалить пользователя, потом
 #: task_manager/user/views.py:193 task_manager/user/views.py:194
 msgid "Delete user"
 msgstr "Удалить пользователя!"
-
-#, fuzzy
-#~| msgid "Password"
-#~ msgid "Password1"
-#~ msgstr "Пароль1"
