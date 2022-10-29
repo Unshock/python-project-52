@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-29 14:13+0300\n"
+"POT-Creation-Date: 2022-10-29 15:27+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,7 +58,7 @@ msgstr "Обновить пользователя"
 #: task_manager/templates/tasks/detail_task.html:44
 #: task_manager/templates/tasks/task_list.html:57
 #: task_manager/templates/users/user_list.html:28
-#: task_manager/user/views.py:133
+#: task_manager/user/views.py:139
 msgid "Update"
 msgstr "Изменить"
 
@@ -85,7 +85,7 @@ msgstr "Удалить метку"
 #: task_manager/templates/tasks/detail_task.html:46
 #: task_manager/templates/tasks/task_list.html:59
 #: task_manager/templates/users/user_list.html:30
-#: task_manager/user/views.py:195
+#: task_manager/user/views.py:201
 msgid "Delete"
 msgstr "Удалить"
 
@@ -95,7 +95,7 @@ msgstr "Статусы"
 
 #: task_manager/statuses/views.py:67
 msgid "Status has been successfully updated!"
-msgstr "Статус успешно изменен"
+msgstr "Статус успешно изменён"
 
 #: task_manager/statuses/views.py:74
 msgid "You can update only your statuses"
@@ -107,7 +107,7 @@ msgstr "Обновить статус"
 
 #: task_manager/statuses/views.py:112
 msgid "Status has been successfully deleted!"
-msgstr "Статус успешно удален"
+msgstr "Статус успешно удалён"
 
 #: task_manager/statuses/views.py:139
 msgid "Status that is used for tasks can not be deleted"
@@ -249,7 +249,7 @@ msgstr "Пароль"
 msgid "Password confirmation"
 msgstr "Подтверждение пароля"
 
-#: task_manager/user/forms.py:87
+#: task_manager/user/forms.py:86
 msgid "Passwords don't match"
 msgstr "Введенные пароли не совпадают."
 
@@ -293,34 +293,34 @@ msgstr "Пользователь успешно изменён"
 msgid "You can't update other users"
 msgstr "У вас нет прав для изменения другого пользователя."
 
-#: task_manager/user/views.py:131 task_manager/user/views.py:132
+#: task_manager/user/views.py:137 task_manager/user/views.py:138
 msgid "Update user"
 msgstr "Изменение пользователя"
 
-#: task_manager/user/views.py:151
+#: task_manager/user/views.py:157
 msgid "Password has been successfully changed!"
 msgstr "Пароль был успешно создан"
 
-#: task_manager/user/views.py:155 task_manager/user/views.py:156
+#: task_manager/user/views.py:161 task_manager/user/views.py:162
 msgid "Change password"
 msgstr "Изменить пароль"
 
-#: task_manager/user/views.py:157
+#: task_manager/user/views.py:163
 msgid "Change"
 msgstr "Изменить"
 
-#: task_manager/user/views.py:173
+#: task_manager/user/views.py:179
 msgid "User has been successfully deleted!"
 msgstr "Пользователь успешно удалён"
 
-#: task_manager/user/views.py:180
+#: task_manager/user/views.py:186
 msgid "You can't delete other users"
 msgstr "У вас нет прав для изменения другого пользователя."
 
-#: task_manager/user/views.py:188
+#: task_manager/user/views.py:194
 msgid "User that has tasks can not be deleted"
 msgstr "Невозможно удалить пользователя, потому что он используется "
 
-#: task_manager/user/views.py:193 task_manager/user/views.py:194
+#: task_manager/user/views.py:199 task_manager/user/views.py:200
 msgid "Delete user"
 msgstr "Удалить пользователя!"

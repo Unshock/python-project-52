@@ -176,14 +176,14 @@ class DeleteUser(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     template_name = "delete_object_template.html"
     success_url = reverse_lazy('users')
 
-    message_text = _("User has been successfully deleted!")
+    message_text = gettext_lazy("User has been successfully deleted!")
     success_message = message_text
 
     def dispatch(self, request, *args, **kwargs):
         if self.get_object().id == request.user.id \
                 or request.user.is_staff:
             return super().dispatch(request, *args, **kwargs)
-        message_text = _('You can\'t delete other users')
+        message_text = gettext_lazy('You can\'t delete other users')
         messages.error(request, message_text)
         return redirect('users')
 
@@ -191,7 +191,7 @@ class DeleteUser(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         try:
             return super().post(request, *args, **kwargs)
         except ProtectedError:
-            message = _('User that has tasks can not be deleted')
+            message = gettext_lazy('User that has tasks can not be deleted')
             messages.error(request, message)
             return redirect('users')
 
