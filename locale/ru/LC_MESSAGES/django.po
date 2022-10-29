@@ -26,7 +26,7 @@ msgstr "Метки"
 
 #: task_manager/labels/views.py:37
 msgid "Label has been successfully created!"
-msgstr "Статус был успешно создан"
+msgstr "Метка успешно создана"
 
 #: task_manager/labels/views.py:42
 msgid "Create new label"
@@ -185,7 +185,7 @@ msgstr "Задачу может изменить только её автор"
 
 #: task_manager/tasks/views.py:79
 msgid "Update task"
-msgstr "Обновить задачу"
+msgstr "Изменение задачи"
 
 #: task_manager/tasks/views.py:96
 msgid "Task has been successfully deleted!"
