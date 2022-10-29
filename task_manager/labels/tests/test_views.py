@@ -1,5 +1,6 @@
 from http import HTTPStatus
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from task_manager.labels.tests.settings_for_tests import SettingsLabels
 from task_manager.tasks.models import Task
 from task_manager.labels.models import Label
@@ -31,8 +32,9 @@ class TestLabelViews(SettingsLabels):
     def test_create_label_GET(self):
         response = self.client_authenticated.get(self.create_url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('page_title'), 'Create new label')
-        self.assertEqual(response.context.get('button_text'), 'Create')
+        self.assertEqual(
+            response.context.get('page_title'), _('Create new label'))
+        self.assertEqual(response.context.get('button_text'), _('Create'))
         self.assertTemplateUsed(response, 'create_user.html')
 
     def test_create_label_GET_unauthenticated_client(self):
@@ -65,8 +67,8 @@ class TestLabelViews(SettingsLabels):
     def test_update_label_GET(self):
         response = self.client_authenticated.get(self.update_url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('page_title'), 'Update label')
-        self.assertEqual(response.context.get('button_text'), 'Update')
+        self.assertEqual(response.context.get('page_title'), _('Update label'))
+        self.assertEqual(response.context.get('button_text'), _('Update'))
         self.assertTemplateUsed(response, 'create_user.html')
 
     def test_update_label_GET_unauthenticated_client(self):
@@ -111,15 +113,11 @@ class TestLabelViews(SettingsLabels):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(Label.objects.get(id=2).name, 'Test_label_2')
 
-
-
-
-
     def test_delete_label_GET(self):
         response = self.client_authenticated.get(self.delete_url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response.context.get('page_title'), 'Delete label')
-        self.assertEqual(response.context.get('button_text'), 'Delete')
+        self.assertEqual(response.context.get('page_title'), _('Delete label'))
+        self.assertEqual(response.context.get('button_text'), _('Delete'))
         self.assertTemplateUsed(response, 'delete_object_template.html')
 
     def test_delete_label_GET_unauthenticated_client(self):
@@ -179,8 +177,3 @@ class TestLabelViews(SettingsLabels):
             self.delete_url)
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(Label.objects.get(id=2).name, 'Test_label_2')
-
-
-
-
-

@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
-
-import django
 import dotenv
 import dj_database_url
 from django.contrib.messages import constants as messages
@@ -31,12 +29,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = str(os.getenv('SECRET_KEY_DJANGO'))
-ROLLBAR_TOKEN = str(os.getenv('ROLLBAR'))
+ROLLBAR_TOKEN = str(os.getenv('ROLLBAR_TOKEN'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = os.getenv("DEBUG", False)
-#DEBUG = (os.environ.get('DEBUG', False))
+
+CREATOR = os.getenv("CREATOR", '2')
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -50,7 +49,6 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    #"django.contrib.sites", # это добавил 
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -61,9 +59,11 @@ INSTALLED_APPS = [
     "bootstrap4",
     "django_filters",
     "crispy_forms",
+    "flake8",
+    "pytest",
 
     "task_manager",
-    "task_manager.user",
+    "task_manager.users",
     "task_manager.statuses",
     "task_manager.tasks",
     "task_manager.labels",
@@ -135,7 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
         'OPTIONS': {
-                    'min_length': 3,
+            'min_length': 3,
         }
     },
     # {
@@ -181,17 +181,16 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Я добавил
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-AUTH_USER_MODEL = 'user.User'
+AUTH_USER_MODEL = 'users.User'
 
 MESSAGE_TAGS = {
-        messages.DEBUG: 'alert-secondary',
-        messages.INFO: 'alert-info',
-        messages.SUCCESS: 'alert-success',
-        messages.WARNING: 'alert-warning',
-        messages.ERROR: 'alert-danger',
- }
+    messages.DEBUG: 'alert-secondary',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
 
-#LOGIN_REDIRECT_URL = '/'
 
 ROLLBAR = {
     'access_token': ROLLBAR_TOKEN,

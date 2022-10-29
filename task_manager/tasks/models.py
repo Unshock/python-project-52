@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from task_manager.labels.models import Label
 from task_manager.statuses.models import Status
-from task_manager.user.models import User
+from task_manager.users.models import User
 
 
 class Task(models.Model):
@@ -62,6 +62,3 @@ class TasksLabels(models.Model):
         verbose_name = "Метка задачи"
         verbose_name_plural = "Метки задач"
         ordering = ['task']
-
-
-

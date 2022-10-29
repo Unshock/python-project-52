@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import *
+from task_manager.tasks.models import Task, TasksLabels
 
 
 class TasksLabelsInline(admin.TabularInline):
@@ -11,13 +11,10 @@ class TasksLabelsInline(admin.TabularInline):
 
 class TaskAdmin(admin.ModelAdmin):
     inlines = (TasksLabelsInline,)
-    list_display = ('id', 'name', 'description', 'executor')# 'status')
+    list_display = ('id', 'name', 'description', 'executor')
     list_display_links = ('id', 'name')
     search_fields = ('name',)
     list_filter = ('name', )
-
-
-
 
 
 class TasksAdmin(admin.ModelAdmin):
@@ -31,5 +28,3 @@ class LabelsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Task, TaskAdmin)
-# admin.site.register(Task, TasksAdmin)
-# admin.site.register(Label, LabelsAdmin)

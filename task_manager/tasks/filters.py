@@ -1,15 +1,13 @@
 import django_filters
 from django import forms
-from django.forms import models
-
-from task_manager.labels.models import Label
-from task_manager.statuses.models import Status
-from task_manager.tasks.forms import MyForm
-from task_manager.tasks.models import Task
-from task_manager.user.models import User
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
+
 from task_manager.tasks.forms import FullNameChoiceField
+from task_manager.labels.models import Label
+from task_manager.statuses.models import Status
+from task_manager.tasks.models import Task
+from task_manager.users.models import User
 
 
 class FullNameChoiceFilter(django_filters.ModelChoiceFilter):
@@ -66,5 +64,3 @@ class TaskFilter(django_filters.FilterSet):
 
     def filter_self_tasks(self, queryset, name, value):
         return queryset.filter(creator=self.user) if value else queryset
-
-

@@ -1,9 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
-from task_manager.statuses.models import Status
-from task_manager.user.models import User
-
+from task_manager.users.models import User
 
 
 class Label(models.Model):
@@ -14,8 +12,6 @@ class Label(models.Model):
     creator = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True,
         verbose_name="Создатель", related_name='labels')
-
-
 
     def __str__(self):
         return self.name

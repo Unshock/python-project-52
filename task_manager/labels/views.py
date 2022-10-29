@@ -24,10 +24,6 @@ class Labels(LoginRequiredMixin, ListView):
         context['label_list'] = Label.objects.all()
         return context
 
-    # сюда довабить фильтр
-    def get_queryset(self):
-        return Label.objects.all()
-
 
 class CreateLabel(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     login_url = 'login'
@@ -35,7 +31,6 @@ class CreateLabel(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'create_user.html'
     success_url = reverse_lazy('labels')
     success_message = _("Label has been successfully created!")
-
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -70,7 +65,6 @@ class UpdateLabel(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         context['button_text'] = _("Update")
 
         return context
-
 
 
 class DeleteLabel(LoginRequiredMixin, SuccessMessageMixin, DeleteView):

@@ -4,7 +4,6 @@ from django.test import TestCase, Client
 from task_manager.statuses.models import Status
 
 
-
 class SettingsStatuses(TestCase):
 
     @classmethod
@@ -12,7 +11,7 @@ class SettingsStatuses(TestCase):
         super().setUpClass()
 
         user = get_user_model()
-        
+
         cls.client_authenticated = Client()
         cls.user_authenticated = user.objects.create(
             username="user_authenticated",

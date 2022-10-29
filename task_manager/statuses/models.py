@@ -1,11 +1,11 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from task_manager.user.models import User
+from task_manager.users.models import User
 
 
 class Status(models.Model):
-    #objects = None
+
     creation_date = models.DateTimeField(
         auto_now_add=True, verbose_name=_("Creation date"))
     name = models.CharField(

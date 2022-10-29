@@ -7,8 +7,9 @@ dist/
 coverage.xml
 .pytest_cache/
 .idea
-DRAFT/
 *.log
+DRAFT/
+static/
 
 .devcontainer/
 __pycache__/

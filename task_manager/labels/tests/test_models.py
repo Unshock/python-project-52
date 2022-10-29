@@ -20,14 +20,12 @@ class LabelModelsTest(SettingsLabels):
             label_invalid.full_clean()
             label_invalid.save()
 
-
     def test_unique_name_validation_fail(self):
         name_ununique = "Test_label_1"
         label_invalid = Task(name=name_ununique, creator_id=1)
         with self.assertRaises(ValidationError):
             label_invalid.full_clean()
             label_invalid.save()
-
 
     def test_custom_getters(self):
         test_pk = 1

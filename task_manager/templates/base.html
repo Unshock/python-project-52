@@ -78,7 +78,7 @@
     <div class="container h-100">
         {% bootstrap_messages %}
         {% block content %}
-            <h1 class="my-4">Hello, {{ who }}!</h1>
+            <h1 class="my-4">{% translate "Hello! This is task manager created by" %} {{ who }}!</h1>
         {% endblock content %}
         <footer>
             <div class="container my-5 pt-4 border-top">

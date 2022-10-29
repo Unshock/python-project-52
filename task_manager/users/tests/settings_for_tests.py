@@ -1,12 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 
-from task_manager.labels.models import Label
-from task_manager.tasks.models import Task
 from task_manager.statuses.models import Status
+from task_manager.tasks.models import Task
 
 
-class SettingsTasks(TestCase):
+class SettingsUsers(TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -18,7 +17,8 @@ class SettingsTasks(TestCase):
         cls.user_authenticated = user.objects.create(
             username="user_authenticated",
             first_name="Authenticated",
-            last_name="UserNotAdmin"
+            last_name="UserNotAdmin",
+            password="QWE321rty",
         )
         cls.user_authenticated.save()
         cls.client_authenticated.force_login(user.objects.last())
@@ -27,7 +27,8 @@ class SettingsTasks(TestCase):
         cls.user_authenticated_not_creator = user.objects.create(
             username="user_authenticated_not_creator",
             first_name="AuthenticatedNotCreator",
-            last_name="UserNotAdmin"
+            last_name="UserNotAdmin",
+            password="QWE321rty",
         )
         cls.user_authenticated_not_creator.save()
         cls.client_authenticated_not_creator.force_login(user.objects.last())
@@ -36,27 +37,14 @@ class SettingsTasks(TestCase):
         cls.user_unauthenticated = user.objects.create(
             username="user_unauthenticated",
             first_name="NotAuthenticated",
-            last_name="UserNotAdmin"
+            last_name="UserNotAdmin",
+            password="QWE321rty",
         )
         cls.user_unauthenticated.save()
+        cls.client_unauthenticated.logout()
 
         cls.status_id_1 = Status.objects.create(
             name="Test_status_1",
-            creator=cls.user_authenticated,
-        )
-
-        cls.status_id_2 = Status.objects.create(
-            name="Test_status_2",
-            creator=cls.user_authenticated,
-        )
-
-        cls.test_label_id_1 = Label.objects.create(
-            name="Test_label_1",
-            creator=cls.user_authenticated,
-        )
-
-        cls.test_label_id_2 = Label.objects.create(
-            name="Test_label_2",
             creator=cls.user_authenticated,
         )
 
@@ -67,26 +55,3 @@ class SettingsTasks(TestCase):
             executor=cls.user_authenticated_not_creator,
             status=cls.status_id_1,
         )
-
-        cls.test_task_id_2 = Task.objects.create(
-            name="Test_task_2",
-            description="Test_task_2_description",
-            creator=cls.user_authenticated,
-            executor=cls.user_authenticated,
-            status=cls.status_id_2,
-
-        )
-
-        cls.test_task_id_2.labels.add(cls.test_label_id_1)
-        cls.test_task_id_2.save()
-
-        cls.test_task_id_3 = Task.objects.create(
-            name="Test_task_3",
-            description="Test_task_3_description",
-            creator=cls.user_authenticated_not_creator,
-            executor=cls.user_authenticated_not_creator,
-            status=cls.status_id_2,
-        )
-
-        cls.test_task_id_3.labels.add(cls.test_label_id_2)
-        cls.test_task_id_3.save()

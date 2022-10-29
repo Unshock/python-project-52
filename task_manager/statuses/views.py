@@ -23,10 +23,6 @@ class Statuses(LoginRequiredMixin, ListView):
         context['status_list'] = Status.objects.all()
         return context
 
-    #сюда довабить фильтр
-    def get_queryset(self):
-        return Status.objects.all()
-
 
 class CreateStatus(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     login_url = 'login'
@@ -63,16 +59,6 @@ class UpdateStatus(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         messages.error(request, _('You can update only your statuses'))
         return redirect('statuses')
 
-    # def get(self, request, *args, **kwargs):
-    #     creator_id = Status.objects.get(id=kwargs['pk']).creator_id
-    #     user_is_stuff = User.objects.get(id=request.user.id).is_staff
-    #     if request.user.id == creator_id or user_is_stuff:
-    #         return super().get(request, *args, **kwargs)
-    # 
-    #     message_text = _('You can update only your statuses')
-    #     messages.error(request, message_text)
-    #     return redirect('statuses')
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = _("Update status")
@@ -101,18 +87,6 @@ class DeleteStatus(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         message_text = _('You can update only your labels')
         messages.error(request, message_text)
         return redirect('labels')
-    # 
-    # def get(self, request, *args, **kwargs):
-    # 
-    #     creator_id = Status.objects.get(id=kwargs['pk']).creator_id
-    #     user_is_stuff = User.objects.get(id=request.user.id).is_staff
-    #     if request.user.id == creator_id or user_is_stuff:
-    #         return super().get(request, *args, **kwargs)
-    # 
-    #     message_text = _('You can delete only your statuses')
-    #     messages.error(request, message_text)
-    # 
-    #     return redirect('statuses')
 
     def post(self, request, *args, **kwargs):
         try:

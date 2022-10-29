@@ -5,13 +5,11 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView,\
     DeleteView, DetailView
+from django.utils.translation import gettext_lazy as _
 
-from task_manager.statuses.models import Status
 from task_manager.tasks.forms import TaskForm
 from task_manager.tasks.models import Task
-from django.utils.translation import gettext_lazy as _
 from task_manager.tasks import filters
-from task_manager.user.models import User
 
 
 class Tasks(LoginRequiredMixin, ListView):
@@ -73,7 +71,6 @@ class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         messages.error(request, _('You can update only your tasks'))
         return redirect('tasks')
 
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = _("Update task")
@@ -121,7 +118,3 @@ class DetailTask(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['page_title'] = _("Detailed task")
         return context
-
-    #сюда довабить фильтр
-    def get_queryset(self):
-        return Task.objects.all()
