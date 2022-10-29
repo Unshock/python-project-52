@@ -153,7 +153,7 @@ msgstr "Статус"
 
 #: task_manager/tasks/filters.py:29
 msgid "Label"
-msgstr "Меткa"
+msgstr "Метка"
 
 #: task_manager/tasks/filters.py:37 task_manager/tasks/forms.py:27
 #: task_manager/tasks/models.py:21
