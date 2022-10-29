@@ -50,8 +50,8 @@
                         <td>{{ task.id }}</td>
                         <td><a href="{{ task.get_absolute_url }}">{{ task.name }}</a></td>
                         <td>{{ task.status }}</td>
-                        <td>{{ task.creator }}</td>
-                        <td>{{ task.executor }}</td>
+                        <td>{{ task.creator.full_name }}</td>
+                        <td>{{ task.executor.full_name }}</td>
                         <td>{{ task.creation_date }}</td>
                         <td>
                           <a href="{{ task.get_update_url }}">{% translate "Update" %}</a>
