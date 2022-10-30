@@ -59,8 +59,6 @@ INSTALLED_APPS = [
     "bootstrap4",
     "django_filters",
     "crispy_forms",
-    "flake8",
-    "pytest",
 
     "task_manager",
     "task_manager.users",
