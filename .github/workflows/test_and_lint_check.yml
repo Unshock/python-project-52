@@ -1,38 +1,28 @@
-name: Python CI
+name: linter-and-test-check
 
-on: push
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - '**'
+
 jobs:
-  linter-check:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout repo
-        uses: actions/checkout@v2
-      - name: Install dependencies
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - name: updating dpendencies and do linter check
         run: |
           pip install poetry
-          
           make install
-      - name: lint application
-        run: make lint
-
-  tests-check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout repo
-        uses: actions/checkout@v2
-      - name: Install dependencies
-        run: |
-          pip install poetry
-          
-          make install
-      - name: test application
-        run: make test
+          make lint
       - name: Test & publish code coverage
-        uses: paambaati/codeclimate-action@v3.0.0
+        uses: paambaati/codeclimate-action@v2.7.5
         env:
           LOCALE: en-us
           DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           coverageCommand: make test-coverage
-          debug: true
