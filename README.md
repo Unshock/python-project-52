@@ -7,7 +7,7 @@
 ## Task manager study project for Hexlet.io 
 ### Description:
 
-#####**Task manager is the final project of the Python course on the Hexlet online school.**
+#####Task manager is the final project of the Python course on the Hexlet online school.
 #####The task manager allows you to register user, create new tasks using self defined statuses and labels. Tasks can be managed - you can assign executors on them, change statuses, descriptions and so on.
 
 
