@@ -35,7 +35,7 @@ class TestLabelViews(SettingsLabels):
         self.assertEqual(
             response.context.get('page_title'), _('Create new label'))
         self.assertEqual(response.context.get('button_text'), _('Create'))
-        self.assertTemplateUsed(response, 'create_user.html')
+        self.assertTemplateUsed(response, 'base_create_and_update.html')
 
     def test_create_label_GET_unauthenticated_client(self):
         response = self.client_unauthenticated.get(self.create_url)
@@ -69,7 +69,7 @@ class TestLabelViews(SettingsLabels):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(response.context.get('page_title'), _('Update label'))
         self.assertEqual(response.context.get('button_text'), _('Update'))
-        self.assertTemplateUsed(response, 'create_user.html')
+        self.assertTemplateUsed(response, 'base_create_and_update.html')
 
     def test_update_label_GET_unauthenticated_client(self):
         response = self.client_unauthenticated.get(self.update_url)
@@ -118,7 +118,7 @@ class TestLabelViews(SettingsLabels):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(response.context.get('page_title'), _('Delete label'))
         self.assertEqual(response.context.get('button_text'), _('Delete'))
-        self.assertTemplateUsed(response, 'delete_object_template.html')
+        self.assertTemplateUsed(response, 'base_delete.html')
 
     def test_delete_label_GET_unauthenticated_client(self):
         response = self.client_unauthenticated.get(self.delete_url)

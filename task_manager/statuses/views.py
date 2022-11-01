@@ -27,7 +27,7 @@ class Statuses(LoginRequiredMixin, ListView):
 class CreateStatus(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     login_url = 'login'
     form_class = StatusForm
-    template_name = 'create_user.html'
+    template_name = 'base_create_and_update.html'
     success_url = reverse_lazy('statuses')
     success_message = _("Status has been successfully created!")
 
@@ -47,7 +47,7 @@ class UpdateStatus(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     redirect_field_name = 'redirect_to'
     model = Status
     fields = ['name']
-    template_name = "update_user.html"
+    template_name = "base_create_and_update.html"
     success_url = reverse_lazy('statuses')
 
     success_message = _("Status has been successfully updated!")
@@ -74,7 +74,7 @@ class UpdateStatus(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 class DeleteStatus(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     login_url = 'login'
     model = Status
-    template_name = "delete_object_template.html"
+    template_name = "base_delete.html"
     success_url = reverse_lazy('statuses')
 
     message_text = _("Status has been successfully deleted!")

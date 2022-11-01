@@ -29,7 +29,7 @@ class TestUrls(SettingsUsers):
 
         self.assertEqual(resolve(url).func.view_class, views.CreateUser)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'create_user.html')
+        self.assertTemplateUsed(response, 'base_create_and_update.html')
 
     def test_user_update_valid(self):
         url = reverse('update_user', kwargs={'pk': 1})
@@ -37,7 +37,7 @@ class TestUrls(SettingsUsers):
 
         self.assertEqual(resolve(url).func.view_class, views.UpdateUser)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'update_user.html')
+        self.assertTemplateUsed(response, 'base_create_and_update.html')
 
     def test_user_update_unauthenticated_user(self):
         url = reverse('update_user', kwargs={'pk': 1})
@@ -59,7 +59,7 @@ class TestUrls(SettingsUsers):
 
         self.assertEqual(resolve(url).func.view_class, views.DeleteUser)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'delete_object_template.html')
+        self.assertTemplateUsed(response, 'base_delete.html')
 
     def test_user_delete_unauthenticated_user(self):
         url = reverse('delete_user', kwargs={'pk': 1})

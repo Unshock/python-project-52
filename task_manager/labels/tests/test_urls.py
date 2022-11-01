@@ -28,7 +28,7 @@ class TestUrls(SettingsLabels):
 
         self.assertEqual(resolve(url).func.view_class, views.CreateLabel)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'create_user.html')
+        self.assertTemplateUsed(response, 'base_create_and_update.html')
 
     def test_label_create_unauthenticated_user(self):
         url = reverse('create_label')
@@ -44,7 +44,7 @@ class TestUrls(SettingsLabels):
 
         self.assertEqual(resolve(url).func.view_class, views.UpdateLabel)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'create_user.html')
+        self.assertTemplateUsed(response, 'base_create_and_update.html')
 
     def test_label_update_unauthenticated_user(self):
         url = reverse('update_label', kwargs={'pk': 1})
@@ -66,7 +66,7 @@ class TestUrls(SettingsLabels):
 
         self.assertEqual(resolve(url).func.view_class, views.DeleteLabel)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'delete_object_template.html')
+        self.assertTemplateUsed(response, 'base_delete.html')
 
     def test_label_delete_unauthenticated_user(self):
         url = reverse('delete_label', kwargs={'pk': 1})

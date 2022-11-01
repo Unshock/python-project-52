@@ -37,7 +37,7 @@ class TestTasksViews(SettingsTasks):
             response.context.get('page_title'), _('Create new task'))
         self.assertEqual(
             response.context.get('button_text'), _('Create'))
-        self.assertTemplateUsed(response, 'tasks/create_task.html')
+        self.assertTemplateUsed(response, 'base_create_and_update.html')
 
     def test_create_task_GET_unauthenticated_client(self):
         response = self.client_unauthenticated.get(self.create_url)
@@ -75,7 +75,7 @@ class TestTasksViews(SettingsTasks):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(response.context.get('page_title'), _('Update task'))
         self.assertEqual(response.context.get('button_text'), _('Update'))
-        self.assertTemplateUsed(response, 'tasks/create_task.html')
+        self.assertTemplateUsed(response, 'base_create_and_update.html')
 
     def test_update_task_GET_unauthenticated_client(self):
         response = self.client_unauthenticated.get(self.update_url)
@@ -130,7 +130,7 @@ class TestTasksViews(SettingsTasks):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(response.context.get('page_title'), _('Delete task'))
         self.assertEqual(response.context.get('button_text'), _('Delete'))
-        self.assertTemplateUsed(response, 'delete_object_template.html')
+        self.assertTemplateUsed(response, 'base_delete.html')
 
     def test_delete_task_GET_unauthenticated_client(self):
         response = self.client_unauthenticated.get(self.delete_url)

@@ -28,7 +28,7 @@ class Labels(LoginRequiredMixin, ListView):
 class CreateLabel(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     login_url = 'login'
     form_class = LabelForm
-    template_name = 'create_user.html'
+    template_name = 'base_create_and_update.html'
     success_url = reverse_lazy('labels')
     success_message = _("Label has been successfully created!")
 
@@ -48,7 +48,7 @@ class UpdateLabel(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = LabelForm
     redirect_field_name = 'redirect_to'
     model = Label
-    template_name = "create_user.html"
+    template_name = "base_create_and_update.html"
     success_url = reverse_lazy('labels')
     success_message = _("Label has been successfully updated!")
 
@@ -70,7 +70,7 @@ class UpdateLabel(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 class DeleteLabel(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     login_url = 'login'
     model = Label
-    template_name = "delete_object_template.html"
+    template_name = "base_delete.html"
     success_url = reverse_lazy('labels')
     success_message = _("Label has been successfully deleted!")
 

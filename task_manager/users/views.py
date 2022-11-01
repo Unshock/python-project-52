@@ -27,7 +27,7 @@ class UserList(ListView):
 
 class CreateUser(SuccessMessageMixin, CreateView):
     form_class = RegisterUserForm
-    template_name = "create_user.html"
+    template_name = "base_create_and_update.html"
     success_url = reverse_lazy('login')
     success_message = _("User has been successfully registered")
 
@@ -44,7 +44,7 @@ class CreateUser(SuccessMessageMixin, CreateView):
 
 class LoginUser(SuccessMessageMixin, LoginView):
     form_class = LoginUserForm
-    template_name = 'create_user.html'
+    template_name = 'base_create_and_update.html'
 
     message_text = _("You have been successfully logged in!")
     success_message = message_text
@@ -70,7 +70,7 @@ class UpdateUser(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     login_url = 'login'
     form_class = UpdateUserForm
     model = User
-    template_name = "update_user.html"
+    template_name = "base_create_and_update.html"
     success_url = reverse_lazy('users')
 
     success_message = _("User has been successfully updated!")
@@ -102,7 +102,7 @@ class UpdateUser(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 class DeleteUser(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     login_url = 'login'
     model = User
-    template_name = "delete_object_template.html"
+    template_name = "base_delete.html"
     success_url = reverse_lazy('users')
     success_message = _("User has been successfully deleted!")
 

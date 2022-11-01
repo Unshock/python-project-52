@@ -267,7 +267,7 @@ msgstr "Регистрация"
 
 #: task_manager/templates/base.html:81
 msgid "Hello! This is task manager created by"
-msgstr "Здравстуйте! Это менеджер задач, который создал"
+msgstr "Здравствуйте! Это менеджер задач, который создал"
 
 #: task_manager/templates/delete_object_template.html:8
 msgid "Are you sure you want to delete"

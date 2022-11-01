@@ -38,7 +38,7 @@ class Tasks(LoginRequiredMixin, ListView):
 class CreateTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     login_url = 'login'
     form_class = TaskForm
-    template_name = 'tasks/create_task.html'
+    template_name = 'base_create_and_update.html'
     success_url = reverse_lazy('tasks')
 
     message_text = _("Task has been successfully created!")
@@ -60,7 +60,7 @@ class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = TaskForm
     redirect_field_name = 'redirect_to'
     model = Task
-    template_name = "tasks/create_task.html"
+    template_name = "base_create_and_update.html"
     success_url = reverse_lazy('tasks')
     success_message = _("Task has been successfully updated!")
 
@@ -87,7 +87,7 @@ class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 class DeleteTask(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     login_url = 'login'
     model = Task
-    template_name = "delete_object_template.html"
+    template_name = "base_delete.html"
     success_url = reverse_lazy('tasks')
 
     success_message = _("Task has been successfully deleted!")

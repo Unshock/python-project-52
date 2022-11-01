@@ -29,7 +29,7 @@ class TestUrls(SettingsTasks):
 
         self.assertEqual(resolve(url).func.view_class, views.CreateTask)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'tasks/create_task.html')
+        self.assertTemplateUsed(response, 'base_create_and_update.html')
 
     def test_task_create_unauthenticated_user(self):
         url = reverse('create_task')
@@ -45,7 +45,7 @@ class TestUrls(SettingsTasks):
 
         self.assertEqual(resolve(url).func.view_class, views.UpdateTask)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'tasks/create_task.html')
+        self.assertTemplateUsed(response, 'base_create_and_update.html')
 
     def test_task_update_unauthenticated_user(self):
         url = reverse('update_task', kwargs={'pk': 1})
@@ -67,7 +67,7 @@ class TestUrls(SettingsTasks):
 
         self.assertEqual(resolve(url).func.view_class, views.DeleteTask)
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'delete_object_template.html')
+        self.assertTemplateUsed(response, 'base_delete.html')
 
     def test_task_delete_unauthenticated_user(self):
         url = reverse('delete_task', kwargs={'pk': 1})
