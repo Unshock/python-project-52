@@ -27,7 +27,7 @@ class TaskFilter(django_filters.FilterSet):
 
     statuses = Status.objects.all()
     status = django_filters.ModelChoiceFilter(
-        label=_("Status"),
+        label=gettext_lazy("Status"),
         queryset=statuses,
         method='filter_by_status',
     )
@@ -46,7 +46,7 @@ class TaskFilter(django_filters.FilterSet):
     )
 
     self_tasks = django_filters.BooleanFilter(
-        label=_("Only my tasks"),
+        label=gettext_lazy("Only my tasks"),
         widget=forms.CheckboxInput(
             attrs={"class": "form-inline"}
         ),
