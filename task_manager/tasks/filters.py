@@ -1,7 +1,6 @@
 import django_filters
 from django import forms
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext_lazy as _
 
 from task_manager.tasks.forms import FullNameChoiceField
 from task_manager.labels.models import Label
@@ -27,26 +26,26 @@ class TaskFilter(django_filters.FilterSet):
 
     statuses = Status.objects.all()
     status = django_filters.ModelChoiceFilter(
-        label=gettext_lazy("Status"),
+        label=_("Status"),
         queryset=statuses,
         method='filter_by_status',
     )
 
     labels = Label.objects.all()
     labels = django_filters.ModelChoiceFilter(
-        label=gettext_lazy("Label"),
+        label=_("Label"),
         queryset=labels,
         method='filter_by_label',
     )
 
     executor = FullNameChoiceFilter(
-        label=gettext_lazy("Executor"),
+        label=_("Executor"),
         queryset=User.objects.all(),
         method='filter_by_executor',
     )
 
     self_tasks = django_filters.BooleanFilter(
-        label=gettext_lazy("Only my tasks"),
+        label=_("Only my tasks"),
         widget=forms.CheckboxInput(
             attrs={"class": "form-inline"}
         ),
