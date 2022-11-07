@@ -2,7 +2,7 @@ from http import HTTPStatus
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from task_manager.statuses.models import Status
-from .settings_for_tests import SettingsTasks
+from .setting import SettingsTasks
 from ..models import Task
 
 

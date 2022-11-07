@@ -1,4 +1,4 @@
-from task_manager.labels.tests.settings_for_tests import SettingsLabels
+from task_manager.labels.tests.setting import SettingsLabels
 from task_manager.labels.forms import LabelForm
 
 

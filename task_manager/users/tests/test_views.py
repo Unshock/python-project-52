@@ -2,7 +2,7 @@ from http import HTTPStatus
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from .settings_for_tests import SettingsUsers
+from .setting import SettingsUsers
 from ..models import User
 
 

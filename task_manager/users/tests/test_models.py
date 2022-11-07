@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 
-from .settings_for_tests import SettingsUsers
+from .setting import SettingsUsers
 from ..models import User
 
 

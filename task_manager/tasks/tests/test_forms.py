@@ -1,4 +1,4 @@
-from task_manager.tasks.tests.settings_for_tests import SettingsTasks
+from task_manager.tasks.tests.setting import SettingsTasks
 from task_manager.tasks.forms import TaskForm
 
 

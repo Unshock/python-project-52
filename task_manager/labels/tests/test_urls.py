@@ -1,7 +1,7 @@
 from http import HTTPStatus
 from django.urls import reverse, resolve
 from task_manager.labels import views
-from task_manager.labels.tests.settings_for_tests import SettingsLabels
+from task_manager.labels.tests.setting import SettingsLabels
 
 
 class TestUrls(SettingsLabels):

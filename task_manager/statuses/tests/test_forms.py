@@ -1,4 +1,4 @@
-from task_manager.statuses.tests.settings_for_tests import SettingsStatuses
+from task_manager.statuses.tests.setting import SettingsStatuses
 from task_manager.statuses.forms import StatusForm
 
 

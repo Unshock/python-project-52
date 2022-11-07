@@ -1,4 +1,4 @@
-from .settings_for_tests import SettingsUsers
+from .setting import SettingsUsers
 from ..forms import RegisterUserForm, UpdateUserForm
 
 

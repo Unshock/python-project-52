@@ -1,4 +1,4 @@
-from task_manager.tasks.tests.settings_for_tests import SettingsTasks
+from task_manager.tasks.tests.setting import SettingsTasks
 from task_manager.tasks.filters import TaskFilter
 from task_manager.tasks.models import Task
 

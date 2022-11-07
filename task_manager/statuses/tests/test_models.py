@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from task_manager.statuses.models import Status
-from .settings_for_tests import SettingsStatuses
+from .setting import SettingsStatuses
 
 
 class StatusesModelsTest(SettingsStatuses):

@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from task_manager.labels.tests.settings_for_tests import SettingsLabels
+from task_manager.labels.tests.setting import SettingsLabels
 from task_manager.tasks.models import Task
 from task_manager.labels.models import Label
 

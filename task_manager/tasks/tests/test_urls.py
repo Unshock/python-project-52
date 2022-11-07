@@ -1,7 +1,7 @@
 from http import HTTPStatus
 from django.urls import reverse, resolve
 
-from task_manager.tasks.tests.settings_for_tests import SettingsTasks
+from task_manager.tasks.tests.setting import SettingsTasks
 from task_manager.tasks import views
 
 
