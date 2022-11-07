@@ -16,3 +16,31 @@
 
 ##### Task manager is made with Django using Django ORM and deployed on Heroku.
 [![Heroku](https://pyheroku-badge.herokuapp.com/?app=task-manager-artem&style=flat)](https://unshock-task-manager.herokuapp.com/)
+
+### Installation:
+
+##### You can install the project locally.
+##### First of all, you need to clone the repository to your local machine:
+    (venv) demo $ git clone git@github.com:Unshock/python-project-52.git
+##### Then you need to install projects dependencies (you need python 3.10 at least):
+    (venv) demo $ cd python-project-52/
+
+    (venv) demo $ pip install -r requirement.txt
+##### Now you need to modify the "*.env.example*" file located in the root project directory. You need to set your Django secret key as the value of the *SECRET_KEY_DJANGO* in the file.
+    DEBUG=True
+    SECRET_KEY_DJANGO=Your_Django_key
+    ROLLBAR_TOKEN=
+    CREATOR=
+##### Also, you need to rename the "*.env.example*" into "*.env*".
+##### At this stage you need to apply migrations and after that you can run the project locally using *runserver* command:
+    (venv) demo $ python manage.py makemigrations
+    (venv) demo $ python manage.py migrate
+    (venv) demo $ python manage.py runserver
+    
+    Performing system checks...
+
+    System check identified no issues (0 silenced).
+    November 07, 2022 - 18:59:59
+    Django version 4.1.2, using settings 'task_manager.settings'
+    Starting development server at http://127.0.0.1:8000/
+    Quit the server with CONTROL-C.
