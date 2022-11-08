@@ -1,17 +1,12 @@
 from django.db import models
 from django.urls import reverse
 
-from task_manager.users.models import User
-
 
 class Label(models.Model):
     creation_date = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата создания")
     name = models.CharField(
         max_length=100, verbose_name="Имя метки", unique=True)
-    creator = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True,
-        verbose_name="Создатель", related_name='labels')
 
     def __str__(self):
         return self.name

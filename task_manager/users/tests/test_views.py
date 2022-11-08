@@ -166,7 +166,7 @@ class TestUsersViews(SettingsUsers):
             'last_name': 'Updated_user_last_name',
         }
 
-        response = self.client_unauthenticated.post(
+        response = self.client_authenticated_not_creator.post(
             self.update_url, user_data)
 
         updated_user = User.objects.get(id=1)
