@@ -39,8 +39,6 @@ class TestTasksViews(SettingsTasks):
 
         self.assertEqual(result.count(), 2)
         self.assertEqual(result.first().name, 'Test_task_2')
-        self.assertEqual(result.last().creator.username,
-                         'user_authenticated_not_creator')
 
     def test_task_filter_by_status_2(self):
         self.assertEqual(self.qs.count(), 3)
@@ -50,8 +48,6 @@ class TestTasksViews(SettingsTasks):
 
         self.assertEqual(result.count(), 1)
         self.assertEqual(result.first().name, 'Test_task_1')
-        self.assertEqual(result.last().creator.username,
-                         'user_authenticated')
 
     def test_task_filter_by_status_3(self):
         self.assertEqual(self.qs.count(), 3)
@@ -61,8 +57,6 @@ class TestTasksViews(SettingsTasks):
 
         self.assertEqual(result.count(), 3)
         self.assertEqual(result.first().name, 'Test_task_1')
-        self.assertEqual(result.last().creator.username,
-                         'user_authenticated_not_creator')
 
     def test_task_filter_by_label_1(self):
         self.assertEqual(self.qs.count(), 3)
@@ -72,8 +66,6 @@ class TestTasksViews(SettingsTasks):
 
         self.assertEqual(result.count(), 1)
         self.assertEqual(result.first().name, 'Test_task_2')
-        self.assertEqual(result.last().creator.username,
-                         'user_authenticated')
 
     def test_task_filter_by_label_2(self):
         self.assertEqual(self.qs.count(), 3)
@@ -83,8 +75,6 @@ class TestTasksViews(SettingsTasks):
 
         self.assertEqual(result.count(), 1)
         self.assertEqual(result.first().name, 'Test_task_3')
-        self.assertEqual(result.last().creator.username,
-                         'user_authenticated_not_creator')
 
     def test_task_filter_by_label_3(self):
         self.assertEqual(self.qs.count(), 3)
@@ -94,8 +84,6 @@ class TestTasksViews(SettingsTasks):
 
         self.assertEqual(result.count(), 3)
         self.assertEqual(result.first().name, 'Test_task_1')
-        self.assertEqual(result.last().creator.username,
-                         'user_authenticated_not_creator')
 
     def test_task_filter_by_executor_1(self):
         self.assertEqual(self.qs.count(), 3)

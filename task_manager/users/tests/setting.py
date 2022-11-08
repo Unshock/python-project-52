@@ -44,8 +44,7 @@ class SettingsUsers(TestCase):
         cls.client_unauthenticated.logout()
 
         cls.status_id_1 = Status.objects.create(
-            name="Test_status_1",
-            creator=cls.user_authenticated,
+            name="Test_status_1"
         )
 
         cls.test_task_id_1 = Task.objects.create(

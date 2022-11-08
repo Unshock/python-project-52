@@ -5,7 +5,7 @@ from task_manager.statuses.models import Status
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'creator')
+    list_display = ('id', 'name')
     list_display_links = ('id', 'name')
     search_fields = ('name',)
     list_filter = ('name', )

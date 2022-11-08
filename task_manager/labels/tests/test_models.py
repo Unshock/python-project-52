@@ -8,21 +8,20 @@ class LabelModelsTest(SettingsLabels):
 
     def test_models_params(self):
         self.assertEqual(self.label_id_1.name, "Test_label_1")
-        self.assertEqual(self.label_id_1.creator.username, "user_authenticated")
         self.assertEqual(Label.objects.count(), 2)
         self.assertEqual(self.label_id_1._meta.get_field('name').verbose_name,
                          "Имя метки")
 
     def test_name_validation_fail(self):
         name_invalid = 'x' * 101
-        label_invalid = Label(name=name_invalid, creator_id=1)
+        label_invalid = Label(name=name_invalid)
         with self.assertRaises(ValidationError):
             label_invalid.full_clean()
             label_invalid.save()
 
     def test_unique_name_validation_fail(self):
         name_ununique = "Test_label_1"
-        label_invalid = Task(name=name_ununique, creator_id=1)
+        label_invalid = Task(name=name_ununique)
         with self.assertRaises(ValidationError):
             label_invalid.full_clean()
             label_invalid.save()

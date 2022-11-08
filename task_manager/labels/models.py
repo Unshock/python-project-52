@@ -16,9 +16,6 @@ class Label(models.Model):
     def __str__(self):
         return self.name
 
-    def get_absolute_url(self):
-        return reverse('create_label')
-
     def get_update_url(self):
         return reverse('update_label', kwargs={'pk': self.pk})
 

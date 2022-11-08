@@ -42,22 +42,18 @@ class SettingsTasks(TestCase):
 
         cls.status_id_1 = Status.objects.create(
             name="Test_status_1",
-            creator=cls.user_authenticated,
         )
 
         cls.status_id_2 = Status.objects.create(
             name="Test_status_2",
-            creator=cls.user_authenticated,
         )
 
         cls.test_label_id_1 = Label.objects.create(
             name="Test_label_1",
-            creator=cls.user_authenticated,
         )
 
         cls.test_label_id_2 = Label.objects.create(
             name="Test_label_2",
-            creator=cls.user_authenticated,
         )
 
         cls.test_task_id_1 = Task.objects.create(

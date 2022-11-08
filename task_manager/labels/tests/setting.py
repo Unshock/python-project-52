@@ -39,10 +39,8 @@ class SettingsLabels(TestCase):
 
         cls.label_id_1 = Label.objects.create(
             name="Test_label_1",
-            creator=cls.user_authenticated,
         )
 
         cls.label_id_2 = Label.objects.create(
             name="Test_label_2",
-            creator=cls.user_authenticated,
         )

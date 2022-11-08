@@ -8,23 +8,20 @@ class StatusesModelsTest(SettingsStatuses):
 
     def test_models_params(self):
         self.assertEqual(self.status_id_1.name, "Test_status_1")
-        self.assertEqual(
-            self.status_id_2.creator.username, "user_authenticated")
         self.assertEqual(Status.objects.count(), 2)
-        self.assertEqual(self.status_id_1.creator.last_name, "UserNotAdmin")
         self.assertEqual(self.status_id_1._meta.get_field('name').verbose_name,
                          _("Name"))
 
     def test_name_validation_fail(self):
         name_invalid = 'x' * 101
-        status_invalid = Status(name=name_invalid, creator_id=1)
+        status_invalid = Status(name=name_invalid)
         with self.assertRaises(ValidationError):
             status_invalid.full_clean()
             status_invalid.save()
 
     def test_unique_name_validation_fail(self):
         name_ununique = "Test_status_1"
-        status_invalid = Status(name=name_ununique, creator_id=1)
+        status_invalid = Status(name=name_ununique)
         with self.assertRaises(ValidationError):
             status_invalid.full_clean()
             status_invalid.save()

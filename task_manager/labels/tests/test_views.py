@@ -70,7 +70,6 @@ class TestLabelViews(SettingsLabels):
         self.assertEqual(Label.objects.all().count(), 3)
         self.assertEqual(created_label.name, 'Test_label_3')
         self.assertEqual(created_label.id, 3)
-        self.assertEqual(created_label.creator.username, 'user_authenticated')
         self.assertRedirects(response, self.list_url)
 
     def test_create_label_POST_unauthenticated_client(self):
@@ -112,7 +111,6 @@ class TestLabelViews(SettingsLabels):
         self.assertEqual(Label.objects.all().count(), 2)
         self.assertEqual(updated_label.name, 'Test_label_2_updated')
         self.assertEqual(updated_label.id, 2)
-        self.assertEqual(updated_label.creator.username, 'user_authenticated')
         self.assertRedirects(response, self.list_url)
 
     def test_update_label_POST_unauthenticated_client(self):
@@ -135,7 +133,6 @@ class TestLabelViews(SettingsLabels):
         self.assertEqual(Label.objects.all().count(), 2)
         self.assertEqual(updated_label.name, 'Test_label_2_updated')
         self.assertEqual(updated_label.id, 2)
-        self.assertEqual(updated_label.creator.username, 'user_authenticated')
         self.assertRedirects(response, self.list_url)
 
     def test_delete_label_GET(self):
@@ -168,7 +165,6 @@ class TestLabelViews(SettingsLabels):
         self.assertEqual(Label.objects.all().count(), 1)
         self.assertEqual(last_label.name, 'Test_label_1')
         self.assertEqual(last_label.id, 1)
-        self.assertEqual(last_label.creator.username, 'user_authenticated')
         self.assertRedirects(response, self.list_url)
 
     def test_delete_used_label_POST(self):
@@ -192,7 +188,6 @@ class TestLabelViews(SettingsLabels):
         self.assertEqual(Label.objects.all().count(), 2)
         self.assertEqual(last_label.name, 'Test_label_2')
         self.assertEqual(last_label.id, 2)
-        self.assertEqual(last_label.creator.username, 'user_authenticated')
         self.assertRedirects(response, self.list_url)
 
     def test_delete_label_POST_unauthenticated_client(self):
@@ -211,5 +206,4 @@ class TestLabelViews(SettingsLabels):
         self.assertEqual(Label.objects.all().count(), 1)
         self.assertEqual(last_label.name, 'Test_label_1')
         self.assertEqual(last_label.id, 1)
-        self.assertEqual(last_label.creator.username, 'user_authenticated')
         self.assertRedirects(response, self.list_url)
