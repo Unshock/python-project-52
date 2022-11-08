@@ -1,6 +1,8 @@
 from http import HTTPStatus
-from django.urls import reverse
+from django.urls import reverse, resolve
 from django.utils.translation import gettext_lazy as _
+
+from task_manager.statuses import views
 from task_manager.statuses.models import Status
 from task_manager.statuses.tests.setting import SettingsStatuses
 from task_manager.tasks.models import Task
@@ -13,6 +15,16 @@ class TestStatusesViews(SettingsStatuses):
         self.create_url = reverse('create_status')
         self.update_url = reverse('update_status', kwargs={'pk': 2})
         self.delete_url = reverse('delete_status', kwargs={'pk': 2})
+
+    def test_urls_to_views(self):
+        self.assertEqual(resolve(self.list_url).func.view_class,
+                         views.Statuses)
+        self.assertEqual(resolve(self.create_url).func.view_class,
+                         views.CreateStatus)
+        self.assertEqual(resolve(self.update_url).func.view_class,
+                         views.UpdateStatus)
+        self.assertEqual(resolve(self.delete_url).func.view_class,
+                         views.DeleteStatus)
 
     def test_status_list_GET(self):
 
@@ -77,7 +89,10 @@ class TestStatusesViews(SettingsStatuses):
 
     def test_update_status_GET_client_not_creator(self):
         response = self.client_authenticated_not_creator.get(self.update_url)
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(response.context.get('page_title'), _('Update status'))
+        self.assertEqual(response.context.get('button_text'), _('Update'))
+        self.assertTemplateUsed(response, 'base_create_and_update.html')
 
     def test_update_status_POST(self):
         self.assertEqual(Status.objects.all().count(), 2)
@@ -103,15 +118,23 @@ class TestStatusesViews(SettingsStatuses):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_update_status_POST_client_not_creator(self):
+        self.assertEqual(Status.objects.all().count(), 2)
 
         status_data = {
             'name': 'Test_status_2_updated'
         }
 
-        response = self.client_authenticated_not_creator.post(
+        response = self.client_authenticated.post(
             self.update_url, status_data)
+
+        updated_status = Status.objects.last()
+
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(Status.objects.get(id=2).name, 'Test_status_2')
+        self.assertEqual(Status.objects.all().count(), 2)
+        self.assertEqual(updated_status.name, 'Test_status_2_updated')
+        self.assertEqual(updated_status.id, 2)
+        self.assertEqual(updated_status.creator.username, 'user_authenticated')
+        self.assertRedirects(response, self.list_url)
 
     def test_delete_status_GET(self):
         response = self.client_authenticated.get(self.delete_url)
@@ -125,8 +148,11 @@ class TestStatusesViews(SettingsStatuses):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_delete_status_GET_client_not_creator(self):
-        response = self.client_authenticated_not_creator.get(self.delete_url)
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        response = self.client_authenticated.get(self.delete_url)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(response.context.get('page_title'), _('Delete status'))
+        self.assertEqual(response.context.get('button_text'), _('Delete'))
+        self.assertTemplateUsed(response, 'base_delete.html')
 
     def test_delete_status_POST(self):
         self.assertEqual(Status.objects.all().count(), 2)
@@ -172,7 +198,16 @@ class TestStatusesViews(SettingsStatuses):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_delete_status_POST_client_not_creator(self):
+        self.assertEqual(Status.objects.all().count(), 2)
+
         response = self.client_authenticated_not_creator.post(
             self.delete_url)
+
+        last_status = Status.objects.last()
+
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(Status.objects.get(id=2).name, 'Test_status_2')
+        self.assertEqual(Status.objects.all().count(), 1)
+        self.assertEqual(last_status.name, 'Test_status_1')
+        self.assertEqual(last_status.id, 1)
+        self.assertEqual(last_status.creator.username, 'user_authenticated')
+        self.assertRedirects(response, self.list_url)

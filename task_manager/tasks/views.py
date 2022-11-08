@@ -64,13 +64,6 @@ class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('tasks')
     success_message = _("Task has been successfully updated!")
 
-    def dispatch(self, request, *args, **kwargs):
-        if self.get_object().creator.id == request.user.id \
-                or request.user.is_staff:
-            return super().dispatch(request, *args, **kwargs)
-        messages.error(request, _('You can update only your tasks'))
-        return redirect('tasks')
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = _("Update task")

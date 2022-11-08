@@ -1,6 +1,8 @@
 from http import HTTPStatus
-from django.urls import reverse
+from django.urls import reverse, resolve
 from django.utils.translation import gettext_lazy as _
+
+from task_manager.labels import views
 from task_manager.labels.tests.setting import SettingsLabels
 from task_manager.tasks.models import Task
 from task_manager.labels.models import Label
@@ -14,6 +16,16 @@ class TestLabelViews(SettingsLabels):
         self.create_url = reverse('create_label')
         self.update_url = reverse('update_label', kwargs={'pk': 2})
         self.delete_url = reverse('delete_label', kwargs={'pk': 2})
+
+    def test_urls_to_views(self):
+        self.assertEqual(resolve(self.list_url).func.view_class,
+                         views.Labels)
+        self.assertEqual(resolve(self.create_url).func.view_class,
+                         views.CreateLabel)
+        self.assertEqual(resolve(self.update_url).func.view_class,
+                         views.UpdateLabel)
+        self.assertEqual(resolve(self.delete_url).func.view_class,
+                         views.DeleteLabel)
 
     def test_label_list_GET(self):
         response = self.client_authenticated.get(self.list_url)
@@ -31,6 +43,7 @@ class TestLabelViews(SettingsLabels):
 
     def test_create_label_GET(self):
         response = self.client_authenticated.get(self.create_url)
+
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(
             response.context.get('page_title'), _('Create new label'))
@@ -77,7 +90,11 @@ class TestLabelViews(SettingsLabels):
 
     def test_update_label_GET_client_not_creator(self):
         response = self.client_authenticated_not_creator.get(self.update_url)
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(response.context.get('page_title'), _('Update label'))
+        self.assertEqual(response.context.get('button_text'), _('Update'))
+        self.assertTemplateUsed(response, 'base_create_and_update.html')
 
     def test_update_label_POST(self):
         self.assertEqual(Label.objects.all().count(), 2)
@@ -103,15 +120,23 @@ class TestLabelViews(SettingsLabels):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_update_label_POST_client_not_creator(self):
+        self.assertEqual(Label.objects.all().count(), 2)
 
         label_data = {
             'name': 'Test_label_2_updated'
         }
 
-        response = self.client_authenticated_not_creator.post(
+        response = self.client_authenticated.post(
             self.update_url, label_data)
+
+        updated_label = Label.objects.last()
+
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(Label.objects.get(id=2).name, 'Test_label_2')
+        self.assertEqual(Label.objects.all().count(), 2)
+        self.assertEqual(updated_label.name, 'Test_label_2_updated')
+        self.assertEqual(updated_label.id, 2)
+        self.assertEqual(updated_label.creator.username, 'user_authenticated')
+        self.assertRedirects(response, self.list_url)
 
     def test_delete_label_GET(self):
         response = self.client_authenticated.get(self.delete_url)
@@ -125,8 +150,11 @@ class TestLabelViews(SettingsLabels):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_delete_label_GET_client_not_creator(self):
-        response = self.client_authenticated_not_creator.get(self.delete_url)
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        response = self.client_authenticated.get(self.delete_url)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(response.context.get('page_title'), _('Delete label'))
+        self.assertEqual(response.context.get('button_text'), _('Delete'))
+        self.assertTemplateUsed(response, 'base_delete.html')
 
     def test_delete_label_POST(self):
         self.assertEqual(Label.objects.all().count(), 2)
@@ -172,8 +200,16 @@ class TestLabelViews(SettingsLabels):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_delete_label_POST_client_not_creator(self):
+        self.assertEqual(Label.objects.all().count(), 2)
 
         response = self.client_authenticated_not_creator.post(
             self.delete_url)
+
+        last_label = Label.objects.last()
+
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(Label.objects.get(id=2).name, 'Test_label_2')
+        self.assertEqual(Label.objects.all().count(), 1)
+        self.assertEqual(last_label.name, 'Test_label_1')
+        self.assertEqual(last_label.id, 1)
+        self.assertEqual(last_label.creator.username, 'user_authenticated')
+        self.assertRedirects(response, self.list_url)

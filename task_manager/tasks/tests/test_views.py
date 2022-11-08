@@ -1,8 +1,9 @@
 from http import HTTPStatus
-from django.urls import reverse
+from django.urls import reverse, resolve
 from django.utils.translation import gettext_lazy as _
 from task_manager.statuses.models import Status
 from .setting import SettingsTasks
+from .. import views
 from ..models import Task
 
 
@@ -14,6 +15,18 @@ class TestTasksViews(SettingsTasks):
         self.update_url = reverse('update_task', kwargs={'pk': 1})
         self.delete_url = reverse('delete_task', kwargs={'pk': 1})
         self.detail_url = reverse('detail_task', kwargs={'pk': 1})
+
+    def test_urls_to_views(self):
+        self.assertEqual(resolve(self.list_url).func.view_class,
+                         views.Tasks)
+        self.assertEqual(resolve(self.create_url).func.view_class,
+                         views.CreateTask)
+        self.assertEqual(resolve(self.update_url).func.view_class,
+                         views.UpdateTask)
+        self.assertEqual(resolve(self.delete_url).func.view_class,
+                         views.DeleteTask)
+        self.assertEqual(resolve(self.detail_url).func.view_class,
+                         views.DetailTask)
 
     def test_task_list_GET(self):
 
@@ -83,7 +96,11 @@ class TestTasksViews(SettingsTasks):
 
     def test_update_task_GET_client_not_creator(self):
         response = self.client_authenticated_not_creator.get(self.update_url)
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(response.context.get('page_title'), _('Update task'))
+        self.assertEqual(response.context.get('button_text'), _('Update'))
+        self.assertTemplateUsed(response, 'base_create_and_update.html')
 
     def test_update_task_POST(self):
         self.assertEqual(Task.objects.all().count(), 3)
@@ -112,6 +129,7 @@ class TestTasksViews(SettingsTasks):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_update_task_POST_client_not_creator(self):
+        self.assertEqual(Task.objects.all().count(), 3)
 
         task_data = {
             'name': 'Test_task_1_updated',
@@ -122,8 +140,15 @@ class TestTasksViews(SettingsTasks):
 
         response = self.client_authenticated_not_creator.post(
             self.update_url, task_data)
+
+        updated_task = Task.objects.get(id=1)
+
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(Status.objects.get(id=1).name, 'Test_status_1')
+        self.assertEqual(Task.objects.all().count(), 3)
+        self.assertEqual(updated_task.name, 'Test_task_1_updated')
+        self.assertEqual(updated_task.id, 1)
+        self.assertEqual(updated_task.creator.username, 'user_authenticated')
+        self.assertRedirects(response, self.list_url)
 
     def test_delete_task_GET(self):
         response = self.client_authenticated.get(self.delete_url)
@@ -155,7 +180,27 @@ class TestTasksViews(SettingsTasks):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_delete_task_POST_client_not_creator(self):
+        self.assertEqual(Task.objects.all().count(), 3)
+
         response = self.client_authenticated_not_creator.post(
             self.delete_url)
+
+        self.assertEqual(Task.objects.all().count(), 3)
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(Task.objects.get(id=1).name, 'Test_task_1')
+
+    def test_detail_task_GET(self):
+        response = self.client_authenticated.get(self.detail_url)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(response.context.get('page_title'), _('Detailed task'))
+        self.assertTemplateUsed(response, 'tasks/detail_task.html')
+
+    def test_detail_task_GET_unauthenticated_client(self):
+        response = self.client_unauthenticated.get(self.detail_url)
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+    def test_detail_task_GET_client_not_creator(self):
+        response = self.client_authenticated_not_creator.get(self.detail_url)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(response.context.get('page_title'), _('Detailed task'))
+        self.assertTemplateUsed(response, 'tasks/detail_task.html')

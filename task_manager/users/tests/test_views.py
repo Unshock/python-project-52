@@ -1,8 +1,9 @@
 from http import HTTPStatus
-from django.urls import reverse
+from django.urls import reverse, resolve
 from django.utils.translation import gettext_lazy as _
 
 from .setting import SettingsUsers
+from .. import views
 from ..models import User
 
 
@@ -14,6 +15,18 @@ class TestUsersViews(SettingsUsers):
         self.update_url = reverse('update_user', kwargs={'pk': 1})
         self.delete_url = reverse('delete_user', kwargs={'pk': 1})
         self.login_url = reverse('login')
+
+    def test_urls_to_views(self):
+        self.assertEqual(resolve(self.list_url).func.view_class,
+                         views.UserList)
+        self.assertEqual(resolve(self.create_url).func.view_class,
+                         views.CreateUser)
+        self.assertEqual(resolve(self.update_url).func.view_class,
+                         views.UpdateUser)
+        self.assertEqual(resolve(self.delete_url).func.view_class,
+                         views.DeleteUser)
+        self.assertEqual(resolve(self.login_url).func.view_class,
+                         views.LoginUser)
 
     def test_user_list_GET(self):
 

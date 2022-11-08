@@ -52,13 +52,6 @@ class UpdateStatus(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     success_message = _("Status has been successfully updated!")
 
-    def dispatch(self, request, *args, **kwargs):
-        if self.get_object().creator.id == request.user.id \
-                or request.user.is_staff:
-            return super().dispatch(request, *args, **kwargs)
-        messages.error(request, _('You can update only your statuses'))
-        return redirect('statuses')
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = _("Update status")
@@ -79,14 +72,6 @@ class DeleteStatus(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
     message_text = _("Status has been successfully deleted!")
     success_message = message_text
-
-    def dispatch(self, request, *args, **kwargs):
-        if self.get_object().creator.id == request.user.id \
-                or request.user.is_staff:
-            return super().dispatch(request, *args, **kwargs)
-        message_text = _('You can update only your labels')
-        messages.error(request, message_text)
-        return redirect('labels')
 
     def post(self, request, *args, **kwargs):
         try:

@@ -52,13 +52,6 @@ class UpdateLabel(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('labels')
     success_message = _("Label has been successfully updated!")
 
-    def dispatch(self, request, *args, **kwargs):
-        if self.get_object().creator.id == request.user.id \
-                or request.user.is_staff:
-            return super().dispatch(request, *args, **kwargs)
-        messages.error(request, _('You can update only your labels'))
-        return redirect('labels')
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = _("Update label")
@@ -73,13 +66,6 @@ class DeleteLabel(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     template_name = "base_delete.html"
     success_url = reverse_lazy('labels')
     success_message = _("Label has been successfully deleted!")
-
-    def dispatch(self, request, *args, **kwargs):
-        if self.get_object().creator.id == request.user.id \
-                or request.user.is_staff:
-            return super().dispatch(request, *args, **kwargs)
-        messages.error(request, _('You can delete only your labels'))
-        return redirect('labels')
 
     def post(self, request, *args, **kwargs):
 
