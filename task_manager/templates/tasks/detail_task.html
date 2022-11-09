@@ -43,9 +43,9 @@
                 {% endif %}
                 <div class="row p-1">
                     <div class="col">
-                        <a href="{{ task.get_update_url }}">{% translate "Update" %}</a>
+                        <a href="{% url "update_task" task.pk %}">{% translate "Update" %}</a>
                         <br>
-                        <a href="{{ task.get_delete_url }}">{% translate "Delete" %}</a>
+                        <a href="{% url "delete_task" task.pk %}">{% translate "Delete" %}</a>
                     </div>
                 </div>
             </div>

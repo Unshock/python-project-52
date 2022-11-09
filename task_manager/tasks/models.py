@@ -1,5 +1,4 @@
 from django.db import models
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from task_manager.labels.models import Label
 from task_manager.statuses.models import Status
@@ -35,14 +34,15 @@ class Task(models.Model):
     def __str__(self):
         return self.name
 
-    def get_absolute_url(self):
-        return reverse('detail_task', kwargs={'pk': self.pk})
-
-    def get_update_url(self):
-        return reverse('update_task', kwargs={'pk': self.pk})
-
-    def get_delete_url(self):
-        return reverse('delete_task', kwargs={'pk': self.pk})
+    # To delete
+    # def get_absolute_url(self):
+    #     return reverse('detail_task', kwargs={'pk': self.pk})
+    #
+    # def get_update_url(self):
+    #     return reverse('update_task', kwargs={'pk': self.pk})
+    #
+    # def get_delete_url(self):
+    #     return reverse('delete_task', kwargs={'pk': self.pk})
 
     class Meta:
         verbose_name = "Задача"

@@ -32,10 +32,10 @@ class TaskModelsTest(SettingsTasks):
             status_invalid.full_clean()
             status_invalid.save()
 
-    def test_custom_getters(self):
-        test_pk = 1
-        test_task = Task.objects.get(id=test_pk)
-        self.assertEqual(test_task.get_update_url(),
-                         f'/tasks/{test_pk}/update/')
-        self.assertEqual(test_task.get_delete_url(),
-                         f'/tasks/{test_pk}/delete/')
+    # def test_custom_getters(self):
+    #     test_pk = 1
+    #     test_task = Task.objects.get(id=test_pk)
+    #     self.assertEqual(test_task.get_update_url(),
+    #                      f'/tasks/{test_pk}/update/')
+    #     self.assertEqual(test_task.get_delete_url(),
+    #                      f'/tasks/{test_pk}/delete/')

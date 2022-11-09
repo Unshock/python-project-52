@@ -14,7 +14,6 @@
                     <tr>
                         <th>ID</th>
                         <th>{% translate "Name" %}</th>
-                        <th>{% translate "Creator" %}</th>
                         <th>{% translate "Creation date" %}</th>
                         <th></th>
                     </tr>
@@ -25,12 +24,11 @@
                     <tr>
                         <td>{{ label.id }}</td>
                         <td>{{ label.name }}</td>
-                        <td>{{ label.creator }}</td>
                         <td>{{ label.creation_date }}</td>
                         <td>
-                          <a href="{{ label.get_update_url }}">{% translate "Update" %}</a>
+                          <a href="{% url "update_label" label.pk %}">{% translate "Update" %}</a>
                           <br>
-                          <a href="{{ label.get_delete_url }}">{% translate "Delete" %}</a>
+                          <a href="{% url "delete_label" label.pk %}">{% translate "Delete" %}</a>
                         </td>
                     </tr>
                     {% endfor %} 

@@ -1,5 +1,4 @@
 from django.db import models
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 
@@ -13,11 +12,12 @@ class Status(models.Model):
     def __str__(self):
         return self.name
 
-    def get_update_url(self):
-        return reverse('update_status', kwargs={'pk': self.pk})
-
-    def get_delete_url(self):
-        return reverse('delete_status', kwargs={'pk': self.pk})
+    # To delete
+    # def get_update_url(self):
+    #     return reverse('update_status', kwargs={'pk': self.pk})
+    #
+    # def get_delete_url(self):
+    #     return reverse('delete_status', kwargs={'pk': self.pk})
 
     class Meta:
         verbose_name = "Статус"

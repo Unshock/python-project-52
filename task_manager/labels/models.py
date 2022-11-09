@@ -1,5 +1,4 @@
 from django.db import models
-from django.urls import reverse
 
 
 class Label(models.Model):
@@ -11,11 +10,12 @@ class Label(models.Model):
     def __str__(self):
         return self.name
 
-    def get_update_url(self):
-        return reverse('update_label', kwargs={'pk': self.pk})
-
-    def get_delete_url(self):
-        return reverse('delete_label', kwargs={'pk': self.pk})
+    # To delete
+    # def get_update_url(self):
+    #     return reverse('update_label', kwargs={'pk': self.pk})
+    #
+    # def get_delete_url(self):
+    #     return reverse('delete_label', kwargs={'pk': self.pk})
 
     class Meta:
         verbose_name = "Метка"

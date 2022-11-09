@@ -26,10 +26,10 @@ class StatusesModelsTest(SettingsStatuses):
             status_invalid.full_clean()
             status_invalid.save()
 
-    def test_custom_getters(self):
-        test_pk = 2
-        test_status = Status.objects.get(id=test_pk)
-        self.assertEqual(test_status.get_update_url(),
-                         f'/statuses/{test_pk}/update/')
-        self.assertEqual(test_status.get_delete_url(),
-                         f'/statuses/{test_pk}/delete/')
+    # def test_custom_getters(self):
+    #     test_pk = 2
+    #     test_status = Status.objects.get(id=test_pk)
+    #     self.assertEqual(test_status.get_update_url(),
+    #                      f'/statuses/{test_pk}/update/')
+    #     self.assertEqual(test_status.get_delete_url(),
+    #                      f'/statuses/{test_pk}/delete/')

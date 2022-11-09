@@ -26,10 +26,10 @@ class LabelModelsTest(SettingsLabels):
             label_invalid.full_clean()
             label_invalid.save()
 
-    def test_custom_getters(self):
-        test_pk = 1
-        test_label = Label.objects.get(id=test_pk)
-        self.assertEqual(test_label.get_update_url(),
-                         f'/labels/{test_pk}/update/')
-        self.assertEqual(test_label.get_delete_url(),
-                         f'/labels/{test_pk}/delete/')
+    # def test_custom_getters(self):
+    #     test_pk = 1
+    #     test_label = Label.objects.get(id=test_pk)
+    #     self.assertEqual(test_label.get_update_url(),
+    #                      f'/labels/{test_pk}/update/')
+    #     self.assertEqual(test_label.get_delete_url(),
+    #                      f'/labels/{test_pk}/delete/')
