@@ -1,6 +1,6 @@
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.db.models import ProtectedError
@@ -60,10 +60,13 @@ class LoginUser(SuccessMessageMixin, LoginView):
         return reverse_lazy('home')
 
 
-def logout_user(request):
-    logout(request)
-    messages.info(request, _('You have been successfully logged out!'))
-    return redirect('home')
+class LogoutUser(SuccessMessageMixin, LogoutView):
+    success_url = reverse_lazy('home')
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        messages.info(request, _('You have been successfully logged out!'))
+        return redirect('home')
 
 
 class UpdateUser(LoginRequiredMixin, SuccessMessageMixin, UpdateView):

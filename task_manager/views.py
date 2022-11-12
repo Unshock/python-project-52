@@ -1,13 +1,16 @@
 from django.shortcuts import render
+from django.views.generic import View
 import os
 import dotenv
 
 dotenv.load_dotenv()
 
 
-def index(request, status=None):
+class MainPageView(View):
     creator = str(os.getenv('CREATOR', '%username%'))
-    return render(request, 'base.html', context={
-        "who": creator,
-        "status": status,
-    })
+
+    def get(self, request, *args, **kwargs):
+        creator = str(os.getenv('CREATOR', '%username%'))
+        return render(request, 'base.html', context={
+            "who": creator
+        })
