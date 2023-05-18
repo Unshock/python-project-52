@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 import dotenv
-import dj_database_url
 from django.contrib.messages import constants as messages
 
 
@@ -34,6 +33,8 @@ ROLLBAR_TOKEN = str(os.getenv('ROLLBAR_TOKEN'))
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = os.getenv("DEBUG", False)
+
+DATABASE = os.getenv("DATABASE", 'sqlite')
 
 CREATOR = os.getenv("CREATOR", '2')
 
@@ -109,18 +110,31 @@ WSGI_APPLICATION = "task_manager.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 
-DATABASES = {
-    "default": {
+DATABASES_AVAILABLE = {
+    "sqlite": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    },
+    'postgres': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('PG_NAME', 'task_manager'),
+        'USER': os.getenv('PG_USERNAME', 'admin'),
+        'PASSWORD': os.getenv('PG_PASSWORD', 'admin'),
+        'HOST': os.getenv('PG_HOST', '127.0.0.1'),
+        'PORT': os.getenv('PG_PORT', 5432),
     }
 }
 
+DATABASES = {
+    'default': DATABASES_AVAILABLE[
+        DATABASE] if DATABASE in DATABASES_AVAILABLE.keys() else
+    DATABASES_AVAILABLE['sqlite']
+}
 
-# Use the DATABASE_URL environment variable
-# https://pypi.org/project/dj-database-url/
-if os.getenv('DATABASE_URL'):
-    DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+# # Use the DATABASE_URL environment variable
+# # https://pypi.org/project/dj-database-url/
+# if os.getenv('DATABASE_URL'):
+#     DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 
 # Password validation
