@@ -9,6 +9,9 @@ build:
 run:
 	poetry run python manage.py runserver
 
+wsgi_run:
+	poetry run gunicorn task_manager.wsgi:application --bind 0.0.0.0:8000
+
 migrate:
 	poetry run python manage.py makemigrations
 	poetry run python manage.py migrate

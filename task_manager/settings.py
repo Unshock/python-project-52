@@ -38,14 +38,7 @@ DATABASE = os.getenv("DATABASE", 'sqlite')
 
 CREATOR = os.getenv("CREATOR", '2')
 
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
-    "0.0.0.0",
-    "webserver",
-    ".herokuapp.com"
-]
-
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
 
 # Application definition
 
