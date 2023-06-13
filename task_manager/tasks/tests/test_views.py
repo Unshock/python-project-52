@@ -1,4 +1,5 @@
 from http import HTTPStatus
+
 from django.urls import reverse, resolve
 from django.utils.translation import gettext_lazy as _
 from .setting import SettingsTasks

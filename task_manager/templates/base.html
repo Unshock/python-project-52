@@ -5,7 +5,7 @@
 <!-- Current language: {{ LANGUAGE_CODE }} -->
 <!doctype html>
 <html lang="{{ LANGUAGE_CODE }}">
-  <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,66 +14,74 @@
 
 
     <title>{% translate "Unshock's task manager" %}</title>
-  </head>
-  {% block navbar %}
-  <body class="d-flex flex-column min-vh-100">
+</head>
+{% block navbar %}
+    <body class="d-flex flex-column min-vh-100">
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3 ">
-      <a class="navbar-brand" href="{% url 'home' %}">{% translate "Task manager" %}</a>
-      <button class="navbar-toggler" data-toggle="collapse" data-target="navbarToggleExternalContent">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <a class="navbar-brand" href="{% url 'home' %}">{% translate "Task manager" %}</a>
 
-      <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'users' %}">{% translate "Users" %}</a>
-            </li>
-            {% if request.user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'statuses' %}">{% translate "Statuses" %}</a>
-            </li>
-                
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'labels' %}">{% translate "Labels" %}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'tasks' %}">{% translate "Tasks" %}</a>
-            </li>
-            {% endif %}
-        </ul>
-        <ul class="navbar-nav">
-            {% if request.user.is_authenticated %}
-            <span class="navbar-brand">
-                {{ request.user.username }}
-            </span>
-            <li class="nav-item">
-                <a class="btn btn-primary ml-3" href="{% url 'logout' %}">{% translate "Logout" %}</a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-                <a class="btn btn-outline-secondary" href="{% url 'login' %}">{% translate "Login" %}</a>
-            </li>
-            <li class="nav-item">
-                <a class="btn btn-primary ml-3" href="{% url 'create_user' %}">{% translate "Sign up" %}</a>
-            </li>
-            {% endif %}
-        </ul>
-      </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users' %}">{% translate "Users" %}</a>
+                </li>
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'statuses' %}">{% translate "Statuses" %}</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'labels' %}">{% translate "Labels" %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tasks' %}">{% translate "Tasks" %}</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav">
+                {% if request.user.is_authenticated %}
+                    <span class="navbar-brand">
+                        {{ request.user.username }}
+                    </span>
+                    <li class="nav-item">
+                        <a class="btn btn-primary ml-3" href="{% url 'logout' %}">{% translate "Logout" %}</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="btn btn-outline-secondary mr-3" href="{% url 'login' %}">{% translate "Login" %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary " href="{% url 'create_user' %}">{% translate "Sign up" %}</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
     </nav>
-    {% endblock navbar %}
-    
-    <div class="container h-100">
-        
-        {% bootstrap_messages %}
-        {% block content %}
+{% endblock navbar %}
 
-            <h1 class="my-4">{% translate "Hello! This is task manager created by" %} {{ who }}!</h1>
-        {% endblock content %}
+<div class="container h-100">
+
+    {% bootstrap_messages %}
+    {% block content %}
+
+        <h1 class="my-4">{% translate "Hello! This is task manager created by" %} {{ who }}!</h1>
+
+    {% endblock content %}
+
+    {% block footer %}
+        
         <footer>
             <div class="container my-5 pt-4 border-top">
                 <a target="_blank" href="https://t.me/Nedashkovskii">@Nedashkovsky</a>
             </div>
         </footer>
-    </div>
-  </body>
+        
+    {% endblock footer %}
+</div>
+</body>
 </html>
